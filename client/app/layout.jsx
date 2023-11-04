@@ -1,4 +1,7 @@
 import { Lora } from 'next/font/google'
+
+// App imports
+import Header from "@components/Header"
 import './globals.css'
 
 const typeface = Lora({ subsets: ['latin'] })
@@ -11,7 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={typeface.className}>{children}</body>
+      <body className={typeface.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }
