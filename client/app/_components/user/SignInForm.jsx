@@ -12,10 +12,15 @@ import { Separator } from "@components/ui/separator"
 import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { useUserMagicLinkSignIn } from '@hooks/authentication/useUserMagicLinkSignIn';
+import { useToast } from '@components/ui/use-toast';
 
 export default function SignInForm() {
+  const { userMagicLinkSignIn, isEmailSent, isLoading, error } = useUserMagicLinkSignIn()
+  const { toast } = useToast()
+
   const formSchema = z.object({
-    email: z.string().trim().email().min(8)
+    email: z.string().trim().toLowerCase().email().min(8)
   })
 
   const form = useForm({
@@ -25,8 +30,26 @@ export default function SignInForm() {
     }
   })
 
-  function onSubmit(data) {
-    console.log(data)
+  async function onSubmit(data) {
+    await userMagicLinkSignIn({ email: data.email })
+      .then(() => {
+        if (isEmailSent) {
+          toast({
+            title: "Sign in link has been sent.",
+            description: "Please check your email for the link."
+          })
+        }
+
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "An error has occured.",
+            description: "Please try again later."
+          })
+        }
+      })
+
+    form.reset()
   }
 
   return (
@@ -39,34 +62,23 @@ export default function SignInForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder={'youremail@email.com'} {...field} />
+                  <Input placeholder={'your-email@email.com'} {...field} />
                 </FormControl>
                 <FormMessage className={'text-center text-xs'} />
               </FormItem>
             )}
           />
 
-          <Button className={'w-full'} type={'submit'}>Sign in with email</Button>
+          <Button className={'w-full'} type={'submit'} disabled={isLoading}>Sign in with email</Button>
 
           <div className="flex justify-center">
-            <small className=''>
+            <small className='text-center'>
               {'By clicking sign in, you agree to our '}
               <Link href={'/terms-of-service'} className='underline underline-offset-2'>Terms of service</Link>
               {' and '}
               <Link href={'/privacy-policy'} className='underline underline-offset-2'>Privacy policy</Link>
             </small>
           </div>
-
-          <Separator />
-
-          <div className="flex justify-center">
-            <Button variant={'ghost'} size={'sm'}>
-              <Link href={'/user/sign-up'} className='flex items-center text-muted-foreground'>
-                {"Create an account "}
-              </Link>
-            </Button>
-          </div>
-
         </form>
       </Form>
     </>

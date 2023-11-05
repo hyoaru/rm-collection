@@ -10,7 +10,9 @@ const navigation = [
   { name: 'Rings', link: '/' },
 ]
 
-export default function Header() {
+export default function Header(props) {
+  const { userState } = props
+
   return (
     <>
       <header className="border-b sticky top-6 mt-6 z-50">
