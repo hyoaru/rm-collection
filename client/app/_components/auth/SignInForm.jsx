@@ -43,11 +43,19 @@ export default function SignInForm() {
           form.reset()
           window.location.href = "/"
         } else {
-          toast({
-            variant: "destructive",
-            title: "An error has occured.",
-            description: "Please try again later."
-          })
+          if (error.status === 400) {
+            toast({
+              variant: "destructive",
+              title: "Wrong credentials",
+              description: "Please check your email and password"
+            })
+          } else {
+            toast({
+              variant: "destructive",
+              title: "An error has occured.",
+              description: "Please try again later."
+            })
+          }
         }
       })
   }
