@@ -1,5 +1,3 @@
-const revalidate = 0
-
 import { Lora } from 'next/font/google'
 
 // App imports
