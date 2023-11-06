@@ -1,14 +1,15 @@
 "use client"
 
+import { ShoppingCart, User, Lock, ChevronDown } from "lucide-react"
 import React from "react"
+import Link from "next/link"
 
 // App imports
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
-import { useUserSignOut } from "@/app/_hooks/authentication/useUserSignOut"
-import { ShoppingCart, User, Lock, ChevronDown } from "lucide-react"
+import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
+import { useUserSignOut } from "@hooks/authentication/useUserSignOut"
 import { Button } from "@components/ui/button"
-import Link from "next/link"
-import { useToast } from "../ui/use-toast"
+import { useToast } from "@components/ui/use-toast"
+import MainNavEndDropdownContent from "@components/base/MainNavEndDropdownContent"
 
 export default function MainNavEnd(props) {
   const { userStateAuth, userStateGeneral } = props
@@ -56,20 +57,11 @@ export default function MainNavEnd(props) {
                     </span>
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent side={'bottom'} align={'end'}>
-                  <DropdownMenuLabel className={'flex gap-2 items-center'}>
-                    <span className="text-muted-foreground font-light capitalize flex items-center gap-2">
-                      {userStateGeneral.role === 'user' ? <User size={17} /> : <Lock size={17} />} {userStateGeneral.role}
-                    </span>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link href={'/account'} className="w-full font-light">Account</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span onClick={onUserSignOut} className="font-light w-full cursor-pointer">Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                <MainNavEndDropdownContent
+                  userStateAuth={userStateAuth}
+                  userStateGeneral={userStateGeneral}
+                  onUserSignOut={onUserSignOut}
+                />
               </DropdownMenu>
             </>
             : <>
@@ -91,20 +83,11 @@ export default function MainNavEnd(props) {
                     <span><User size={17} /></span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent side={'bottom'} align={'end'}>
-                  <DropdownMenuLabel className={'flex gap-2 items-center'}>
-                    <span className="text-muted-foreground font-light capitalize flex items-center gap-2">
-                      {userStateGeneral.role === 'user' ? <User size={17} /> : <Lock size={17} />} {userStateGeneral.role}
-                    </span>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link href={'/account'} className="w-full font-light">Account</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <span onClick={onUserSignOut} className="font-light w-full cursor-pointer">Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
+                <MainNavEndDropdownContent
+                  userStateAuth={userStateAuth}
+                  userStateGeneral={userStateGeneral}
+                  onUserSignOut={onUserSignOut}
+                />
               </DropdownMenu>
             </>
             : <>
