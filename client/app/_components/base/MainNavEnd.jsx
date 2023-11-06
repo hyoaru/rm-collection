@@ -21,7 +21,7 @@ export default function MainNavEnd(props) {
         if (!error) {
           toast({
             title: "Signing out",
-            description: "Redirecting to homepage"
+            description: "Please wait shortly"
           })
         } else {
           toast({
