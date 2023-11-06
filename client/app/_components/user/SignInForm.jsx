@@ -16,7 +16,7 @@ import { useUserMagicLinkSignIn } from '@hooks/authentication/useUserMagicLinkSi
 import { useToast } from '@components/ui/use-toast';
 
 export default function SignInForm() {
-  const { userMagicLinkSignIn, isEmailSent, isLoading, error } = useUserMagicLinkSignIn()
+  const { userMagicLinkSignIn, isLoading } = useUserMagicLinkSignIn()
   const { toast } = useToast()
 
   const formSchema = z.object({
@@ -32,15 +32,14 @@ export default function SignInForm() {
 
   async function onSubmit(data) {
     await userMagicLinkSignIn({ email: data.email })
-      .then(() => {
-        if (isEmailSent) {
+      .then(({ data, error }) => {
+        if (!error) {
           toast({
             title: "Sign in link has been sent.",
             description: "Please check your email for the link."
           })
-        }
-
-        if (error) {
+          form.reset()
+        } else {
           toast({
             variant: "destructive",
             title: "An error has occured.",
@@ -48,8 +47,6 @@ export default function SignInForm() {
           })
         }
       })
-
-    form.reset()
   }
 
   return (
