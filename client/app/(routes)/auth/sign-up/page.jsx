@@ -1,7 +1,7 @@
 import React from 'react'
 
 // App imports
-import SignUpForm from "@components/user/SignUpForm"
+import SignUpForm from "@components/auth/SignUpForm"
 
 export default function Page() {
   return (
