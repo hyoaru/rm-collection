@@ -9,6 +9,7 @@ const navigation = [
   { name: 'Collection', link: '/' },
   { name: 'Earings', link: '/' },
   { name: 'Necklaces', link: '/' },
+  { name: 'Bracelets', link: '/' },
   { name: 'Rings', link: '/' },
 ]
 
@@ -17,15 +18,15 @@ export default async function Header() {
 
   return (
     <>
-      <header className="border-b sticky top-6 mt-6 z-50">
-        <div className="md:container mx-auto px-4 pb-2 ">
+      <header className="border-b sticky top-4 mt-4 z-50">
+        <div className="md:container mx-auto px-4 pb-1 ">
           <nav className="flex items-center">
             <MainNavStart navigation={navigation} />
 
             {/* Main nav middle */}
             <div id="main-nav-center" className="flex justify-center items-center w-4/6 xl:w-1/3">
-              <Link href={'/'} className="hidden uppercase text-lg sm:block sm:text-2xl">Rea Mariz Collection</Link>
-              <Link href={'/'} className="flex uppercase text-lg sm:hidden md:text-2xl">RM Collection</Link>
+              <Link href={'/'} className="hidden uppercase text-lg sm:block sm:text-xl">Rea Mariz Collection</Link>
+              <Link href={'/'} className="flex uppercase text-lg sm:hidden md:text-xl">RM Collection</Link>
             </div>
 
             <MainNavEnd userStateGeneral={userStateGeneral} userStateAuth={userStateAuth} />

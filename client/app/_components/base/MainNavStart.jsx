@@ -13,7 +13,7 @@ export default function MainNavStart(props) {
       <div id="main-nav-start" className="flex justify-start items-center w-1/6 xl:w-1/3">
         <div id="main-nav-start-expanded" className="hidden xl:flex">
           {navigation.map((nav, index) => (
-            <Button variant={'link'} key={`MainNavStartLinkExpanded-${index}`} className={'px-2'}>
+            <Button variant={'link'} key={`MainNavStartLinkExpanded-${index}`} className={'px-2 text-xs'}>
               <Link href={nav.link} className="uppercase font-light">{nav.name}</Link>
             </Button>
           ))}
