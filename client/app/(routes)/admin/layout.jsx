@@ -25,7 +25,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <div className="md:container mx-auto px-4 mt-4">
+      <div className="md:container mx-auto px-4 mt-4 mb-8">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 sm:col-span-3 lg:col-span-2">
             <div className="flex flex-col gap-2">
