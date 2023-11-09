@@ -7,6 +7,7 @@ import * as z from "zod"
 // App imports
 import { Button } from "@components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Input } from "@components/ui/input"
 import { Label } from "@components/ui/label"
 import { Textarea } from "@components/ui/textarea"
@@ -18,9 +19,18 @@ export default function AddProductForm() {
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const [imagesSrc, setImagesSrc] = useState()
 
+  const productCategories = [
+    { name: 'Earrings', value: 'earrings' },
+    { name: 'Necklaces', value: 'necklaces' },
+    { name: 'Bracelets', value: 'bracelets' },
+    { name: 'Rings', value: 'rings' },
+  ]
+
   const formSchema = z.object({
     name: z.string().trim().min(4).max(70),
+    category: z.string().refine((value) => value?.length !== 0, `Category is required`),
     description: z.string().trim().min(10).max(800),
+    quantity: z.coerce.number(),
     material: z.string().trim().min(4).max(50),
     materialProperty: z.string().trim().min(2).max(50),
     thumbnail: z.any()
@@ -36,7 +46,9 @@ export default function AddProductForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      category: '',
       description: '',
+      quantity: 0,
       material: '',
       materialProperty: '',
       thumbnail: '',
@@ -148,7 +160,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-2'}>
                       <FormLabel>Product name</FormLabel>
                       <FormControl>
                         <Input placeholder="your-descriptive-product-name" {...field} />
@@ -157,6 +169,46 @@ export default function AddProductForm() {
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-1'}>
+                      <FormLabel>Product category</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.defaultValue}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choose category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {productCategories.map((productCategory) => (
+                              <SelectItem value={productCategory.value} key={`ProductCategory-${productCategory.value}`}>
+                                {productCategory.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-1'}>
+                      <FormLabel>Quantity</FormLabel>
+                      <FormControl>
+                        <Input type="number" min="0" placeholder="your-product-quantity" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="material"
