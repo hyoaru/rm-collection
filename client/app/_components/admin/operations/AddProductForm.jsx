@@ -60,15 +60,96 @@ export default function AddProductForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="mb-4">
+          <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-4 sm:py-6">
             <h2 className="text-3xl capitalize my-4 font-bold text-center sm:mt-0 md:text-left">Add new product</h2>
+
+            <div className="grid grid-cols-12 gap-4 mb-4">
+              <div className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2">
+                <div className="flex border-b rounded-lg px-2 py-1">
+                  <small className="text-center uppercase">Thumbnail</small>
+                </div>
+                {thumbnailSrc && <>
+                  <img
+                    src={thumbnailSrc}
+                    className='h-[250px] w-full max-w-[350px] object-cover rounded-lg mx-auto'
+                    alt=""
+                  />
+                </>}
+                <FormField
+                  control={form.control}
+                  name="thumbnail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          onBlur={field.onBlur}
+                          onChange={(e) => {
+                            field.onChange(e.target.files)
+                            onThumbnailChange(e.target.files[0])
+                          }}
+                          ref={field.ref}
+                          className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
+                          accept={'.jpeg, .jpg, .png'}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="col-span-12 sm:col-span-6 lg:col-span-8 xl:col-span-9 space-y-2">
+                <div className="flex border-b rounded-lg px-2 py-1">
+                  <small className="text-center uppercase">Images</small>
+                </div>
+                {imagesSrc && <>
+                  <ScrollArea className={'w-full whitespace-nowrap rounded-lg'}>
+                    <div className="flex w-max space-x-4">
+                      {imagesSrc.map((imageSrc, index) => (
+                        <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
+                          <img src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
+                        </div>
+                      ))}
+                    </div>
+                    <ScrollBar orientation={'horizontal'} />
+                  </ScrollArea>
+
+                </>}
+                <FormField
+                  control={form.control}
+                  name="images"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          ref={field.ref}
+                          onBlur={field.onBlur}
+                          onChange={(e) => {
+                            field.onChange(e.target.files)
+                            onImagesChange(e.target.files)
+                          }}
+                          className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
+                          accept={'.png, .jpg, .jpeg'}
+                          multiple
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={'col-span-4'}>
+                      <FormLabel>Product name</FormLabel>
                       <FormControl>
                         <Input placeholder="your-descriptive-product-name" {...field} />
                       </FormControl>
@@ -80,9 +161,10 @@ export default function AddProductForm() {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Material used</FormLabel>
                       <FormControl>
-                        <Input placeholder="what-material-is-used (e.g., Yellow Gold)" {...field} />
+                        <Input placeholder="(e.g., Yellow Gold)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -93,113 +175,36 @@ export default function AddProductForm() {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Material property</FormLabel>
                       <FormControl>
-                        <Input placeholder="property-of-material-used (e.g., 18 karats)" {...field} />
+                        <Input placeholder="(e.g., 18 karats)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-              </div>
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea placeholder="your-descriptive-product-description" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-            </div>
-          </div>
-
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2">
-              <div className="flex border-b rounded-lg px-2 py-1">
-                <small className="text-center uppercase">Thumbnail</small>
-              </div>
-              {thumbnailSrc && <>
-                <img
-                  src={thumbnailSrc}
-                  className='h-[250px] w-full max-w-[350px] object-cover rounded-lg mx-auto'
-                  alt=""
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-4'}>
+                      <FormLabel>Product description</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="your-descriptive-product-description" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </>}
-              <FormField
-                control={form.control}
-                name="thumbnail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        onBlur={field.onBlur}
-                        onChange={(e) => {
-                          field.onChange(e.target.files)
-                          onThumbnailChange(e.target.files[0])
-                        }}
-                        ref={field.ref}
-                        className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
-                        accept={'.jpeg, .jpg, .png'}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="col-span-12 sm:col-span-6 lg:col-span-8 xl:col-span-9 space-y-2">
-              <div className="flex border-b rounded-lg px-2 py-1">
-                <small className="text-center uppercase">Images</small>
               </div>
-              {imagesSrc && <>
-                <ScrollArea className={'w-full whitespace-nowrap rounded-lg'}>
-                  <div className="flex w-max space-x-4">
-                    {imagesSrc.map((imageSrc, index) => (
-                      <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                        <img src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
-                      </div>
-                    ))}
-                  </div>
-                  <ScrollBar orientation={'horizontal'} />
-                </ScrollArea>
 
-              </>}
-              <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        ref={field.ref}
-                        onBlur={field.onBlur}
-                        onChange={(e) => {
-                          field.onChange(e.target.files)
-                          onImagesChange(e.target.files)
-                        }}
-                        className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
-                        accept={'.png, .jpg, .jpeg'}
-                        multiple
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <Button type="submit" size={'lg'} className="mt-6 w-full">Submit</Button>
+
             </div>
           </div>
 
-
-          <Button type="submit" size={'lg'} className="mt-6 w-full">Submit</Button>
         </form>
       </Form>
     </>
