@@ -13,11 +13,15 @@ import { Label } from "@components/ui/label"
 import { Textarea } from "@components/ui/textarea"
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useState } from "react"
+import useAddProduct from "@hooks/admin/operations/useAddProduct"
+import { useToast } from "@components/ui/use-toast"
 
 export default function AddProductForm() {
   const MAX_FILE_SIZE_IN_MB = 5 * 1000000
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const [imagesSrc, setImagesSrc] = useState()
+  const { addProduct, isLoading } = useAddProduct()
+  const { toast } = useToast()
 
   const productCategories = [
     { name: 'Earrings', value: 'earrings' },
@@ -31,6 +35,7 @@ export default function AddProductForm() {
     category: z.string().refine((value) => value?.length !== 0, `Category is required`),
     description: z.string().trim().min(10).max(800),
     quantity: z.coerce.number(),
+    price: z.coerce.number(),
     material: z.string().trim().min(4).max(50),
     materialProperty: z.string().trim().min(2).max(50),
     thumbnail: z.any()
@@ -46,9 +51,10 @@ export default function AddProductForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      category: '',
+      category: "",
       description: '',
       quantity: 0,
+      price: 0,
       material: '',
       materialProperty: '',
       thumbnail: '',
@@ -57,7 +63,35 @@ export default function AddProductForm() {
   })
 
   async function onSubmit(data) {
-    console.log(data)
+    await addProduct({
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      material: data.material,
+      materialProperty: data.materialProperty,
+      quantity: data.quantity
+    })
+      .then(({ data, error }) => {
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "An error has occured.",
+            description: "Please try again later."
+          })
+        } else {
+          toast({
+            title: "Product has been added successfully.",
+            description: "Your item is now ready to be showcased."
+          })  
+
+          form.reset()
+          document.querySelector('#thumbnailInput').value = null
+          document.querySelector('#imagesInput').value = null
+          setThumbnailSrc(null)
+          setImagesSrc(null)
+        }
+
+      })
   }
 
   function onThumbnailChange(imageFile) {
@@ -95,6 +129,7 @@ export default function AddProductForm() {
                       <FormControl>
                         <Input
                           type="file"
+                          id="thumbnailInput"
                           onBlur={field.onBlur}
                           onChange={(e) => {
                             field.onChange(e.target.files)
@@ -136,6 +171,7 @@ export default function AddProductForm() {
                       <FormControl>
                         <Input
                           type="file"
+                          id="imagesInput"
                           ref={field.ref}
                           onBlur={field.onBlur}
                           onChange={(e) => {
@@ -174,10 +210,10 @@ export default function AddProductForm() {
                   control={form.control}
                   name="category"
                   render={({ field }) => (
-                    <FormItem className={'col-span-1'}>
+                    <FormItem className={'col-span-2'}>
                       <FormLabel>Product category</FormLabel>
                       <FormControl>
-                        <Select onValueChange={field.onChange} defaultValue={field.defaultValue}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Choose category" />
                           </SelectTrigger>
@@ -197,9 +233,23 @@ export default function AddProductForm() {
 
                 <FormField
                   control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input type="number" min="0" placeholder="your-product-price" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={'col-span-1'}>
+                    <FormItem className={'col-span-2'}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-quantity" {...field} />
@@ -251,10 +301,9 @@ export default function AddProductForm() {
                   )}
                 />
               </div>
-
-              <Button type="submit" size={'lg'} className="mt-6 w-full">Submit</Button>
-
             </div>
+
+            <Button type="submit" size={'lg'} className="mt-6 w-full" disabled={isLoading}>Add product</Button>
           </div>
 
         </form>

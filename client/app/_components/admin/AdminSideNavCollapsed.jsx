@@ -18,7 +18,7 @@ export default function AdminSideNavCollapsed(props) {
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
-        <Select className={'bg-primary'} onValueChange={onNavigationChange}>
+        <Select onValueChange={onNavigationChange}>
           <SelectTrigger className="w-full">
             <span>Operations</span>
           </SelectTrigger>
