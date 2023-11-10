@@ -69,7 +69,9 @@ export default function AddProductForm() {
       description: data.description,
       material: data.material,
       materialProperty: data.materialProperty,
-      quantity: data.quantity
+      quantity: data.quantity,
+      thumbnail: data.thumbnail,
+      images: data.images
     })
       .then(({ data, error }) => {
         if (error) {

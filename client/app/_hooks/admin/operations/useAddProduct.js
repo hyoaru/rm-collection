@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 
 // App imports
-import { getBrowserClient } from '@/app/_services/supabase/getBrowserClient'
+import { getBrowserClient } from '@services/supabase/getBrowserClient'
+import uploadProductImages from '@services/shared/uploadProductImages'
+import uploadProductThumbnail from '@services/shared/uploadProductThumbnail'
+import addProductVariant from '@services/shared/addProductVariant'
 
 export default function useAddProduct() {
   const supabase = getBrowserClient()
@@ -26,22 +29,50 @@ export default function useAddProduct() {
           return { addProductData, addProductError }
         }
 
-        const { data, error } = await supabase
-          .from('product_variants')
-          .insert([{
-            product_id: addProductData?.[0].id,
-            material: material,
-            material_property: materialProperty,
-            quantity: quantity
-          }])
-          .select()
+        const { data, error } = await addProductVariant({
+          productId: addProductData[0].id,
+          material: material,
+          material_property: materialProperty,
+          quantity: quantity
+        })
+
+        return { data, error }
+      })
+      .then(async ({ data: addProductVariantsData, error: addProductVariantsError }) => {
+        if (addProductVariantsError) {
+          return { addProductVariantsData, addProductVariantsError }
+        }
+
+        const productId = addProductVariantsData[0].product_id
+        const variantId = addProductVariantsData[0].id
+
+        const { data, error } = await uploadProductImages({
+          images: images,
+          productCategory: category,
+          productId: productId,
+          variantId: variantId
+        })
+          .then(async ({ data: uploadProductImagesData, error: uploadProductImagesError }) => {
+            if (uploadProductImagesError) {
+              return { uploadProductImagesData, uploadProductImagesError }
+            }
+
+            const { data, error } = await uploadProductThumbnail({
+              thumbnail: thumbnail,
+              productCategory: category,
+              productId: productId
+            })
+
+            return { data, error }
+
+          })
 
         return { data, error }
       })
 
     setIsLoading(false)
 
-    return { data, error }
+    return { response: { data, error } }
   }
 
   return { addProduct, isLoading }
