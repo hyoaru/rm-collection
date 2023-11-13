@@ -9,6 +9,7 @@
       "@lib/*": ["./app/_lib/*"],
       "@services/*": ["./app/_services/*"],
       "@store/*": ["./app/_store/*"],
+      "@constants/*": ["./app/_constants/*"],
     }
   }
 }

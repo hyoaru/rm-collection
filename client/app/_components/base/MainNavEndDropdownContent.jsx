@@ -17,7 +17,7 @@ export default function MainNavEndDropdownContent(props) {
         <DropdownMenuLabel className={'flex gap-2 items-center'}>
           <span className="text-muted-foreground font-light capitalize flex items-center gap-2">
             {userStateGeneral.role === 'user' ? <User size={15} /> : <Lock size={15} />}
-            {userStateGeneral.role.replace("_", " ")}
+            {userStateGeneral.role.replaceAll("_", " ")}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

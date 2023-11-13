@@ -7,7 +7,7 @@ import MainNavEnd from "@components/base/MainNavEnd"
 
 const navigation = [
   { name: 'Collection', link: '/' },
-  { name: 'Earings', link: '/' },
+  { name: 'Earrings', link: '/' },
   { name: 'Necklaces', link: '/' },
   { name: 'Bracelets', link: '/' },
   { name: 'Rings', link: '/' },
