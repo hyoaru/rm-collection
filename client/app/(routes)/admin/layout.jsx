@@ -33,30 +33,26 @@ export default async function Layout({ children }) {
                 <small className="text-center uppercase text-xs mb-1 text-secondary-foreground hidden sm:block">Operations</small>
                 {navigationOperations.map((navigationOperation, index) => {
                   const isPermitted = navigationOperation.adminRolesPermitted.includes(userStateGeneral?.role)
-                  return (
-                    <>
-                      {isPermitted &&
-                        <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'outline'}>
-                          <Link href={navigationOperation.pathName}>{navigationOperation.name}</Link>
-                        </Button>
-                      }
-                    </>
-                  )
+                  if (isPermitted) {
+                    return (
+                      <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'outline'}>
+                        <Link href={navigationOperation.pathName}>{navigationOperation.name}</Link>
+                      </Button>
+                    )
+                  }
                 })}
               </div>
               <div className="sm:bg-secondary p-3 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
                 <small className="text-center text-secondary-foreground uppercase text-xs mb-1 hidden sm:block">Tables</small>
                 {navigationTables.map((navigationTable, index) => {
                   const isPermitted = navigationTable.adminRolesPermitted.includes(userStateGeneral?.role)
-                  return (
-                    <>
-                      {isPermitted &&
-                        <Button size={'sm'} variant={'outline'} key={`SideNavExpandedNavigationTable-${index}`}>
-                          <Link href={navigationTable.pathName}>{navigationTable.name}</Link>
-                        </Button>
-                      }
-                    </>
-                  )
+                  if (isPermitted) {
+                    return (
+                      <Button size={'sm'} variant={'outline'} key={`SideNavExpandedNavigationTable-${index}`}>
+                        <Link href={navigationTable.pathName}>{navigationTable.name}</Link>
+                      </Button>
+                    )
+                  }
                 })}
               </div>
             </div>
