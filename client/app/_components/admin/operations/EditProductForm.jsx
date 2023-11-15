@@ -18,7 +18,7 @@ import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
 import useUpdateProduct from "@hooks/admin/operations/useUpdateProduct"
 import revalidateAllData from "@services/shared/revalidateAllData"
-
+import getProductThumbnailPublicUrl from "@services/admin/shared/getProductThumbnailPublicUrl"
 import { cn } from "@lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
@@ -63,11 +63,20 @@ export default function EditProductForm(props) {
   })
 
   function onSelectedProductChange(product) {
+    document.querySelector('#thumbnailInput').value = null
     setSelectedProduct(product)
+
+    setThumbnailSrc(
+      getProductThumbnailPublicUrl({
+        productCategory: product.category,
+        productId: product.id
+      })
+    )
+
     form.reset({
       name: product.name,
       category: product.category,
-      description: product.description
+      description: product.description,
     })
   }
 
@@ -77,7 +86,8 @@ export default function EditProductForm(props) {
         id: selectedProduct.id,
         name: data.name,
         category: data.category,
-        description: data.description
+        description: data.description,
+        thumbnail: data.thumbnail
 
       }).then(async ({ data, error }) => {
         if (error) {
