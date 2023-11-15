@@ -16,7 +16,7 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useEffect, useState } from "react"
 import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
-import updateProduct from "@services/admin/operations/updateProduct"
+import useUpdateProduct from "@hooks/admin/operations/useUpdateProduct"
 import revalidateAllData from "@services/shared/revalidateAllData"
 
 import { cn } from "@lib/utils"
@@ -31,7 +31,7 @@ export default function EditProductForm(props) {
   const [value, setValue] = useState()
   const [selectedProduct, setSelectedProduct] = useState()
   const [thumbnailSrc, setThumbnailSrc] = useState()
-  const { addProduct, isLoading } = useAddProduct()
+  const { updateProduct, isLoading } = useUpdateProduct()
   const { toast } = useToast()
 
   const productCategories = [
@@ -88,7 +88,7 @@ export default function EditProductForm(props) {
           })
         } else {
           toast({
-            title: "Product has been added successfully.",
+            title: "Product has been updated successfully.",
             description: "Your item is now ready to be showcased."
           })
 
