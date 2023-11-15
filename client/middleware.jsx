@@ -21,13 +21,17 @@ export async function middleware(req) {
 
 
   if (req.nextUrl.pathname.includes('/admin')) {
+    if (!userStateAuth) {
+      return NextResponse.redirect(new URL('/', req.url))
+    }
+
     if (userStateGeneral?.role === 'user') {
       return NextResponse.redirect(new URL('/', req.url))
     }
 
     const adminNavigations = [...Array.from(Object.values(NAVIGATION_OPERATIONS)), ...Array.from(Object.values(NAVIGATION_TABLES))]
     const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === req.nextUrl.pathname)[0] 
-    const isPermitted = matchedAdminNavigation?.adminRolesPermitted.includes(userStateGeneral.role)
+    const isPermitted = matchedAdminNavigation?.adminRolesPermitted.includes(userStateGeneral?.role)
 
     if (matchedAdminNavigation && !isPermitted) {
       return NextResponse.redirect(new URL('/admin', req.url))
