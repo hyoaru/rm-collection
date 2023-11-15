@@ -9,6 +9,7 @@ export const NAVIGATION_OPERATIONS = {
   addSubAdmin: { name: 'Add sub-admin', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/add-sub-admin`, adminRolesPermitted: ['admin_tier_1'] },
   addProduct: { name: 'Add product', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/add-product`, adminRolesPermitted: ['admin_tier_1'] },
   addProductVariant: { name: 'Add product variant', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/add-product-variant`, adminRolesPermitted: ['admin_tier_1'] },
+  editProduct: { name: 'Edit product', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/edit-product`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
 }
 
 export const NAVIGATION_TABLES = {
