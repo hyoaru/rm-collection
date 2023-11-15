@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
+import updateProductThumbnail from '@/app/_services/admin/operations/updateProductThumbnail'
 
 export default function useUpdateProduct() {
   const supabase = getBrowserClient()
@@ -16,7 +17,20 @@ export default function useUpdateProduct() {
       .from('products')
       .update({ name: name, category: category, description: description })
       .eq('id', id)
-      .select() 
+      .select()
+      .then(async ({ data: updateProductData, error: updateProductError }) => {
+        if (updateProductError) {
+          return { updateProductData, updateProductError }
+        }
+
+        const { data, error } = await updateProductThumbnail({
+          thumbnail: thumbnail,
+          productId: id,
+          productCategory: category
+        })
+
+        return { data, error }
+      })
 
     setIsLoading(false)
 
