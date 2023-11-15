@@ -32,7 +32,7 @@ export default function useAddProduct() {
         const { data, error } = await addProductVariant({
           productId: addProductData[0].id,
           material: material,
-          material_property: materialProperty,
+          materialProperty: materialProperty,
           quantity: quantity
         })
 
