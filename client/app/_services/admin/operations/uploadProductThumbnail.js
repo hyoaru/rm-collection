@@ -1,7 +1,7 @@
 import { resizeImage } from "@lib/resizeImage"
 import { getBrowserClient } from "@services/supabase/getBrowserClient"
 
-export default async function uploadProductThumbnail({ thumbnail, productCategory, productId }) {
+export default async function uploadProductThumbnail({ thumbnail, productId }) {
   const BUCKET_NAME = 'products'
   const supabase = getBrowserClient()
 
@@ -12,7 +12,7 @@ export default async function uploadProductThumbnail({ thumbnail, productCategor
   const { data, error } = await supabase
     .storage
     .from(BUCKET_NAME)
-    .upload(`${productCategory}/${productId}/${imageFileName}`, compressedImageFile, {
+    .upload(`${productId}/${imageFileName}`, compressedImageFile, {
       cacheControl: '3600',
       upsert: false
     })

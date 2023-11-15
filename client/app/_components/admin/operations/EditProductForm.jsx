@@ -73,12 +73,8 @@ export default function EditProductForm(props) {
         description: product.description,
       })
 
-      setThumbnailSrc(
-        getProductThumbnailPublicUrl({
-          productCategory: product.category,
-          productId: product.id
-        })
-      )
+      const thumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id })
+      setThumbnailSrc(thumbnailPublicUrl)
     } else {
       setThumbnailSrc(null)
     }

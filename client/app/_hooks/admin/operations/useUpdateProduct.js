@@ -26,7 +26,6 @@ export default function useUpdateProduct() {
         const { data, error } = await updateProductThumbnail({
           thumbnail: thumbnail,
           productId: id,
-          productCategory: category
         })
 
         return { data, error }

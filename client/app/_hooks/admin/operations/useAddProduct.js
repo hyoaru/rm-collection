@@ -48,7 +48,6 @@ export default function useAddProduct() {
 
         const { data, error } = await uploadProductVariantImages({
           images: images,
-          productCategory: category,
           productId: productId,
           variantId: variantId
         })
@@ -59,7 +58,6 @@ export default function useAddProduct() {
 
             const { data, error } = await uploadProductThumbnail({
               thumbnail: thumbnail,
-              productCategory: category,
               productId: productId
             })
 
