@@ -28,27 +28,27 @@ export default async function Layout({ children }) {
 
           {/* Admin side nav expanded */}
           <div id='AdminSideNavExpanded' className="hidden col-span-12 sm:block sm:col-span-4 lg:col-span-3">
-            <div className="flex flex-col gap-0 sm:gap-4">
-              <div className="sm:bg-secondary p-3 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
-                <small className="text-center uppercase text-xs mb-1 text-secondary-foreground hidden sm:block">Operations</small>
+            <div className="flex flex-col gap-0 sm:gap-8">
+              <div className="border border-x-0 p-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
+                <small className="text-center uppercase text-xs mb-1 text-muted-foreground hidden sm:block">Operations</small>
                 {navigationOperations.map((navigationOperation, index) => {
                   const isPermitted = navigationOperation.adminRolesPermitted.includes(userStateGeneral?.role)
                   if (isPermitted) {
                     return (
-                      <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'outline'}>
+                      <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'secondary'}>
                         <Link className='w-full' href={navigationOperation.pathName}>{navigationOperation.name}</Link>
                       </Button>
                     )
                   }
                 })}
               </div>
-              <div className="sm:bg-secondary p-3 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
-                <small className="text-center text-secondary-foreground uppercase text-xs mb-1 hidden sm:block">Tables</small>
+              <div className="border border-x-0 p-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
+                <small className="text-center text-muted-foreground uppercase text-xs mb-1 hidden sm:block">Tables</small>
                 {navigationTables.map((navigationTable, index) => {
                   const isPermitted = navigationTable.adminRolesPermitted.includes(userStateGeneral?.role)
                   if (isPermitted) {
                     return (
-                      <Button size={'sm'} variant={'outline'} key={`SideNavExpandedNavigationTable-${index}`}>
+                      <Button size={'sm'} variant={'secondary'} key={`SideNavExpandedNavigationTable-${index}`}>
                         <Link className='w-full' href={navigationTable.pathName}>{navigationTable.name}</Link>
                       </Button>
                     )
@@ -60,7 +60,9 @@ export default async function Layout({ children }) {
 
           {/* Children */}
           <div className="col-span-12 sm:col-span-8 lg:col-span-9">
-            {children}
+            <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-12 sm:px-6">
+              {children}
+            </div>
           </div>
         </div>
       </div>

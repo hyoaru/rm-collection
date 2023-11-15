@@ -120,10 +120,10 @@ export default function EditProductForm(props) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-4 sm:py-6">
-            <h2 className="text-3xl capitalize my-4 font-bold text-center sm:mt-0 md:text-left">Edit product</h2>
+          <div className="">
+            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Edit product</h2>
 
-            <div className="grid grid-cols-12 gap-4 mb-4">
+            <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 lg:col-span-4 xl:col-span-3 space-y-2">
                 <div className="flex border-b rounded-lg px-2 py-1">
                   <small className="text-center uppercase">Thumbnail</small>
@@ -266,7 +266,7 @@ export default function EditProductForm(props) {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-6 w-full" disabled={isLoading}>Save changes</Button>
+            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading}>Save changes</Button>
           </div>
 
         </form>
