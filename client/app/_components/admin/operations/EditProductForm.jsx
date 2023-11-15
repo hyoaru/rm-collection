@@ -99,7 +99,7 @@ export default function EditProductForm(props) {
         } else {
           toast({
             title: "Product has been updated successfully.",
-            description: "Your item is now ready to be showcased."
+            description: "Changes will take effect shortly."
           })
 
           await revalidateAllData()
