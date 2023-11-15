@@ -16,20 +16,13 @@ import { useState } from "react"
 import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
+import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 
 export default function AddProductForm() {
-  const MAX_FILE_SIZE_IN_MB = 5 * 1000000
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const [imagesSrc, setImagesSrc] = useState()
   const { addProduct, isLoading } = useAddProduct()
   const { toast } = useToast()
-
-  const productCategories = [
-    { name: 'Earrings', value: 'earrings' },
-    { name: 'Necklaces', value: 'necklaces' },
-    { name: 'Bracelets', value: 'bracelets' },
-    { name: 'Rings', value: 'rings' },
-  ]
 
   const formSchema = z.object({
     name: z.string().trim().min(4).max(70),

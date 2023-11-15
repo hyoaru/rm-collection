@@ -22,24 +22,16 @@ import getProductThumbnailPublicUrl from "@services/admin/shared/getProductThumb
 import { cn } from "@lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
+import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 
 export default function EditProductForm(props) {
   const { productList } = props
-  const MAX_FILE_SIZE_IN_MB = 5 * 1000000
-
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState()
   const [selectedProduct, setSelectedProduct] = useState()
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const { updateProduct, isLoading } = useUpdateProduct()
   const { toast } = useToast()
-
-  const productCategories = [
-    { name: 'Earrings', value: 'earrings' },
-    { name: 'Necklaces', value: 'necklaces' },
-    { name: 'Bracelets', value: 'bracelets' },
-    { name: 'Rings', value: 'rings' },
-  ]
 
   const formSchema = z.object({
     name: z.string().trim().min(4).max(70),
