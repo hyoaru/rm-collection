@@ -10,7 +10,5 @@ export async function getUserStateServer() {
     .eq('id', userStateAuth?.id)
     .single()
 
-  console.log(userStateAuth)
-
   return { userStateAuth, userStateGeneral }
 }
