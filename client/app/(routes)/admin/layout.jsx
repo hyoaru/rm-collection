@@ -36,7 +36,7 @@ export default async function Layout({ children }) {
                   if (isPermitted) {
                     return (
                       <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'outline'}>
-                        <Link href={navigationOperation.pathName}>{navigationOperation.name}</Link>
+                        <Link className='w-full' href={navigationOperation.pathName}>{navigationOperation.name}</Link>
                       </Button>
                     )
                   }
@@ -49,7 +49,7 @@ export default async function Layout({ children }) {
                   if (isPermitted) {
                     return (
                       <Button size={'sm'} variant={'outline'} key={`SideNavExpandedNavigationTable-${index}`}>
-                        <Link href={navigationTable.pathName}>{navigationTable.name}</Link>
+                        <Link className='w-full' href={navigationTable.pathName}>{navigationTable.name}</Link>
                       </Button>
                     )
                   }

@@ -117,7 +117,7 @@ export default function SignUpForm() {
 
           <div className="flex justify-center">
             <Button variant={'ghost'} size={'sm'} className="w-full" type="button">
-              <Link href={'/auth/sign-in'} className='flex items-center text-muted-foreground'>
+              <Link href={'/auth/sign-in'} className='text-muted-foreground w-full'>
                 {"Already have an account? Sign in"}
               </Link>
             </Button>
