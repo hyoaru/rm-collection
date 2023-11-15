@@ -25,8 +25,6 @@ export default function useAddProductVariant() {
         return { addProductVariantData, addProductVariantError }
       }
 
-      console.log(addProductVariantData)
-
       const productId = addProductVariantData[0].product_id
       const variantId = addProductVariantData[0].id
 
