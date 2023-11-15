@@ -29,7 +29,7 @@ export default async function Layout({ children }) {
           {/* Admin side nav expanded */}
           <div id='AdminSideNavExpanded' className="hidden col-span-12 sm:block sm:col-span-4 lg:col-span-3">
             <div className="flex flex-col gap-0 sm:gap-8">
-              <div className="border border-x-0 p-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
+              <div className="border border-x-0 py-5 px-2 lg:px-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
                 <small className="text-center uppercase text-xs mb-1 text-muted-foreground hidden sm:block">Operations</small>
                 {navigationOperations.map((navigationOperation, index) => {
                   const isPermitted = navigationOperation.adminRolesPermitted.includes(userStateGeneral?.role)
@@ -42,7 +42,7 @@ export default async function Layout({ children }) {
                   }
                 })}
               </div>
-              <div className="border border-x-0 p-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
+              <div className="border border-x-0 py-5 px-2 lg:px-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
                 <small className="text-center text-muted-foreground uppercase text-xs mb-1 hidden sm:block">Tables</small>
                 {navigationTables.map((navigationTable, index) => {
                   const isPermitted = navigationTable.adminRolesPermitted.includes(userStateGeneral?.role)
@@ -60,7 +60,7 @@ export default async function Layout({ children }) {
 
           {/* Children */}
           <div className="col-span-12 sm:col-span-8 lg:col-span-9">
-            <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-10 sm:px-5">
+            <div className="mb-4 rounded-lg px-2 py-10 lg:px-5 sm:border sm:border-x-0">
               {children}
             </div>
           </div>
