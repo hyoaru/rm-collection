@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
-import uploadProductImages from '@services/admin/operations/uploadProductImages'
+import uploadProductVariantImages from '@services/admin/operations/uploadProductVariantImages'
 import uploadProductThumbnail from '@services/admin/operations/uploadProductThumbnail'
 import addProductVariant from '@services/admin/operations/addProductVariant'
 
@@ -46,15 +46,15 @@ export default function useAddProduct() {
         const productId = addProductVariantsData[0].product_id
         const variantId = addProductVariantsData[0].id
 
-        const { data, error } = await uploadProductImages({
+        const { data, error } = await uploadProductVariantImages({
           images: images,
           productCategory: category,
           productId: productId,
           variantId: variantId
         })
-          .then(async ({ data: uploadProductImagesData, error: uploadProductImagesError }) => {
-            if (uploadProductImagesError) {
-              return { uploadProductImagesData, uploadProductImagesError }
+          .then(async ({ data: uploadProductVariantImagesData, error: uploadProductVariantImagesError }) => {
+            if (uploadProductVariantImagesError) {
+              return { uploadProductVariantImagesData, uploadProductVariantImagesError }
             }
 
             const { data, error } = await uploadProductThumbnail({

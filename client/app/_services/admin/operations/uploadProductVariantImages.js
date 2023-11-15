@@ -2,7 +2,7 @@ import { resizeImage } from "@lib/resizeImage"
 import { getBrowserClient } from "@services/supabase/getBrowserClient"
 import { nanoid } from "nanoid"
 
-export default async function uploadProductImages({ images, productCategory, productId, variantId }) {
+export default async function uploadProductVariantImages({ images, productCategory, productId, variantId }) {
   const BUCKET_NAME = 'products'
   const supabase = getBrowserClient()
   const response = { data: null, error: null }
