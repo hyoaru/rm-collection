@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
-import uploadProductImages from '@services/shared/uploadProductImages'
-import uploadProductThumbnail from '@services/shared/uploadProductThumbnail'
+import uploadProductImages from '@/app/_services/admin/uploadProductImages'
+import uploadProductThumbnail from '@/app/_services/admin/uploadProductThumbnail'
 import addProductVariant from '@services/shared/addProductVariant'
 
 export default function useAddProduct() {
