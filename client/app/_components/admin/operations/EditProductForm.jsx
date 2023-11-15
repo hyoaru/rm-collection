@@ -66,18 +66,22 @@ export default function EditProductForm(props) {
     document.querySelector('#thumbnailInput').value = null
     setSelectedProduct(product)
 
-    setThumbnailSrc(
-      getProductThumbnailPublicUrl({
-        productCategory: product.category,
-        productId: product.id
+    if (product) {
+      form.reset({
+        name: product.name,
+        category: product.category,
+        description: product.description,
       })
-    )
 
-    form.reset({
-      name: product.name,
-      category: product.category,
-      description: product.description,
-    })
+      setThumbnailSrc(
+        getProductThumbnailPublicUrl({
+          productCategory: product.category,
+          productId: product.id
+        })
+      )
+    } else {
+      setThumbnailSrc(null)
+    }
   }
 
   async function onSubmit(data) {
@@ -188,7 +192,7 @@ export default function EditProductForm(props) {
                             key={product.id}
                             value={product.name}
                             onSelect={(currentValue) => {
-                              onSelectedProductChange(product)
+                              onSelectedProductChange(currentValue === value ? null : product)
                               setValue(currentValue === value ? null : currentValue)
                               setOpen(false)
                             }}
