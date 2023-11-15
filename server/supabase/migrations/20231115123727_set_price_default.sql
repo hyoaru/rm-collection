@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS public.product_variants
+ALTER COLUMN price SET DEFAULT 0;
