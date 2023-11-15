@@ -60,7 +60,7 @@ export default async function Layout({ children }) {
 
           {/* Children */}
           <div className="col-span-12 sm:col-span-8 lg:col-span-9">
-            <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-12 sm:px-6">
+            <div className="mb-4 rounded-lg sm:border sm:border-x-0 sm:p-10 sm:px-5">
               {children}
             </div>
           </div>
