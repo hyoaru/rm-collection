@@ -71,6 +71,7 @@ export default function AddProductForm() {
       material: data.material,
       materialProperty: data.materialProperty,
       quantity: data.quantity,
+      price: data.price,
       thumbnail: data.thumbnail,
       images: data.images
     })
