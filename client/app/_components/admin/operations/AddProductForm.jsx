@@ -15,6 +15,7 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useState } from "react"
 import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
+import revalidateAllData from "@services/shared/revalidateAllData"
 
 export default function AddProductForm() {
   const MAX_FILE_SIZE_IN_MB = 5 * 1000000
@@ -84,7 +85,7 @@ export default function AddProductForm() {
           toast({
             title: "Product has been added successfully.",
             description: "Your item is now ready to be showcased."
-          })  
+          })
 
           form.reset()
           document.querySelector('#thumbnailInput').value = null
@@ -94,6 +95,8 @@ export default function AddProductForm() {
         }
 
       })
+
+    await revalidateAllData()
   }
 
   function onThumbnailChange(imageFile) {
