@@ -26,13 +26,15 @@ export async function middleware(req) {
     }
 
     const adminNavigations = [...Array.from(Object.values(NAVIGATION_OPERATIONS)), ...Array.from(Object.values(NAVIGATION_TABLES))]
-    const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === req.nextUrl.pathname)
-    const isPermitted = matchedAdminNavigation?.adminRolesPermitted?.includes(userStateGeneral.role)
+    const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === req.nextUrl.pathname)[0] 
+    const isPermitted = matchedAdminNavigation?.adminRolesPermitted.includes(userStateGeneral.role)
 
-    if (matchedAdminNavigation[0] && !isPermitted) {
+    if (matchedAdminNavigation && !isPermitted) {
       return NextResponse.redirect(new URL('/admin', req.url))
     }
   }
 
   return res
 }
+
+export const config = { matcher: "/((?!.*\\.).*)" };
