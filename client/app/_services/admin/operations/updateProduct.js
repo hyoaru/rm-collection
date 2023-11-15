@@ -1,4 +1,4 @@
-import { getBrowserClient } from "../supabase/getBrowserClient";
+import { getBrowserClient } from "@services/supabase/getBrowserClient";
 
 export default async function updateProduct({ id, name, category, description }) {
   const TABLE_NAME = 'products'

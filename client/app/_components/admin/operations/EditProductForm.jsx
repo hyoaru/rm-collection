@@ -16,7 +16,7 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useEffect, useState } from "react"
 import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
-import updateProduct from "@services/admin/updateProduct"
+import updateProduct from "@services/admin/operations/updateProduct"
 import revalidateAllData from "@services/shared/revalidateAllData"
 
 import { cn } from "@lib/utils"
