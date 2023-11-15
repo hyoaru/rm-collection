@@ -266,7 +266,7 @@ export default function EditProductForm(props) {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading}>Save changes</Button>
+            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading || !value}>Save changes</Button>
           </div>
 
         </form>
