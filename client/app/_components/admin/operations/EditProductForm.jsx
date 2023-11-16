@@ -55,6 +55,19 @@ export default function EditProductForm(props) {
     }
   })
 
+  function emptyFormFields() {
+    document.querySelector('#thumbnailInput').value = null
+    setThumbnailSrc(null)
+    setValue(null)
+
+    form.reset({
+      name: '',
+      category: '',
+      description: '',
+    })
+
+  }
+
   function onSelectedProductChange(product) {
     document.querySelector('#thumbnailInput').value = null
     setSelectedProduct(product)
@@ -70,46 +83,35 @@ export default function EditProductForm(props) {
       setThumbnailSrc(thumbnailPublicUrl)
 
     } else {
-      form.reset({
-        name: '',
-        category: '',
-        description: '',
-      })
-
-      setThumbnailSrc(null)
+      emptyFormFields()
     }
   }
 
   async function onSubmit(data) {
-    if (value) {
-      await updateProduct({
-        id: selectedProduct.id,
-        name: data.name,
-        category: data.category,
-        description: data.description,
-        thumbnail: data.thumbnail
+    await updateProduct({
+      id: selectedProduct.id,
+      name: data.name,
+      category: data.category,
+      description: data.description,
+      thumbnail: data.thumbnail
 
-      }).then(async ({ data, error }) => {
-        if (error) {
-          toast({
-            variant: "destructive",
-            title: "An error has occured.",
-            description: "Please try again later."
-          })
-        } else {
-          toast({
-            title: "Product has been updated successfully.",
-            description: "Changes will take effect shortly."
-          })
+    }).then(async ({ data, error }) => {
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "An error has occured.",
+          description: "Please try again later."
+        })
+      } else {
+        toast({
+          title: "Product has been updated successfully.",
+          description: "Changes will take effect shortly."
+        })
 
-          await revalidateAllData()
-          setValue(null)
-          setThumbnailSrc(null)
-          form.reset()
-          document.querySelector('#thumbnailInput').value = null
-        }
-      })
-    }
+        await revalidateAllData()
+        emptyFormFields()
+      }
+    })
   }
 
   function onThumbnailChange(imageFile) {

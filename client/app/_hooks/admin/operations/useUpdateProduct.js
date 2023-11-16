@@ -19,16 +19,16 @@ export default function useUpdateProduct() {
       .eq('id', id)
       .select()
       .then(async ({ data: updateProductData, error: updateProductError }) => {
-        if (updateProductError) {
-          return { updateProductData, updateProductError }
+        if (thumbnail[0]) {
+          const { data, error } = await updateProductThumbnail({
+            thumbnail: thumbnail,
+            productId: id,
+          })
+          
+          return { data, error }
         }
 
-        const { data, error } = await updateProductThumbnail({
-          thumbnail: thumbnail,
-          productId: id,
-        })
-
-        return { data, error }
+        return { updateProductData, updateProductError }
       })
 
     setIsLoading(false)
