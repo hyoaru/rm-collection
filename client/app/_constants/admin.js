@@ -11,6 +11,7 @@ export const NAVIGATION_OPERATIONS = {
   addProduct: { name: 'Add product', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/add-product`, adminRolesPermitted: ['admin_tier_1'] },
   addProductVariant: { name: 'Add product variant', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/add-product-variant`, adminRolesPermitted: ['admin_tier_1'] },
   editProduct: { name: 'Edit product', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/edit-product`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
+  editProductVariant: { name: 'Edit product variant', pathName: `${ADMIN_OPERATIONS_BASE_PATH}/edit-product-variant`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
 }
 
 export const NAVIGATION_TABLES = {
