@@ -23,6 +23,7 @@ import { cn } from "@lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
+import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 
 export default function EditProductForm(props) {
   const { productList } = props
@@ -67,7 +68,14 @@ export default function EditProductForm(props) {
 
       const thumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id })
       setThumbnailSrc(thumbnailPublicUrl)
+
     } else {
+      form.reset({
+        name: '',
+        category: '',
+        description: '',
+      })
+
       setThumbnailSrc(null)
     }
   }
@@ -156,104 +164,69 @@ export default function EditProductForm(props) {
                 <div className="flex border-b rounded-lg px-2 py-1">
                   <small className="text-center uppercase">Product</small>
                 </div>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={open}
-                      className="w-full justify-between"
-                    >
-                      {value
-                        ? productList?.data.find((product) => product.name === value)?.name
-                        : "Select product..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
-                    <Command>
-                      <CommandInput placeholder="Search product..." />
-                      <CommandEmpty>No product found.</CommandEmpty>
-                      <CommandGroup>
-                        {productList.data.map((product) => (
-                          <CommandItem
-                            key={product.id}
-                            value={product.name}
-                            onSelect={(currentValue) => {
-                              onSelectedProductChange(currentValue === value ? null : product)
-                              setValue(currentValue === value ? null : currentValue)
-                              setOpen(false)
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                value === product.name ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            {product.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+
+                <ProductListCombobox
+                  productList={productList}
+                  open={open}
+                  setOpen={setOpen}
+                  value={value}
+                  setValue={setValue}
+                  onSelectedValueChange={onSelectedProductChange}
+                />
 
                 <div className="">
-                  {value && <>
-                    <div className="grid grid-cols-12 gap-4 mt-4">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem className={'col-span-6'}>
-                            <FormLabel>Product name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="your-descriptive-product-name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                          <FormItem className={'col-span-6'}>
-                            <FormLabel>Product category</FormLabel>
-                            <FormControl>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <SelectTrigger className="w-full">
-                                  <SelectValue placeholder="Choose category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {productCategories.map((productCategory) => (
-                                    <SelectItem value={productCategory.value} key={`ProductCategory-${productCategory.value}`}>
-                                      {productCategory.name}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem className={'col-span-12'}>
-                            <FormLabel>Product description</FormLabel>
-                            <FormControl>
-                              <Textarea placeholder="your-descriptive-product-description" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </>}
+                  <div className="grid grid-cols-12 gap-4 mt-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem className={'col-span-6'}>
+                          <FormLabel>Product name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="your-descriptive-product-name" {...field} disabled={!value} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <FormItem className={'col-span-6'}>
+                          <FormLabel>Product category</FormLabel>
+                          <FormControl>
+                            <Select onValueChange={field.onChange} value={field.value} disabled={!value}>
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Choose category" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {productCategories.map((productCategory) => (
+                                  <SelectItem value={productCategory.value} key={`ProductCategory-${productCategory.value}`}>
+                                    {productCategory.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem className={'col-span-12'}>
+                          <FormLabel>Product description</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="your-descriptive-product-description" {...field} disabled={!value} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

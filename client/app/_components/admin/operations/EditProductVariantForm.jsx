@@ -48,7 +48,7 @@ export default function EditProductVariantForm(props) {
       .refine((files) => {
         if (files.length === 0) { return true }
         return Array.from(files)?.length <= 4
-      },`You can only select up to 4 images`)
+      }, `You can only select up to 4 images`)
       .refine((files) => {
         if (files.length === 0) { return true }
         return files[0]?.size <= MAX_FILE_SIZE_IN_MB
@@ -106,10 +106,24 @@ export default function EditProductVariantForm(props) {
 
   function onSelectedProductChange(product) {
     setSelectedProduct(product)
+    form.reset({
+      name: '',
+      category: '',
+      description: '',
+      price: '',
+      quantity: '',
+      material: '',
+      materialProperty: '',
+      images: ''
+    })
+    setImagesSrc(null)
+    setProductVariantListComboboxValue(null)
   }
 
   async function onSelectedProductVariantChange(productVariant) {
     setSelectedProductVariant(productVariant)
+    document.querySelector('#imagesInput').value = null
+
     if (productVariant) {
       form.reset({
         name: selectedProduct.name,
@@ -121,14 +135,27 @@ export default function EditProductVariantForm(props) {
         materialProperty: productVariant.material_property,
         images: ''
       })
+
+      const productVariantImagesPublicUrl = await getProductVariantImagesPublicUrl({
+        productId: selectedProduct.id,
+        variantId: productVariant.id
+      })
+
+      setImagesSrc(productVariantImagesPublicUrl)
+    } else {
+      form.reset({
+        name: '',
+        category: '',
+        description: '',
+        price: '',
+        quantity: '',
+        material: '',
+        materialProperty: '',
+        images: ''
+      })
+      setImagesSrc(null)
     }
 
-    const productVariantImagesPublicUrl = await getProductVariantImagesPublicUrl({
-      productId: selectedProduct.id,
-      variantId: productVariant.id
-    })
-
-    setImagesSrc(productVariantImagesPublicUrl)
   }
 
   function onImagesChange(imageFiles) {
@@ -170,168 +197,194 @@ export default function EditProductVariantForm(props) {
                 </>}
               </div>
 
-              {(productListComboboxValue && productVariantListComboboxValue) && <>
-                <div className="grid grid-cols-12 gap-4 mb-4">
-                  <div className="col-span-12 space-y-2">
-                    <div className="flex border-b rounded-lg px-2 py-1">
-                      <small className="text-center uppercase">Images</small>
-                    </div>
-                    {imagesSrc && <>
-                      <ScrollArea className={'w-full whitespace-nowrap rounded-lg'}>
-                        <div className="flex w-max space-x-4">
-                          {imagesSrc.map((imageSrc, index) => (
-                            <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                              <img src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
-                            </div>
-                          ))}
-                        </div>
-                        <ScrollBar orientation={'horizontal'} />
-                      </ScrollArea>
-
-                    </>}
-                    <FormField
-                      control={form.control}
-                      name="images"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              type="file"
-                              id="imagesInput"
-                              ref={field.ref}
-                              onBlur={field.onBlur}
-                              onChange={(e) => {
-                                field.onChange(e.target.files)
-                                onImagesChange(e.target.files)
-                              }}
-                              className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
-                              accept={'.png, .jpg, .jpeg'}
-                              multiple
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+              <div className="grid grid-cols-12 gap-4 mb-4">
+                <div className="col-span-12 space-y-2">
+                  <div className="flex border-b rounded-lg px-2 py-1">
+                    <small className="text-center uppercase">Images</small>
                   </div>
+                  {imagesSrc && <>
+                    <ScrollArea className={'w-full whitespace-nowrap rounded-lg'}>
+                      <div className="flex w-max space-x-4">
+                        {imagesSrc.map((imageSrc, index) => (
+                          <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
+                            <img src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
+                          </div>
+                        ))}
+                      </div>
+                      <ScrollBar orientation={'horizontal'} />
+                    </ScrollArea>
+
+                  </>}
+                  <FormField
+                    control={form.control}
+                    name="images"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="file"
+                            id="imagesInput"
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            onChange={(e) => {
+                              field.onChange(e.target.files)
+                              onImagesChange(e.target.files)
+                            }}
+                            className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
+                            accept={'.png, .jpg, .jpeg'}
+                            disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                            multiple
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
+              </div>
 
-                <div className="grid grid-cols-4 gap-4 gap-y-3">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel className="text-muted-foreground">Product name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="your-descriptive-product-name" {...field} disabled />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <div className="grid grid-cols-4 gap-4 gap-y-3">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel className="text-muted-foreground">Product name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="your-descriptive-product-name" {...field} disabled />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel className="text-muted-foreground">Product category</FormLabel>
-                        <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value} disabled>
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Choose category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {productCategories.map((productCategory) => (
-                                <SelectItem value={productCategory.value} key={`ProductCategory-${productCategory.value}`}>
-                                  {productCategory.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel className="text-muted-foreground">Product category</FormLabel>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value} disabled>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choose category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {productCategories.map((productCategory) => (
+                              <SelectItem value={productCategory.value} key={`ProductCategory-${productCategory.value}`}>
+                                {productCategory.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input type="number" min="0" placeholder="your-product-price" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="0"
+                          placeholder="your-product-price"
+                          {...field}
+                          disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="quantity"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel>Quantity</FormLabel>
-                        <FormControl>
-                          <Input type="number" min="0" placeholder="your-product-quantity" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Quantity</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min="0"
+                          placeholder="your-product-quantity"
+                          {...field}
+                          disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="material"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel>Material used</FormLabel>
-                        <FormControl>
-                          <Input placeholder="(e.g., Yellow Gold)" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="material"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Material used</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(e.g., Yellow Gold)"
+                          {...field}
+                          disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="materialProperty"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-2'}>
-                        <FormLabel>Material property</FormLabel>
-                        <FormControl>
-                          <Input placeholder="(e.g., 18 karats)" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="materialProperty"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-2'}>
+                      <FormLabel>Material property</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(e.g., 18 karats)"
+                          {...field}
+                          disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem className={'col-span-4'}>
-                        <FormLabel className="text-muted-foreground">Product description</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="your-descriptive-product-description" {...field} disabled />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-4'}>
+                      <FormLabel className="text-muted-foreground">Product description</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="your-descriptive-product-description" {...field} disabled />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                </div>
+              </div>
 
-              </>}
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading}>Save changes</Button>
+            <Button
+              type="submit"
+              size={'lg'}
+              className="mt-8 w-full"
+              disabled={isLoading || !(productListComboboxValue && productVariantListComboboxValue)}
+            >
+              Save changes
+            </Button>
           </div>
 
         </form>
