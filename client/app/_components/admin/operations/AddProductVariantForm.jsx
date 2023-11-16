@@ -60,6 +60,19 @@ export default function AddProductVariantForm(props) {
     }
   })
 
+  function emptyFormFields() {
+    document.querySelector('#imagesInput').value = null
+    setImagesSrc(null)
+    setValue(null)
+
+    form.reset({
+      name: '',
+      category: '',
+      description: '',
+    })
+
+  }
+
   async function onSubmit(data) {
     await addProductVariant({
       productId: selectedProduct.id,
@@ -82,10 +95,7 @@ export default function AddProductVariantForm(props) {
             description: "Your item is now ready to be showcased."
           })
 
-          form.reset()
-          document.querySelector('#imagesInput').value = null
-          setValue(null)
-          setImagesSrc(null)
+          emptyFormFields()
         }
 
       })
@@ -95,8 +105,6 @@ export default function AddProductVariantForm(props) {
 
   function onSelectedProductChange(product) {
     setSelectedProduct(product)
-    console.log(product)
-
     if (product) {
       form.reset({
         name: product.name,
@@ -104,15 +112,7 @@ export default function AddProductVariantForm(props) {
         description: product.description
       })
     } else {
-      form.reset({
-        name: '',
-        category: '',
-        description: '',
-      })
-      
-      document.querySelector('#imagesInput').value = null
-      setImagesSrc(null)
-
+      emptyFormFields()
     }
   }
 

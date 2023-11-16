@@ -92,11 +92,9 @@ export default function EditProductVariantForm(props) {
             description: "Your item is now ready to be showcased."
           })
 
-          form.reset()
-          document.querySelector('#imagesInput').value = null
+          emptyFormFields()
           setProductListComboboxValue(null)
           setProductVariantListComboboxValue(null)
-          setImagesSrc(null)
         }
 
       })
@@ -104,8 +102,10 @@ export default function EditProductVariantForm(props) {
     await revalidateAllData()
   }
 
-  function onSelectedProductChange(product) {
-    setSelectedProduct(product)
+  function emptyFormFields() {
+    document.querySelector('#imagesInput').value = null
+    setImagesSrc(null)
+
     form.reset({
       name: '',
       category: '',
@@ -116,7 +116,11 @@ export default function EditProductVariantForm(props) {
       materialProperty: '',
       images: ''
     })
-    setImagesSrc(null)
+  }
+
+  function onSelectedProductChange(product) {
+    setSelectedProduct(product)
+    emptyFormFields()
     setProductVariantListComboboxValue(null)
   }
 
@@ -143,17 +147,7 @@ export default function EditProductVariantForm(props) {
 
       setImagesSrc(productVariantImagesPublicUrl)
     } else {
-      form.reset({
-        name: '',
-        category: '',
-        description: '',
-        price: '',
-        quantity: '',
-        material: '',
-        materialProperty: '',
-        images: ''
-      })
-      setImagesSrc(null)
+      emptyFormFields()
     }
 
   }
