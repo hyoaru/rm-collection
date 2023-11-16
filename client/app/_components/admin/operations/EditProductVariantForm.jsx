@@ -70,7 +70,6 @@ export default function EditProductVariantForm(props) {
   })
 
   async function onSubmit(data) {
-    console.log(data)
     await updateProductVariant({
       productId: selectedProduct.id,
       variantId: selectedProductVariant.id,
@@ -166,7 +165,10 @@ export default function EditProductVariantForm(props) {
 
             <div className="space-y-6">
               <div className="grid grid-cols-4 gap-4 gap-y-2">
-                <div className="col-span-4">
+                <div className="col-span-4 space-y-2">
+                  <div className="flex border-b rounded-lg px-2 py-1">
+                    <small className="text-center uppercase">Product</small>
+                  </div>
                   <ProductListCombobox
                     productList={productList}
                     open={productListComboboxOpen}

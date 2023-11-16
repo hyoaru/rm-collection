@@ -129,7 +129,10 @@ export default function AddProductVariantForm(props) {
 
             <div className="">
               <div className="grid grid-cols-4 mb-4">
-                <div className="col-span-4">
+                <div className="col-span-4 space-y-2">
+                  <div className="flex border-b rounded-lg px-2 py-1">
+                    <small className="text-center uppercase">Product</small>
+                  </div>
                   <ProductListCombobox
                     productList={productList}
                     open={open}
