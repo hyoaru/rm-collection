@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
+import updateProductVariantImages from '@services/admin/operations/updateProductVariantImages'
 
 export default function useUpdateProductVariant() {
   const supabase = getBrowserClient()
@@ -24,8 +25,13 @@ export default function useUpdateProductVariant() {
       .eq('id', variantId)
       .select()
       .then(async ({ data: updateProductVariantData, error: updateProductVariantError }) => {
-        if (updateProductVariantError) {
-          return { updateProductVariantData, updateProductVariantError }
+        if (images[0]) {
+          const { data, error } = await updateProductVariantImages({
+            productId: productId,
+            variantId: variantId,
+            images: images
+          })
+          return { data, error }
         }
 
         return { updateProductVariantData, updateProductVariantError }

@@ -70,6 +70,7 @@ export default function EditProductVariantForm(props) {
   })
 
   async function onSubmit(data) {
+    console.log(data)
     await updateProductVariant({
       productId: selectedProduct.id,
       variantId: selectedProductVariant.id,
@@ -88,8 +89,8 @@ export default function EditProductVariantForm(props) {
           })
         } else {
           toast({
-            title: "Product variant has been added successfully.",
-            description: "Your item is now ready to be showcased."
+            title: "Product has been updated successfully.",
+            description: "Changes will take effect shortly."
           })
 
           emptyFormFields()
