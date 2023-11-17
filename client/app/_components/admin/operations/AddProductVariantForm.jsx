@@ -22,6 +22,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
+import FormHeader from "@components/admin/shared/FormHeader"
 
 export default function AddProductVariantForm(props) {
   const { productList } = props
@@ -125,7 +126,11 @@ export default function AddProductVariantForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Add product variant</h2>
+            <FormHeader
+              category={'Operation'}
+              title={'Add product variant'}
+              description={'Provide details about the product and other pertinent information.'}
+            />
 
             <div className="">
               <div className="grid grid-cols-4 mb-4">
@@ -302,7 +307,7 @@ export default function AddProductVariantForm(props) {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading || !value}>Add product variant</Button>
+            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2" disabled={isLoading || !value}>Add product variant</Button>
           </div>
 
         </form>

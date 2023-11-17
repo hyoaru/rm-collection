@@ -21,6 +21,7 @@ import ProductListCombobox from "@components/admin/operations/shared/ProductList
 import ProductVariantListCombobox from "@components/admin/operations/shared/ProductVariantListCombobox"
 import getProductVariantImagesPublicUrl from "@services/admin/shared/getProductVariantImagesPublicUrl"
 import useUpdateProductVariant from "@hooks/admin/operations/useUpdateProductVariant"
+import FormHeader from "@components/admin/shared/FormHeader"
 
 export default function EditProductVariantForm(props) {
   const { productList, productVariantList } = props
@@ -161,7 +162,11 @@ export default function EditProductVariantForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Edit product variant</h2>
+            <FormHeader
+              category={'Operation'}
+              title={'Edit product variant'}
+              description={'Check details about the product and other pertinent information.'}
+            />
 
             <div className="space-y-6">
               <div className="grid grid-cols-4 gap-4 gap-y-2">
@@ -377,7 +382,7 @@ export default function EditProductVariantForm(props) {
             <Button
               type="submit"
               size={'lg'}
-              className="mt-8 w-full"
+              className="mt-8 flex mx-auto w-full lg:w-1/2"
               disabled={isLoading || !(productListComboboxValue && productVariantListComboboxValue)}
             >
               Save changes

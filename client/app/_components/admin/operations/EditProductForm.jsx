@@ -24,6 +24,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
+import FormHeader from "@components/admin/shared/FormHeader"
 
 export default function EditProductForm(props) {
   const { productList } = props
@@ -123,7 +124,11 @@ export default function EditProductForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Edit product</h2>
+            <FormHeader
+              category={'Operation'}
+              title={'Edit product'}
+              description={'Check details about the product and other pertinent information.'}
+            />
 
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 lg:col-span-4 xl:col-span-3 space-y-2">
@@ -233,7 +238,7 @@ export default function EditProductForm(props) {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading || !value}>Save changes</Button>
+            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2" disabled={isLoading || !value}>Save changes</Button>
           </div>
 
         </form>

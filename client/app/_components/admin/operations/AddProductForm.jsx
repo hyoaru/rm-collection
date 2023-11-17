@@ -17,6 +17,7 @@ import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
+import FormHeader from "@components/admin/shared/FormHeader"
 
 export default function AddProductForm() {
   const [thumbnailSrc, setThumbnailSrc] = useState()
@@ -106,7 +107,11 @@ export default function AddProductForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Add new product</h2>
+            <FormHeader
+              category={'Operation'} 
+              title={'Add new product'}
+              description={'Provide details about the product and other pertinent information.'}
+            />
 
             <div className="grid grid-cols-12 gap-4 mb-4">
               <div className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2">
@@ -302,7 +307,7 @@ export default function AddProductForm() {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading}>Add product</Button>
+            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2"  disabled={isLoading}>Add product</Button>
           </div>
 
         </form>

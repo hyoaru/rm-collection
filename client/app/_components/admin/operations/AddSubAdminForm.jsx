@@ -13,6 +13,8 @@ import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import UserListCombobox from "@components/admin/operations/shared/UserListCombobox"
 import useAddSubAdmin from "@hooks/admin/operations/useAddSubAdmin"
+import FormHeader from "@components/admin/shared/FormHeader"
+
 
 export default function AddSubAdminForm(props) {
   const { userList } = props
@@ -97,7 +99,11 @@ export default function AddSubAdminForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <h2 className="text-3xl capitalize my-5 font-bold text-center sm:mt-0 md:text-left">Add sub admin</h2>
+            <FormHeader
+              category={'Operation'}
+              title={'Add sub admin'}
+              description={'Check details about the user and other pertinent information.'}
+            />
 
             <div className="space-y-6">
               <div className="grid grid-cols-4 gap-4 gap-y-2">
@@ -189,7 +195,7 @@ export default function AddSubAdminForm(props) {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 w-full" disabled={isLoading || !userListComboboxValue} >
+            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2" disabled={isLoading || !userListComboboxValue} >
               Make sub admin
             </Button>
           </div>
