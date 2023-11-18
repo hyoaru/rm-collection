@@ -1,10 +1,11 @@
 "use client"
 
 import React from 'react'
-import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react'
 
 // App imports
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/tooltip"
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import useGetTable from '@hooks/admin/operations/useGetTable'
@@ -12,6 +13,7 @@ import { formatTimestampTable } from '@lib/formatTimestamp'
 import jsFileDownload from "js-file-download"
 import dayjs from 'dayjs'
 import { useToast } from '@components/ui/use-toast'
+import revalidateAllData from '@services/shared/revalidateAllData'
 
 export default function DataTable(props) {
   const { data, columnDefinition, tableName, getListCsv } = props
@@ -48,6 +50,10 @@ export default function DataTable(props) {
           })
         }
       })
+  }
+
+  async function onRefresh() {
+    await revalidateAllData()
   }
 
   function onFirstPagePagination() {
@@ -87,12 +93,23 @@ export default function DataTable(props) {
           value={globalFilter}
           onChange={onGlobalFilterChange}
         />
-        <Button
-          variant={'secondary'}
-          onClick={onExportToCsv}
-        >
-          Export to CSV
-        </Button>
+        <div className="flex gap-2">
+          <Button variant={'secondary'} onClick={onExportToCsv} >
+            Export to CSV
+          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <div className="bg-secondary rounded-lg p-3">
+                  <RefreshCw size={16} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Revalidate data</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </div >
 
       <Table>
