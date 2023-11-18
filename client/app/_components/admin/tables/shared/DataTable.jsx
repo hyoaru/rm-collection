@@ -54,6 +54,10 @@ export default function DataTable(props) {
 
   async function onRefresh() {
     await revalidateAllData()
+    toast({
+      title: "Revalidated data.",
+      description: "Changes should take effect immediately."
+    })
   }
 
   function onFirstPagePagination() {
@@ -100,12 +104,12 @@ export default function DataTable(props) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <div className="bg-secondary rounded-lg p-3">
+                <div className="bg-secondary rounded-lg p-3" onClick={onRefresh}>
                   <RefreshCw size={16} />
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Revalidate data</p>
+                <p>Refresh</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
