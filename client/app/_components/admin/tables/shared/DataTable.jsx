@@ -6,9 +6,16 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table"
 import { Button } from '@components/ui/button'
 import useGetTable from '@hooks/admin/operations/useGetTable'
+import { formatTimestampTable } from '@lib/formatTimestamp'
 
 export default function DataTable(props) {
   const { data, columnDefinition } = props
+
+  columnDefinition.push (
+    { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'created_at' }, 
+    { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'updated_at' }, 
+  )
+
   const { table, globalFilter, setGlobalFilter, pageRef, flexRender } = useGetTable({
     data: data,
     columnDefinition: columnDefinition
