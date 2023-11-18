@@ -98,7 +98,7 @@ export default function DataTable(props) {
           onChange={onGlobalFilterChange}
         />
         <div className="flex gap-2">
-          <Button variant={'secondary'} onClick={onExportToCsv} >
+          <Button variant={'secondary'} onClick={onExportToCsv} className={'w-full'}>
             Export to CSV
           </Button>
           <TooltipProvider>
