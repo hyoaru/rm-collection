@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 // App imports
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table"
@@ -47,6 +48,33 @@ export default function DataTable(props) {
           })
         }
       })
+  }
+
+  function onFirstPagePagination() {
+    pageRef.current = 0
+    table.setPageIndex(pageRef.current)
+  }
+
+  function onLastPagePagination() {
+    pageRef.current = table.getPageCount() - 1
+    table.setPageIndex(pageRef.current)
+  }
+
+  function onNextPagePagination() {
+    if (!table.getCanNextPage()) { return }
+    pageRef.current = table.options.state.pagination.pageIndex + 1
+    table.setPageIndex(pageRef.current)
+  }
+
+  function onPreviousPagePagination() {
+    if (!table.getCanPreviousPage()) { return }
+    pageRef.current = table.options.state.pagination.pageIndex - 1
+    table.setPageIndex(pageRef.current)
+  }
+
+  function onPageJump(event) {
+    pageRef.current = event.target.value
+    table.setPageIndex(pageRef.current)
   }
 
   return (
@@ -98,6 +126,29 @@ export default function DataTable(props) {
           ))}
         </TableBody>
       </Table>
+
+      <div className="flex justify-center mt-5 gap-1 sm:gap-5">
+        <Button size={'sm'} onClick={onFirstPagePagination}>
+          <ChevronsLeft />
+        </Button>
+        <Button size={'sm'} variant={'secondary'} onClick={onPreviousPagePagination}>
+          <ChevronLeft />
+        </Button>
+
+        <Input
+          className={'text-center max-w-[5rem] sm:max-w-[10rem]'}
+          type={'number'}
+          value={pageRef.current}
+          onChange={onPageJump}
+        />
+
+        <Button size={'sm'} variant={'secondary'} onClick={onNextPagePagination}>
+          <ChevronRight />
+        </Button>
+        <Button size={'sm'} onClick={onLastPagePagination}>
+          <ChevronsRight />
+        </Button>
+      </div>
     </>
   )
 }
