@@ -27,7 +27,7 @@ export default async function Page() {
         data={productPostingList.data}
         columnDefinition={columnDefinition}
         getListCsv={getProductPostingListCsv}
-        tableName={'byd-product-variant-list'}
+        tableName={'byd-product-posting-list'}
       />
     </>
   )
