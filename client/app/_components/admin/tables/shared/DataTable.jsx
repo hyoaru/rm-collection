@@ -8,9 +8,13 @@ import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import useGetTable from '@hooks/admin/operations/useGetTable'
 import { formatTimestampTable } from '@lib/formatTimestamp'
+import jsFileDownload from "js-file-download"
+import dayjs from 'dayjs'
+import { useToast } from '@components/ui/use-toast'
 
 export default function DataTable(props) {
-  const { data, columnDefinition } = props
+  const { data, columnDefinition, tableName, getListCsv } = props
+  const { toast } = useToast()
 
   columnDefinition.push(
     { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'created_at' },
@@ -26,6 +30,25 @@ export default function DataTable(props) {
     setGlobalFilter(event.target.value)
   }
 
+  async function onExportToCsv() {
+    await getListCsv()
+      .then(({ data, error }) => {
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "An error has occured.",
+            description: "Please try again later."
+          })
+        } else {
+          jsFileDownload(data, `${tableName.toUpperCase()}_${dayjs().format('YYYY-MM-DD')}.csv`)
+          toast({
+            title: "Data exported to CSV.",
+            description: "Please confirm to download."
+          })
+        }
+      })
+  }
+
   return (
     <>
       <div className="flex flex-col sm:flex-row mb-4 gap-2">
@@ -36,7 +59,12 @@ export default function DataTable(props) {
           value={globalFilter}
           onChange={onGlobalFilterChange}
         />
-        <Button variant={'secondary'}>Export to CSV</Button>
+        <Button
+          variant={'secondary'}
+          onClick={onExportToCsv}
+        >
+          Export to CSV
+        </Button>
       </div >
 
       <Table>
