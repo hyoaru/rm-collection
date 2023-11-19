@@ -5,6 +5,7 @@ import getProductPostingList from '@services/admin/shared/getProductPostingList'
 import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getProductPostingListCsv from '@services/admin/shared/getProductPostingListCsv'
+import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
 
 export default async function Page() {
   const productPostingList = await getProductPostingList()
@@ -13,6 +14,10 @@ export default async function Page() {
     { accessorKey: 'id' }, { accessorKey: 'product_id' }, { accessorKey: 'material' },
     { accessorKey: 'material_property' }, { accessorKey: 'quantity' }, { accessorKey: 'price' },
     { accessorKey: 'is_displayed' }
+  ]
+
+  const rowActions = [
+    { label: "Delete product variant", onClick: deleteProductVariant, isDestructive: true }
   ]
 
   return (
@@ -28,6 +33,7 @@ export default async function Page() {
         columnDefinition={columnDefinition}
         getListCsv={getProductPostingListCsv}
         tableName={'byd-product-posting-list'}
+        rowActions={rowActions}
       />
     </>
   )
