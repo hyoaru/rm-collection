@@ -30,7 +30,7 @@ export default function DataTableRowAction(props) {
                 <DropdownMenuItem key={`DataTableRowActionItem-${index}`} asChild>
                   <>
                     <AlertDialogTrigger asChild>
-                      <span className='text-sm p-2'>
+                      <span className='text-sm p-2 w-full cursor-pointer'>
                         {rowAction.label}
                       </span>
                     </AlertDialogTrigger>
@@ -75,7 +75,7 @@ export default function DataTableRowAction(props) {
 
                 : <DropdownMenuItem
                   asChild
-                  className={'cursor-pointer'}
+                  className={'cursor-pointer w-full'}
                   key={`DataTableRowActionItem-${index}`}
                   onClick={async () => {
                     await rowAction.onClick(data)
