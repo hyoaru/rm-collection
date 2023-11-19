@@ -5,6 +5,7 @@ import getAdminList from '@services/admin/shared/getAdminList'
 import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getAdminListCsv from '@services/admin/shared/getAdminListCsv'
+import removeAdminAuthority from '@services/admin/tables/removeAdminAuthority'
 
 export default async function page() {
   const adminList = await getAdminList()
@@ -13,6 +14,11 @@ export default async function page() {
     { accessorKey: 'id' }, { accessorKey: 'email' }, { accessorKey: 'first_name' },
     { accessorKey: 'last_name' }, { accessorKey: 'role' }
   ]
+
+  const rowActions = [
+    { label: "Remove admin authority", onClick: removeAdminAuthority}
+  ]
+
 
   return (
     <>
@@ -27,6 +33,7 @@ export default async function page() {
         columnDefinition={columnDefinition}
         getListCsv={getAdminListCsv}
         tableName={'byd-admin-list'}
+        rowActions={rowActions}
       />
     </>
   )

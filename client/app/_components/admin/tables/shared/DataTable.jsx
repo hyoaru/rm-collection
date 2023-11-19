@@ -14,15 +14,23 @@ import jsFileDownload from "js-file-download"
 import dayjs from 'dayjs'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
+import DataTableRowAction from '@components/admin/tables/shared/DataTableRowAction'
 
 export default function DataTable(props) {
-  const { data, columnDefinition, tableName, getListCsv } = props
+  const { data, columnDefinition, tableName, getListCsv, rowActions } = props
   const { toast } = useToast()
 
   columnDefinition.push(
     { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'created_at' },
     { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'updated_at' },
   )
+
+  if (rowActions) {
+    columnDefinition.push({
+      id: 'actions', accessorKey: 'id', header: '',
+      cell: (info) => (<DataTableRowAction rowActions={rowActions} data={info.getValue()} />)
+    })
+  }
 
   const { table, globalFilter, setGlobalFilter, pageRef, flexRender } = useGetTable({
     data: data,
