@@ -12,7 +12,7 @@ export default async function deleteProduct(productId) {
     .eq('product_id', productId)
     .then(async ({ data: deleteProductVariantData, error: deleteProductVariantError }) => {
       if (deleteProductVariantError) {
-        return { deleteProductVariantData, deleteProductVariantError }
+        return { data: deleteProductVariantData, error: deleteProductVariantError }
       }
 
       const { data, error } = await supabase
@@ -24,7 +24,7 @@ export default async function deleteProduct(productId) {
     })
     .then(async ({ data: deleteProductData, error: deleteProductError }) => {
       if (deleteProductError) {
-        return { deleteProductData, deleteProductError }
+        return { data: deleteProductData, error: deleteProductError }
       }
 
       const { data, error } = await supabase
@@ -33,7 +33,7 @@ export default async function deleteProduct(productId) {
         .remove([`${productId}/thumbnail.jpeg`])
         .then(async ({ data: deleteProductThumbnailData, error: deleteProductThumbnailError }) => {
           if (deleteProductThumbnailError) {
-            return { deleteProductThumbnailData, deleteProductThumbnailError }
+            return { data: deleteProductThumbnailData, error: deleteProductThumbnailError }
           }
 
           const { data, error } = await supabase
@@ -49,7 +49,7 @@ export default async function deleteProduct(productId) {
         })
         .then(async ({ data: listProductVariantFoldersData, error: listProductVariantFoldersError }) => {
           if (listProductVariantFoldersError) {
-            return { listProductVariantFoldersData, listProductVariantFoldersError }
+            return { data: listProductVariantFoldersData, error: listProductVariantFoldersError }
           }
 
           let response = { data: null, error: null }
@@ -65,7 +65,7 @@ export default async function deleteProduct(productId) {
               })
               .then(async ({ data: listProductVariantImagesData, error: listProductVariantImagesError }) => {
                 if (listProductVariantImagesError) {
-                  return { listProductVariantImagesData, listProductVariantImagesError }
+                  return { data: listProductVariantImagesData, error: listProductVariantImagesError }
                 }
 
                 const productVariantImages = listProductVariantImagesData.map((row) => `${productId}/${productVariantId}/${row.name}`)

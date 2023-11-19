@@ -24,11 +24,11 @@ export default function useUpdateProduct() {
             thumbnail: thumbnail,
             productId: id,
           })
-          
+
           return { data, error }
         }
 
-        return { updateProductData, updateProductError }
+        return { data: updateProductData, error: updateProductError }
       })
 
     setIsLoading(false)

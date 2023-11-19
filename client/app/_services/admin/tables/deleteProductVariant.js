@@ -14,7 +14,7 @@ export default async function deleteProductVariant(productVariantId) {
     .single()
     .then(async ({ data: getProductVariantData, error: getProductVariantError }) => {
       if (getProductVariantError) {
-        return { getProductVariantData, getProductVariantError }
+        return { data: getProductVariantData, error: getProductVariantError }
       }
       
       const { data, error } = await supabase
@@ -27,7 +27,7 @@ export default async function deleteProductVariant(productVariantId) {
         })
         .then(async ({ data: listProductVariantImagesData, error: listProductVariantImagesError }) => {
           if (listProductVariantImagesError) {
-            return { listProductVariantImagesData, listProductVariantImagesError }
+            return { data: listProductVariantImagesData, error: listProductVariantImagesError }
           }
 
           const productVariantImages = listProductVariantImagesData.map((row) => (
@@ -46,7 +46,7 @@ export default async function deleteProductVariant(productVariantId) {
     })
     .then(async ({ data: deleteProductVariantImagesData, error: deleteProductVariantImagesError }) => {
       if (deleteProductVariantImagesError) {
-        return { deleteProductVariantImagesData, deleteProductVariantImagesError }
+        return { data: deleteProductVariantImagesData, error: deleteProductVariantImagesError }
       }
 
       const { data, error } = await supabase

@@ -22,7 +22,7 @@ export default function useAddProductVariant() {
       price: price,
     }).then(async ({ data: addProductVariantData, error: addProductVariantError }) => {
       if (addProductVariantError) {
-        return { addProductVariantData, addProductVariantError }
+        return { data: addProductVariantData, error: addProductVariantError }
       }
 
       const productId = addProductVariantData[0].product_id

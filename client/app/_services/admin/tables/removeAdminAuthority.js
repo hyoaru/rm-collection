@@ -20,7 +20,7 @@ export default async function removeAdminAuthority(userId) {
     .single()
     .then(async ({ data: getUserInfoData, error: getUserInfoError }) => {
       if (getUserInfoError) {
-        return { getUserInfoData, getUserInfoError }
+        return { data: getUserInfoData, error: getUserInfoError }
       }
 
       const currentAdminAuthorityPrecedencePosition = ADMIN_ROLES.findIndex((adminRole) => adminRole === userStateGeneral.role)

@@ -26,7 +26,7 @@ export default function useAddProduct() {
       .select()
       .then(async ({ data: addProductData, error: addProductError }) => {
         if (addProductError) {
-          return { addProductData, addProductError }
+          return { data: addProductData, error: addProductError }
         }
 
         const { data, error } = await addProductVariant({
@@ -41,7 +41,7 @@ export default function useAddProduct() {
       })
       .then(async ({ data: addProductVariantsData, error: addProductVariantsError }) => {
         if (addProductVariantsError) {
-          return { addProductVariantsData, addProductVariantsError }
+          return { data: addProductVariantsData, error: addProductVariantsError }
         }
 
         const productId = addProductVariantsData[0].product_id
@@ -54,7 +54,7 @@ export default function useAddProduct() {
         })
           .then(async ({ data: uploadProductVariantImagesData, error: uploadProductVariantImagesError }) => {
             if (uploadProductVariantImagesError) {
-              return { uploadProductVariantImagesData, uploadProductVariantImagesError }
+              return { data: uploadProductVariantImagesData, error: uploadProductVariantImagesError }
             }
 
             const { data, error } = await uploadProductThumbnail({

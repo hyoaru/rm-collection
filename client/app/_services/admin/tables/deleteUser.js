@@ -12,7 +12,7 @@ export default async function deleteUser(userId) {
     .eq('id', userId)
     .then(async ({ data: deleteUserData, error: deleteUserError }) => {
       if (deleteUserError) {
-        return { deleteUserData, deleteUserError }
+        return { data: deleteUserData, error: deleteUserError }
       }
       
       const { data, error } = await supabase.auth.admin.deleteUser(userId)

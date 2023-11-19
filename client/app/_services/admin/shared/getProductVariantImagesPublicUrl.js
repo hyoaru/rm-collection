@@ -15,7 +15,7 @@ export default async function getProductVariantImagesPublicUrl({ productId, vari
     })
     .then(async ({ data: imagesListData, error: imagesListError }) => {
       if (imagesListError) {
-        return { imagesListData, imagesListError }
+        return { data: imagesListData, error: imagesListError }
       }
 
       imagesListData.forEach((imageFile) => {

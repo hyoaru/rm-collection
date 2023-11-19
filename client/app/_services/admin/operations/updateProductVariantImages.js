@@ -29,7 +29,7 @@ export default async function updateProductVariantImages({ productId, variantId,
     })
     .then(async ({ data: deleteOldImagesData, deleteOldImagesError }) => {
       if (deleteOldImagesError) {
-        return { deleteOldImagesData, deleteOldImagesError }
+        return { data: deleteOldImagesData, error: deleteOldImagesError }
       }
 
       const { data, error } = await uploadProductVariantImages({

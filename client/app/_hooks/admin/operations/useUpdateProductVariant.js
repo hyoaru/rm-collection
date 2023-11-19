@@ -34,7 +34,7 @@ export default function useUpdateProductVariant() {
           return { data, error }
         }
 
-        return { updateProductVariantData, updateProductVariantError }
+        return { data: updateProductVariantData, error: updateProductVariantError }
       })
 
     setIsLoading(false)
