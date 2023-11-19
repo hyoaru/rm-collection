@@ -6,6 +6,8 @@ import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getProductVariantListCsv from '@services/admin/shared/getProductVariantListCsv'
 import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
+import productVariantEnableIsDisplayed from '@services/admin/tables/productVariantEnableIsDisplayed'
+import productVariantDisableIsDisplayed from '@services/admin/tables/productVariantDisableIsDisplayed'
 
 export default async function Page() {
   const productVariantList = await getProductVariantList()
@@ -17,7 +19,9 @@ export default async function Page() {
   ]
 
   const rowActions = [
-    { label: "Delete product variant", onClick: deleteProductVariant, isDestructive: true }
+    { label: "Delete product variant", onClick: deleteProductVariant, isDestructive: true },
+    { label: "Show on collections", onClick: productVariantEnableIsDisplayed, isDestructive: false },
+    { label: "Hide from collections", onClick: productVariantDisableIsDisplayed, isDestructive: false },
   ]
 
   return (
