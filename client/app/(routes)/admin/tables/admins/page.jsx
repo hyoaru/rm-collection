@@ -16,7 +16,7 @@ export default async function page() {
   ]
 
   const rowActions = [
-    { label: "Remove admin authority", onClick: removeAdminAuthority}
+    { label: "Remove admin authority", onClick: removeAdminAuthority, isDestructive: true }
   ]
 
 
