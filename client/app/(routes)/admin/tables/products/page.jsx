@@ -5,6 +5,7 @@ import getProductList from '@services/admin/shared/getProductList'
 import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getProductListCsv from '@services/admin/shared/getProductListCsv'
+import deleteProduct from '@services/admin/tables/deleteProduct'
 
 export default async function Page() {
   const productList = await getProductList()
@@ -12,6 +13,10 @@ export default async function Page() {
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'name' }, { accessorKey: 'category' },
     { accessorKey: 'description' }
+  ]
+
+  const rowActions = [
+    { label: "Delete product", onClick: deleteProduct, isDestructive: true }
   ]
 
   return (
@@ -27,6 +32,7 @@ export default async function Page() {
         columnDefinition={columnDefinition}
         getListCsv={getProductListCsv}
         tableName={'byd-product-list'}
+        rowActions={rowActions}
       />
     </>
   )
