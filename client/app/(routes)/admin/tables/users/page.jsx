@@ -5,6 +5,7 @@ import getUserList from '@services/admin/shared/getUserList'
 import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getUserListCsv from '@services/admin/shared/getUserListCsv'
+import deleteUser from '@services/admin/tables/deleteUser'
 
 export default async function page() {
   const userList = await getUserList()
@@ -12,6 +13,10 @@ export default async function page() {
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'email' }, { accessorKey: 'first_name' },
     { accessorKey: 'last_name' }, { accessorKey: 'role' }
+  ]
+
+  const rowActions = [
+    { label: "Delete user", onClick: deleteUser, isDestructive: true }
   ]
 
   return (
@@ -27,6 +32,7 @@ export default async function page() {
         columnDefinition={columnDefinition}
         getListCsv={getUserListCsv}
         tableName={'byd-user-list'}
+        rowActions={rowActions}
       />
     </>
   )
