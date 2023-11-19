@@ -7,9 +7,12 @@ import FormHeader from '@components/admin/shared/FormHeader'
 import getProductPostingListCsv from '@services/admin/shared/getProductPostingListCsv'
 import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
 import productVariantDisableIsDisplayed from '@services/admin/tables/productVariantDisableIsDisplayed'
+import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
+import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {
   const productPostingList = await getProductPostingList()
+  const {userStateGeneral, userStateAuth} = await getUserStateServer()
 
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'product_id' }, { accessorKey: 'material' },
@@ -18,8 +21,18 @@ export default async function Page() {
   ]
 
   const rowActions = [
-    { label: "Delete product variant", onClick: deleteProductVariant, isDestructive: true },
-    { label: "Hide from collections", onClick: productVariantDisableIsDisplayed, isDestructive: false },
+    { 
+      label: "Delete product variant", 
+      onClick: deleteProductVariant, 
+      isDestructive: true,
+      adminRolesPermitted: ADMIN_ROLES.slice(0,1)
+    },
+    { 
+      label: "Hide from collections", 
+      onClick: productVariantDisableIsDisplayed, 
+      isDestructive: false,
+      adminRolesPermitted: BASE_ADMIN_ROLES
+    },
   ]
 
   return (
@@ -36,6 +49,7 @@ export default async function Page() {
         getListCsv={getProductPostingListCsv}
         tableName={'byd-product-posting-list'}
         rowActions={rowActions}
+        userStateGeneral={userStateGeneral}
       />
     </>
   )

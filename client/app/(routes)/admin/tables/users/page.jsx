@@ -6,9 +6,12 @@ import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getUserListCsv from '@services/admin/shared/getUserListCsv'
 import deleteUser from '@services/admin/tables/deleteUser'
+import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
+import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function page() {
   const userList = await getUserList()
+  const {userStateGeneral, userStateAuth} = await getUserStateServer()
 
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'email' }, { accessorKey: 'first_name' },
@@ -16,7 +19,12 @@ export default async function page() {
   ]
 
   const rowActions = [
-    { label: "Delete user", onClick: deleteUser, isDestructive: true }
+    { 
+      label: "Delete user", 
+      onClick: deleteUser, 
+      isDestructive: true,
+      adminRolesPermitted: ADMIN_ROLES.slice(0,1)
+    }
   ]
 
   return (
@@ -33,6 +41,7 @@ export default async function page() {
         getListCsv={getUserListCsv}
         tableName={'byd-user-list'}
         rowActions={rowActions}
+        userStateGeneral={userStateGeneral}
       />
     </>
   )

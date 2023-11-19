@@ -6,9 +6,12 @@ import DataTable from '@components/admin/tables/shared/DataTable'
 import FormHeader from '@components/admin/shared/FormHeader'
 import getAdminListCsv from '@services/admin/shared/getAdminListCsv'
 import removeAdminAuthority from '@services/admin/tables/removeAdminAuthority'
+import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
+import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function page() {
   const adminList = await getAdminList()
+  const {userStateGeneral, userStateAuth} = await getUserStateServer()
 
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'email' }, { accessorKey: 'first_name' },
@@ -16,7 +19,12 @@ export default async function page() {
   ]
 
   const rowActions = [
-    { label: "Remove admin authority", onClick: removeAdminAuthority, isDestructive: true }
+    {
+      label: "Remove admin authority",
+      onClick: removeAdminAuthority,
+      isDestructive: true,
+      adminRolesPermitted: ADMIN_ROLES.slice(0, 1)
+    }
   ]
 
 
@@ -34,6 +42,7 @@ export default async function page() {
         getListCsv={getAdminListCsv}
         tableName={'byd-admin-list'}
         rowActions={rowActions}
+        userStateGeneral={userStateGeneral}
       />
     </>
   )

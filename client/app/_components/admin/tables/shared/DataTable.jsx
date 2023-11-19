@@ -17,7 +17,7 @@ import revalidateAllData from '@services/shared/revalidateAllData'
 import DataTableRowAction from '@components/admin/tables/shared/DataTableRowAction'
 
 export default function DataTable(props) {
-  const { data, columnDefinition, tableName, getListCsv, rowActions } = props
+  const { data, columnDefinition, tableName, getListCsv, rowActions, userStateGeneral } = props
   const { toast } = useToast()
 
   columnDefinition.push(
@@ -28,7 +28,12 @@ export default function DataTable(props) {
   if (rowActions) {
     columnDefinition.push({
       id: 'actions', accessorKey: 'id', header: '',
-      cell: (info) => (<DataTableRowAction rowActions={rowActions} data={info.getValue()} />)
+      cell: (info) => (
+        <DataTableRowAction
+          rowActions={rowActions}
+          data={info.getValue()}
+          userStateGeneral={userStateGeneral}
+        />)
     })
   }
 
