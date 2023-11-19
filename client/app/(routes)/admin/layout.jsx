@@ -6,6 +6,7 @@ import { Button } from '@components/ui/button'
 import AdminSideNavCollapsed from '@components/admin/AdminSideNavCollapsed'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin'
+import AdminSideNavSection from '@components/admin/shared/AdminSideNavSection'
 
 export default async function Layout({ children }) {
   const { userStateGeneral, userStateAuth } = await getUserStateServer()
@@ -29,32 +30,16 @@ export default async function Layout({ children }) {
           {/* Admin side nav expanded */}
           <div id='AdminSideNavExpanded' className="hidden col-span-12 sm:block sm:col-span-4 lg:col-span-3">
             <div className="flex flex-col gap-0 sm:gap-8 sticky top-20">
-              <div className="border border-x-0 py-5 px-2 lg:px-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
-                <small className="text-center uppercase text-xs mb-1 text-muted-foreground hidden sm:block">Operations</small>
-                {navigationOperations.map((navigationOperation, index) => {
-                  const isPermitted = navigationOperation.adminRolesPermitted.includes(userStateGeneral?.role)
-                  if (isPermitted) {
-                    return (
-                      <Button key={`SideNavExpandedNavigationOperation-${index}`} size={'sm'} variant={'secondary'}>
-                        <Link className='w-full' href={navigationOperation.pathName}>{navigationOperation.name}</Link>
-                      </Button>
-                    )
-                  }
-                })}
-              </div>
-              <div className="border border-x-0 py-5 px-2 lg:px-5 pb-8 flex flex-row overflow-x-auto rounded-lg gap-2 sm:flex-col">
-                <small className="text-center text-muted-foreground uppercase text-xs mb-1 hidden sm:block">Tables</small>
-                {navigationTables.map((navigationTable, index) => {
-                  const isPermitted = navigationTable.adminRolesPermitted.includes(userStateGeneral?.role)
-                  if (isPermitted) {
-                    return (
-                      <Button size={'sm'} variant={'secondary'} key={`SideNavExpandedNavigationTable-${index}`}>
-                        <Link className='w-full' href={navigationTable.pathName}>{navigationTable.name}</Link>
-                      </Button>
-                    )
-                  }
-                })}
-              </div>
+              <AdminSideNavSection
+                sectionTitle={'operations'}
+                navigations={navigationOperations}
+                userStateGeneral={userStateGeneral}
+              />
+              <AdminSideNavSection
+                sectionTitle={'tables'}
+                navigations={navigationTables}
+                userStateGeneral={userStateGeneral}
+              />
             </div>
           </div>
 
