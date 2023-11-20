@@ -4,6 +4,7 @@ import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import Link from 'next/link'
+import { nanoid } from 'nanoid'
 
 // App imports
 import { Button } from '@components/ui/button'
@@ -13,10 +14,12 @@ import { ACCOUNT_UPDATE_INFORMATION_FORM as formSchema } from '@constants/accoun
 import useUpdateUserInformation from '@hooks/account/useUpdateUserInformation'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
+import useSendPasswordResetRequest from '@hooks/account/useSendPasswordResetRequest'
 
 export default function AccountUpdateInformationForm(props) {
   const { userStateGeneral } = props
   const { updateUserInformation, isLoading } = useUpdateUserInformation()
+  const { sendPasswordResetRequest, isLoading: sendPasswordResetRequestIsLoading } = useSendPasswordResetRequest()
   const { toast } = useToast()
 
   const form = useForm({
@@ -26,8 +29,27 @@ export default function AccountUpdateInformationForm(props) {
       email: userStateGeneral.email,
       firstName: userStateGeneral.first_name,
       lastName: userStateGeneral.last_name,
+      password: nanoid(),
     }
   })
+
+  async function onResetPassword() {
+    await sendPasswordResetRequest({ email: userStateGeneral.email })
+      .then(async ({ data, error }) => {
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "An error has occured.",
+            description: "Please try again later."
+          })
+        } else {
+          toast({
+            title: "Password reset request has been sent to your email.",
+            description: "Please check your email inbox."
+          })
+        }
+      })
+  }
 
   async function onSubmit(data) {
     await updateUserInformation({
@@ -109,6 +131,28 @@ export default function AccountUpdateInformationForm(props) {
                   <FormControl>
                     <Input placeholder="your-last-name" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className={'col-span-12'}>
+                  <FormLabel className={'text-muted-foreground'}>Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder="your-very-secure-password" {...field} type={'password'} disabled />
+                  </FormControl>
+                  <FormDescription className={'flex justify-end'}>
+                    <small
+                      className='text-muted-foreground cursor-pointer ease-on-out duration-500 hover:text-destructive'
+                      onClick={onResetPassword}
+                    >
+                      Reset password
+                    </small>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

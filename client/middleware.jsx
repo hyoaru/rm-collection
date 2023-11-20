@@ -19,6 +19,23 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
+  if (req.nextUrl.pathname.includes('/account')) {
+    if (!userStateAuth) {
+      return NextResponse.redirect(new URL('/auth/sign-in', req.url))
+    }
+
+    if (req.nextUrl.pathname === '/account/change-password') {
+      if (req.nextUrl.searchParams.get('code')) {
+        supabase.auth.onAuthStateChange(async (event, session) => {
+          if (event === "PASSWORD_RECOVERY") {
+            return res
+          }
+        })
+      } else {
+        return NextResponse.redirect(new URL('/account', req.url))
+      }
+    }
+  }
 
   if (req.nextUrl.pathname.includes('/admin')) {
     if (!userStateAuth) {
@@ -30,7 +47,7 @@ export async function middleware(req) {
     }
 
     const adminNavigations = [...Array.from(Object.values(NAVIGATION_OPERATIONS)), ...Array.from(Object.values(NAVIGATION_TABLES))]
-    const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === req.nextUrl.pathname)[0] 
+    const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === req.nextUrl.pathname)[0]
     const isPermitted = matchedAdminNavigation?.adminRolesPermitted.includes(userStateGeneral?.role)
 
     if (matchedAdminNavigation && !isPermitted) {
