@@ -16,30 +16,13 @@ import { useState } from "react"
 import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
-import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin/forms"
+import { PRODUCT_CATEGORIES as productCategories, ADD_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 
 export default function AddProductForm() {
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const [imagesSrc, setImagesSrc] = useState()
   const { addProduct, isLoading } = useAddProduct()
   const { toast } = useToast()
-
-  const formSchema = z.object({
-    name: z.string().trim().min(4).max(70),
-    category: z.string().refine((value) => value?.length !== 0, `Category is required`),
-    description: z.string().trim().min(10).max(800),
-    quantity: z.coerce.number(),
-    price: z.coerce.number(),
-    material: z.string().trim().min(4).max(50),
-    materialProperty: z.string().trim().min(2).max(50),
-    thumbnail: z.any()
-      .refine((files) => files?.length !== 0, `Thumbnail is required`)
-      .refine((files) => files[0]?.size <= MAX_FILE_SIZE_IN_MB, `Max image size is 5MB.`),
-    images: z.any()
-      .refine((files) => Array.from(files)?.length !== 0, `Images is required`)
-      .refine((files) => Array.from(files)?.length <= 4, `You can only select up to 4 images`)
-      .refine((files) => Array.from(files)?.every((file) => file?.size <= MAX_FILE_SIZE_IN_MB), `Max image size is 5MB`),
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),

@@ -10,19 +10,13 @@ import { Button } from "@components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Input } from "@components/ui/input"
-import { Label } from "@components/ui/label"
 import { Textarea } from "@components/ui/textarea"
-import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
-import { useEffect, useState } from "react"
-import useAddProduct from "@hooks/admin/operations/useAddProduct"
+import { useState } from "react"
 import { useToast } from "@components/ui/use-toast"
 import useUpdateProduct from "@hooks/admin/operations/useUpdateProduct"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import getProductThumbnailPublicUrl from "@services/admin/shared/getProductThumbnailPublicUrl"
-import { cn } from "@lib/utils"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
-import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin/forms"
+import { PRODUCT_CATEGORIES as productCategories, EDIT_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 
 export default function EditProductForm(props) {
@@ -33,17 +27,6 @@ export default function EditProductForm(props) {
   const [thumbnailSrc, setThumbnailSrc] = useState()
   const { updateProduct, isLoading } = useUpdateProduct()
   const { toast } = useToast()
-
-  const formSchema = z.object({
-    name: z.string().trim().min(4).max(70),
-    category: z.string().refine((value) => value?.length !== 0, `Category is required`),
-    description: z.string().trim().min(10).max(800),
-    thumbnail: z.any()
-      .refine((files) => {
-        if (files.length === 0) { return true }
-        return files[0]?.size <= MAX_FILE_SIZE_IN_MB
-      }, `Max image size is 5MB.`),
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),

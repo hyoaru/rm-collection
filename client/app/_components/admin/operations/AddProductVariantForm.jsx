@@ -20,7 +20,7 @@ import { cn } from "@lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant"
-import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin/forms"
+import { PRODUCT_CATEGORIES as productCategories, ADD_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 
 export default function AddProductVariantForm(props) {
@@ -32,28 +32,14 @@ export default function AddProductVariantForm(props) {
   const { addProductVariant, isLoading } = useAddProductVariant()
   const { toast } = useToast()
 
-  const formSchema = z.object({
-    name: z.string().trim().min(4).max(70),
-    category: z.string().refine((value) => value?.length !== 0, `Category is required`),
-    description: z.string().trim().min(10).max(800),
-    quantity: z.coerce.number(),
-    price: z.coerce.number(),
-    material: z.string().trim().min(4).max(50),
-    materialProperty: z.string().trim().min(2).max(50),
-    images: z.any()
-      .refine((files) => Array.from(files)?.length !== 0, `Images is required`)
-      .refine((files) => Array.from(files)?.length <= 4, `You can only select up to 4 images`)
-      .refine((files) => Array.from(files)?.every((file) => file?.size <= MAX_FILE_SIZE_IN_MB), `Max image size is 5MB`),
-  })
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       category: "",
       description: '',
-      quantity: '',
-      price: '',
+      quantity: 0,
+      price: 0,
       material: '',
       materialProperty: '',
       images: ''
@@ -69,6 +55,8 @@ export default function AddProductVariantForm(props) {
       name: '',
       category: '',
       description: '',
+      price: 0,
+      quantity: 0,
     })
 
   }
@@ -109,7 +97,9 @@ export default function AddProductVariantForm(props) {
       form.reset({
         name: product.name,
         category: product.category,
-        description: product.description
+        description: product.description,
+        price: 0,
+        quantity: 0
       })
     } else {
       emptyFormFields()

@@ -16,7 +16,7 @@ import { Textarea } from "@components/ui/textarea"
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
-import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin/forms"
+import { PRODUCT_CATEGORIES as productCategories, EDIT_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 import ProductVariantListCombobox from "@components/admin/operations/shared/ProductVariantListCombobox"
 import getProductVariantImagesPublicUrl from "@services/admin/shared/getProductVariantImagesPublicUrl"
@@ -35,25 +35,6 @@ export default function EditProductVariantForm(props) {
   const [imagesSrc, setImagesSrc] = useState()
   const { updateProductVariant, isLoading } = useUpdateProductVariant()
   const { toast } = useToast()
-
-  const formSchema = z.object({
-    name: z.string().trim().min(4).max(70),
-    category: z.string().refine((value) => value?.length !== 0, `Category is required`),
-    description: z.string().trim().min(10).max(800),
-    quantity: z.coerce.number(),
-    price: z.coerce.number(),
-    material: z.string().trim().min(4).max(50),
-    materialProperty: z.string().trim().min(2).max(50),
-    images: z.any()
-      .refine((files) => {
-        if (files.length === 0) { return true }
-        return Array.from(files)?.length <= 4
-      }, `You can only select up to 4 images`)
-      .refine((files) => {
-        if (files.length === 0) { return true }
-        return files[0]?.size <= MAX_FILE_SIZE_IN_MB
-      }, `Max image size is 5MB.`),
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),

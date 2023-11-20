@@ -13,6 +13,7 @@ import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import UserListCombobox from "@components/admin/operations/shared/UserListCombobox"
 import useAddSubAdmin from "@hooks/admin/operations/useAddSubAdmin"
+import { ADD_SUB_ADMIN_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 
 export default function AddSubAdminForm(props) {
   const { userList } = props
@@ -23,14 +24,6 @@ export default function AddSubAdminForm(props) {
 
   const { addSubAdmin, isLoading } = useAddSubAdmin()
   const { toast } = useToast()
-
-  const formSchema = z.object({
-    id: z.string(),
-    email: z.string().email(),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    role: z.string(),
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),
