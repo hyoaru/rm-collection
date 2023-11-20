@@ -17,7 +17,7 @@ import useAddProduct from "@hooks/admin/operations/useAddProduct"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
-import FormHeader from "@components/admin/shared/FormHeader"
+import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader"
 
 export default function AddProductForm() {
   const [thumbnailSrc, setThumbnailSrc] = useState()
@@ -107,7 +107,7 @@ export default function AddProductForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <FormHeader
+            <AdminSectionHeader
               category={'Operation'} 
               title={'Add new product'}
               description={'Provide details about the product and other pertinent information.'}

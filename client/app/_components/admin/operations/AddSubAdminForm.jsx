@@ -13,7 +13,7 @@ import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
 import UserListCombobox from "@components/admin/operations/shared/UserListCombobox"
 import useAddSubAdmin from "@hooks/admin/operations/useAddSubAdmin"
-import FormHeader from "@components/admin/shared/FormHeader"
+import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader"
 
 
 export default function AddSubAdminForm(props) {
@@ -99,7 +99,7 @@ export default function AddSubAdminForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <FormHeader
+            <AdminSectionHeader
               category={'Operation'}
               title={'Add sub admin'}
               description={'Check details about the user and other pertinent information.'}

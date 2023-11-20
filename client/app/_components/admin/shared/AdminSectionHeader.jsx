@@ -1,7 +1,7 @@
 import React from 'react'
 import { Badge } from '@components/ui/badge'
 
-export default function FormHeader(props) {
+export default function AdminSectionHeader(props) {
   const { category, title, description } = props
   return (
     <div className="grid grid-rows-1 gap-y-3 mb-8 justify-center text-center ">

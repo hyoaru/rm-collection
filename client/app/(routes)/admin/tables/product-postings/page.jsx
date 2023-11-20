@@ -3,7 +3,7 @@ import React from 'react'
 // App imports
 import getProductPostingList from '@services/admin/shared/getProductPostingList'
 import DataTable from '@components/admin/tables/shared/DataTable'
-import FormHeader from '@components/admin/shared/FormHeader'
+import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import getProductPostingListCsv from '@services/admin/shared/getProductPostingListCsv'
 import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
 import productVariantDisableIsDisplayed from '@services/admin/tables/productVariantDisableIsDisplayed'
@@ -37,7 +37,7 @@ export default async function Page() {
 
   return (
     <>
-      <FormHeader
+      <AdminSectionHeader
         category={'Table'}
         title={'Product posting list table'}
         description={'Comprehensive overview of product posting list and other relevant information.'}

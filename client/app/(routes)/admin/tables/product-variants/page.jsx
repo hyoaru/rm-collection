@@ -3,7 +3,7 @@ import React from 'react'
 // App imports
 import getProductVariantList from '@services/admin/shared/getProductVariantList'
 import DataTable from '@components/admin/tables/shared/DataTable'
-import FormHeader from '@components/admin/shared/FormHeader'
+import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import getProductVariantListCsv from '@services/admin/shared/getProductVariantListCsv'
 import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
 import productVariantEnableIsDisplayed from '@services/admin/tables/productVariantEnableIsDisplayed'
@@ -44,7 +44,7 @@ export default async function Page() {
 
   return (
     <>
-      <FormHeader
+      <AdminSectionHeader
         category={'Table'}
         title={'Product variant list table'}
         description={'Comprehensive overview of product variant list and other relevant information.'}

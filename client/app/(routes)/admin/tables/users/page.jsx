@@ -3,7 +3,7 @@ import React from 'react'
 // App imports
 import getUserList from '@services/admin/shared/getUserList'
 import DataTable from '@components/admin/tables/shared/DataTable'
-import FormHeader from '@components/admin/shared/FormHeader'
+import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import getUserListCsv from '@services/admin/shared/getUserListCsv'
 import deleteUser from '@services/admin/tables/deleteUser'
 import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
@@ -29,7 +29,7 @@ export default async function page() {
 
   return (
     <>
-      <FormHeader
+      <AdminSectionHeader
         category={'Table'}
         title={'User list table'}
         description={'Comprehensive overview of user list and other relevant information.'}
