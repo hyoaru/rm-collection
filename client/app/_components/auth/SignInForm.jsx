@@ -14,15 +14,11 @@ import { Input } from "@components/ui/input"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { useUserSignIn } from '@hooks/authentication/useUserSignIn';
 import { useToast } from '@components/ui/use-toast';
+import { SIGN_IN_FORM_SCHEMA as formSchema } from '@constants/auth/forms';
 
 export default function SignInForm() {
   const { userSignIn, isLoading } = useUserSignIn()
   const { toast } = useToast()
-
-  const formSchema = z.object({
-    email: z.string().trim().toLowerCase().email().min(8),
-    password: z.string().trim().min(2).max(40),
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),

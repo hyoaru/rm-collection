@@ -13,28 +13,11 @@ import { Input } from "@components/ui/input"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { useUserSignUp } from '@hooks/authentication/useUserSignUp';
 import { useToast } from '@components/ui/use-toast';
-
+import { SIGN_UP_FORM_SCHEMA as formSchema } from '@constants/auth/forms';
 
 export default function SignUpForm() {
   const { toast } = useToast()
   const { userSignUp, isLoading } = useUserSignUp()
-
-  const formSchema = z.object({
-    email: z.string().trim().toLowerCase().email().min(8),
-    password: z.string().trim().min(8).max(40),
-    confirmPassword: z.string().trim().min(8).max(40),
-    firstName: z.string().trim().min(2).max(100),
-    lastName: z.string().trim().min(2).max(100),
-
-  }).superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ['confirmPassword']
-      })
-    }
-  })
 
   const form = useForm({
     resolver: zodResolver(formSchema),
