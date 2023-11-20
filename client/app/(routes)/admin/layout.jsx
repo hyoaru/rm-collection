@@ -3,10 +3,10 @@ import Link from 'next/link'
 
 // App imports
 import { Button } from '@components/ui/button'
-import AdminSideNavCollapsed from '@components/admin/AdminSideNavCollapsed'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin'
 import AdminSideNavSection from '@components/admin/shared/AdminSideNavSection'
+import SelectNavigation from '@components/shared/SelectNavigation'
 
 export default async function Layout({ children }) {
   const { userStateGeneral, userStateAuth } = await getUserStateServer()
@@ -21,10 +21,16 @@ export default async function Layout({ children }) {
 
           {/* Admin side nav collapsed */}
           <div id="AdminSideNavCollapsed" className='col-span-12 block sm:hidden'>
-            <AdminSideNavCollapsed
-              navigationOperations={navigationOperations}
-              navigationTables={navigationTables}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <SelectNavigation
+                navigations={navigationOperations}
+                label={'operations'}
+              />
+              <SelectNavigation
+                navigations={navigationTables}
+                label={'tables'}
+              />
+            </div>
           </div>
 
           {/* Admin side nav expanded */}
