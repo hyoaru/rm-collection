@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Button } from '@components/ui/button'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin'
-import AdminSideNavSection from '@components/admin/shared/AdminSideNavSection'
+import AdminSideNavSectionNavigationGroup from '@components/admin/shared/AdminSideNavSectionNavigationGroup'
 import SelectNavigation from '@components/shared/SelectNavigation'
 
 export default async function Layout({ children }) {
@@ -36,12 +36,12 @@ export default async function Layout({ children }) {
           {/* Admin side nav expanded */}
           <div id='AdminSideNavExpanded' className="hidden col-span-12 sm:block sm:col-span-4 lg:col-span-3">
             <div className="flex flex-col gap-0 sm:gap-8 sticky top-20">
-              <AdminSideNavSection
+              <AdminSideNavSectionNavigationGroup
                 sectionTitle={'operations'}
                 navigations={navigationOperations}
                 userStateGeneral={userStateGeneral}
               />
-              <AdminSideNavSection
+              <AdminSideNavSectionNavigationGroup
                 sectionTitle={'tables'}
                 navigations={navigationTables}
                 userStateGeneral={userStateGeneral}

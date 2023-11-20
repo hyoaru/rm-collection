@@ -4,7 +4,7 @@ import Link from 'next/link'
 // App imports
 import { Button } from '@components/ui/button'
 
-export default function AdminSideNavSection(props) {
+export default function AdminSideNavSectionGroup(props) {
   const {sectionTitle, navigations, userStateGeneral} = props
   return (
     <>
