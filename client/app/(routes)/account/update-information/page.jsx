@@ -1,6 +1,6 @@
 import React from 'react'
 import AccountSectionHeader from '@components/account/shared/AccountSectionHeader'
-import AccountInformationForm from '@components/account/AccountInformationForm'
+import AccountUpdateInformationForm from '@components/account/AccountUpdateInformationForm'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {
@@ -8,11 +8,11 @@ export default async function Page() {
   return (
     <>
       <AccountSectionHeader
-        title={'Account information'}
-        description={'Overview information of your account and other relevant settings.'}
+        title={'Account update information'}
+        description={'Update information of your account and other relevant settings.'}
       />
 
-      <AccountInformationForm userStateGeneral={userStateGeneral} />
+      <AccountUpdateInformationForm userStateGeneral={userStateGeneral} />
     </>
   )
 }
