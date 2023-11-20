@@ -1,20 +1,11 @@
 import React from 'react'
-import Link from 'next/link'
 
 // App imports
-import { Button } from '@components/ui/button'
 import AccountSideNavSectionNavigationGroup from '@components/account/shared/AccountSideNavSectionNavigationGroup'
 import SelectNavigation from '@components/shared/SelectNavigation'
+import { NAVIGATIONS as navigations } from '@constants/account/base'
 
 export default function Layout({ children }) {
-  const ACCOUNT_BASE_PATH = '/account'
-  const navigations = [
-    { name: 'Account information', pathName: ACCOUNT_BASE_PATH },
-    { name: 'Update information', pathName: `${ACCOUNT_BASE_PATH}/update-info` },
-    { name: 'Change password', pathName: `${ACCOUNT_BASE_PATH}/change-password` },
-    { name: 'Change email', pathName: `${ACCOUNT_BASE_PATH}/change-email` },
-  ]
-
   return (
     <>
       <div className="md:container mx-auto px-4 mt-4 mb-8">
