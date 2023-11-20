@@ -21,7 +21,6 @@ import ProductListCombobox from "@components/admin/operations/shared/ProductList
 import ProductVariantListCombobox from "@components/admin/operations/shared/ProductVariantListCombobox"
 import getProductVariantImagesPublicUrl from "@services/admin/shared/getProductVariantImagesPublicUrl"
 import useUpdateProductVariant from "@hooks/admin/operations/useUpdateProductVariant"
-import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader"
 
 export default function EditProductVariantForm(props) {
   const { productList, productVariantList } = props
@@ -162,11 +161,6 @@ export default function EditProductVariantForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <AdminSectionHeader
-              category={'Operation'}
-              title={'Edit product variant'}
-              description={'Check details about the product and other pertinent information.'}
-            />
 
             <div className="space-y-6">
               <div className="grid grid-cols-4 gap-4 gap-y-2">

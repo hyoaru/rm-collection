@@ -22,7 +22,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
-import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader"
 
 export default function AddProductVariantForm(props) {
   const { productList } = props
@@ -126,11 +125,6 @@ export default function AddProductVariantForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <AdminSectionHeader
-              category={'Operation'}
-              title={'Add product variant'}
-              description={'Provide details about the product and other pertinent information.'}
-            />
 
             <div className="">
               <div className="grid grid-cols-4 mb-4">

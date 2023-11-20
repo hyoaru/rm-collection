@@ -24,7 +24,6 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
-import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader"
 
 export default function EditProductForm(props) {
   const { productList } = props
@@ -124,11 +123,6 @@ export default function EditProductForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="">
-            <AdminSectionHeader
-              category={'Operation'}
-              title={'Edit product'}
-              description={'Check details about the product and other pertinent information.'}
-            />
 
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 lg:col-span-4 xl:col-span-3 space-y-2">
