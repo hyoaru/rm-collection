@@ -8,7 +8,7 @@ import getProductVariantListCsv from '@services/admin/shared/getProductVariantLi
 import deleteProductVariant from '@services/admin/tables/deleteProductVariant'
 import productVariantEnableIsDisplayed from '@services/admin/tables/productVariantEnableIsDisplayed'
 import productVariantDisableIsDisplayed from '@services/admin/tables/productVariantDisableIsDisplayed'
-import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
+import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin/base'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {

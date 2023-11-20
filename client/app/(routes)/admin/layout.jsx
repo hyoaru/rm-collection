@@ -4,7 +4,7 @@ import Link from 'next/link'
 // App imports
 import { Button } from '@components/ui/button'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
-import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin'
+import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 import AdminSideNavSectionNavigationGroup from '@components/admin/shared/AdminSideNavSectionNavigationGroup'
 import SelectNavigation from '@components/shared/SelectNavigation'
 

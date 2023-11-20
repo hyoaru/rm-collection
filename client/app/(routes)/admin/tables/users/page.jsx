@@ -6,7 +6,7 @@ import DataTable from '@components/admin/tables/shared/DataTable'
 import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import getUserListCsv from '@services/admin/shared/getUserListCsv'
 import deleteUser from '@services/admin/tables/deleteUser'
-import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin'
+import { ADMIN_ROLES, BASE_ADMIN_ROLES } from '@constants/admin/base'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function page() {

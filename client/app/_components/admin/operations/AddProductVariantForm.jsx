@@ -20,7 +20,7 @@ import { cn } from "@lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant"
-import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin"
+import { PRODUCT_CATEGORIES as productCategories, MAX_FILE_SIZE_IN_MB } from "@constants/admin/base"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 
 export default function AddProductVariantForm(props) {

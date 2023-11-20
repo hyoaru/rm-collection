@@ -1,7 +1,7 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin'
+import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 
 export async function middleware(req) {
   const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up']

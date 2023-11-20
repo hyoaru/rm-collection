@@ -1,7 +1,7 @@
 "use server"
 
 import { getServerClient } from "@services/supabase/getServerClient"
-import { ADMIN_ROLES } from "@constants/admin"
+import { ADMIN_ROLES } from "@constants/admin/base"
 
 export default async function removeAdminAuthority(userId) {
   const supabase = getServerClient()
