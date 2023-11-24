@@ -11,9 +11,8 @@ export default function useResetPassword() {
     const { newPassword } = props
     setIsLoading(true)
 
-    const { data, error } = await supabase.auth.updateUser({
-      password: newPassword
-    })
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword })
+    window.location.reload()
 
     setIsLoading(false)
     return { data, error }

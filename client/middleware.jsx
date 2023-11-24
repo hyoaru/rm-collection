@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 
 export async function middleware(req) {
-  const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up']
+  const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password']
+  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/account/change-password']
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
 
@@ -15,26 +16,33 @@ export async function middleware(req) {
     .eq('id', userStateAuth?.id)
     .single()
 
+
   if (AUTH_ROUTES.includes(req.nextUrl.pathname) && userStateAuth) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
   if (req.nextUrl.pathname.includes('/account')) {
-    if (!userStateAuth) {
+    if (!userStateAuth && !ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/auth/sign-in', req.url))
     }
 
+    if (!ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(req.nextUrl.pathname)) {
+      return res
+    }
+
     if (req.nextUrl.pathname === '/account/change-password') {
-      if (req.nextUrl.searchParams.get('code')) {
-        supabase.auth.onAuthStateChange(async (event, session) => {
-          if (event === "PASSWORD_RECOVERY") {
-            return res
-          }
-        })
-      } else {
+      await supabase.auth.signOut()
+      const code = req.nextUrl.searchParams.get('code')
+
+      try {
+        await supabase.auth.exchangeCodeForSession(code)
+      } catch (error) {
         return NextResponse.redirect(new URL('/account', req.url))
       }
+
+      return res
     }
+
   }
 
   if (req.nextUrl.pathname.includes('/admin')) {

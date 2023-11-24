@@ -24,3 +24,7 @@ export const SIGN_IN_FORM_SCHEMA = z.object({
   email: USERS_BASE_FORM_SCHEMA.email,
   password: USERS_BASE_FORM_SCHEMA.password,
 })
+
+export const FORGOT_PASSWORD_FORM_SCHEMA = z.object({
+  email: USERS_BASE_FORM_SCHEMA.email,
+})
