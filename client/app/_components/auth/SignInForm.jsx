@@ -94,6 +94,8 @@ export default function SignInForm() {
               <Link href={'/terms-of-service'} className='underline underline-offset-2'>Terms of service</Link>
               {' and '}
               <Link href={'/privacy-policy'} className='underline underline-offset-2'>Privacy policy</Link>
+              {'  ・  '}
+              <Link href={'/auth/forgot-password'} className='underline underline-offset-2 text-destructive opacity-50'>Forgot password?</Link>
             </small>
           </div>
 
