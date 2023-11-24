@@ -1,6 +1,6 @@
 import React from 'react'
 import AccountSectionHeader from '@components/account/shared/AccountSectionHeader'
-import AccountChangePasswordForm from '@components/account/AccountChangePasswordForm'
+import AccountUpdatePasswordForm from '@components/account/AccountUpdatePasswordForm'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {
@@ -8,11 +8,11 @@ export default async function Page() {
   return (
     <>
       <AccountSectionHeader
-        title={'Change password'}
-        description={'Change the password of your account.'}
+        title={'Update password'}
+        description={'Update the password of your account.'}
       />
 
-      <AccountChangePasswordForm userStateGeneral={userStateGeneral} />
+      <AccountUpdatePasswordForm userStateGeneral={userStateGeneral} />
     </>
   )
 }

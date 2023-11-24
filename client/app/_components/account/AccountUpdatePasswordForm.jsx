@@ -15,7 +15,7 @@ import { CHANGE_PASSWORD_FORM as formSchema } from '@constants/account/forms'
 import useResetPassword from '@hooks/account/useResetPassword'
 import { useRouter } from 'next/navigation'
 
-export default function AccountChangePasswordForm(props) {
+export default function AccountUpdatePasswordForm(props) {
   const { toast } = useToast()
   const { resetPassword, isLoading } = useResetPassword()
   const router = useRouter()

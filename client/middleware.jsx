@@ -5,7 +5,7 @@ import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 
 export async function middleware(req) {
   const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password']
-  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/account/change-password']
+  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/account/update-password']
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
 
@@ -30,7 +30,7 @@ export async function middleware(req) {
       return res
     }
 
-    if (req.nextUrl.pathname === '/account/change-password') {
+    if (req.nextUrl.pathname === '/account/update-password') {
       await supabase.auth.signOut()
       const code = req.nextUrl.searchParams.get('code')
 
