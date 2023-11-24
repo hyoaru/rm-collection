@@ -18,7 +18,7 @@ export const ACCOUNT_UPDATE_INFORMATION_FORM = z.object({
   password: z.string().optional()
 })
 
-export const CHANGE_PASSWORD_FORM = z.object({
+export const UPDATE_PASSWORD_FORM = z.object({
   password: USERS_BASE_FORM_SCHEMA.password,
   confirmPassword: USERS_BASE_FORM_SCHEMA.confirmPassword
 }).superRefine(({ confirmPassword, password }, ctx) => {

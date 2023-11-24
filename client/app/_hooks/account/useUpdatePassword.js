@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
 
-export default function useResetPassword() {
+export default function useUpdatePasword() {
   const supabase = getBrowserClient()
   const [isLoading, setIsLoading] = useState(false)
 
-  async function resetPassword(props) {
+  async function updatePasword(props) {
     const { newPassword } = props
     setIsLoading(true)
 
@@ -18,5 +18,5 @@ export default function useResetPassword() {
     return { data, error }
   }
 
-  return { resetPassword, isLoading }
+  return { updatePasword, isLoading }
 }
