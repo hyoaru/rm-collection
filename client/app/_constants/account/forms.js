@@ -30,3 +30,8 @@ export const CHANGE_PASSWORD_FORM = z.object({
     })
   }
 })
+
+export const UPDATE_EMAIL_FORM = z.object({
+  oldEmail: USERS_BASE_FORM_SCHEMA.email,
+  newEmail: USERS_BASE_FORM_SCHEMA.email
+})
