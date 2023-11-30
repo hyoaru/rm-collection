@@ -15,7 +15,7 @@ export default function ProductCard(props) {
 
   return (
     <>
-      <div>
+      <div className=''>
         <Image
           alt=''
           width={size.width}
@@ -23,9 +23,9 @@ export default function ProductCard(props) {
           className={`rounded-tl-xl rounded-br-xl`}
           src={productThumbnailPublicUrl}
         />
-        <div className="py-2 flex">
-          <span className="text-md me-auto">{productName}</span>
-          <span className="text-md">{lowestProductVariantPrice.toLocaleString()}</span>
+        <div className="p-3 flex flex-wrap text-xs md:text-sm">
+          <span className="me-auto">{productName}</span>
+          <span className="">{`₱ ${lowestProductVariantPrice.toLocaleString()}`}</span>
         </div>
       </div>
     </>
