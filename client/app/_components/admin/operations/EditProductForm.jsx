@@ -15,7 +15,7 @@ import { useState } from "react"
 import { useToast } from "@components/ui/use-toast"
 import useUpdateProduct from "@hooks/admin/operations/useUpdateProduct"
 import revalidateAllData from "@services/shared/revalidateAllData"
-import getProductThumbnailPublicUrl from "@services/admin/shared/getProductThumbnailPublicUrl"
+import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl"
 import { PRODUCT_CATEGORIES as productCategories, EDIT_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 

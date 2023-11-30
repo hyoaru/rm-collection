@@ -19,7 +19,7 @@ import revalidateAllData from "@services/shared/revalidateAllData"
 import { PRODUCT_CATEGORIES as productCategories, EDIT_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
 import ProductVariantListCombobox from "@components/admin/operations/shared/ProductVariantListCombobox"
-import getProductVariantImagesPublicUrl from "@services/admin/shared/getProductVariantImagesPublicUrl"
+import getProductVariantImagesPublicUrl from "@services/shared/getProductVariantImagesPublicUrl"
 import useUpdateProductVariant from "@hooks/admin/operations/useUpdateProductVariant"
 
 export default function EditProductVariantForm(props) {
