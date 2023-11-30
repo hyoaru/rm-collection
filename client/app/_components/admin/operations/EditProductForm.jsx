@@ -91,14 +91,15 @@ export default function EditProductForm(props) {
           description: "Changes will take effect shortly."
         })
 
-        await revalidateAllData()
         emptyFormFields()
       }
     })
+    
+    await revalidateAllData()
   }
 
   function onThumbnailChange(imageFile) {
-    setThumbnailSrc(URL.createObjectURL(imageFile))
+    setThumbnailSrc(imageFile ? URL.createObjectURL(imageFile) : null)
   }
 
   return (
@@ -136,6 +137,7 @@ export default function EditProductForm(props) {
                           ref={field.ref}
                           className={'cursor-pointer ease-in-out duration-300 hover:border-primary'}
                           accept={'.jpeg, .jpg, .png'}
+                          disabled={!value}
                         />
                       </FormControl>
                       <FormMessage />

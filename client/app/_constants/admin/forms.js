@@ -1,7 +1,7 @@
 import * as z from "zod"
 
 // App imports
-import { PRODUCTS_BASE_FORM_SCHEMA, PRODUCT_VARIANTS_BASE_FORM_SCHEMA, USERS_BASE_FORM_SCHEMA } from "@constants/shared/forms"
+import { PRODUCTS_BASE_FORM_SCHEMA, PRODUCT_VARIANTS_BASE_FORM_SCHEMA, USERS_BASE_FORM_SCHEMA, MAX_FILE_SIZE_IN_MB } from "@constants/shared/forms"
 
 export const PRODUCT_CATEGORIES = [
   { name: 'Earrings', value: 'earrings' },
