@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
 
-export default function useUpdatePasword() {
+export default function useUpdatePassword() {
   const supabase = getBrowserClient()
   const [isLoading, setIsLoading] = useState(false)
 
-  async function updatePasword(props) {
+  async function updatePassword(props) {
     const { newPassword } = props
     setIsLoading(true)
 
@@ -18,5 +18,5 @@ export default function useUpdatePasword() {
     return { data, error }
   }
 
-  return { updatePasword, isLoading }
+  return { updatePassword, isLoading }
 }

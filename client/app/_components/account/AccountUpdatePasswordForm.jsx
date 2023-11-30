@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation'
 
 export default function AccountUpdatePasswordForm(props) {
   const { toast } = useToast()
-  const { resetPassword, isLoading } = useUpdatePassword()
+  const { updatePassword, isLoading } = useUpdatePassword()
   const router = useRouter()
 
   const form = useForm({
@@ -29,7 +29,7 @@ export default function AccountUpdatePasswordForm(props) {
   })
 
   async function onSubmit(data) {
-    await resetPassword({
+    await updatePassword({
       newPassword: data.password
     })
       .then(async ({ data, error }) => {
