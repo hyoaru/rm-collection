@@ -11,8 +11,10 @@ export default function CollectionHeader(props) {
   const [sortOrder, setSortOrder] = useState("Ascending")
 
   function onSortOrderClick() {
-    setSortOrder(prevSortOrder => prevSortOrder === "Ascending" ? "Descending" : "Ascending")
-    toggleSortOrder()
+    if (inStock > 0) {
+      setSortOrder(prevSortOrder => prevSortOrder === "Ascending" ? "Descending" : "Ascending")
+      toggleSortOrder()
+    }
   }
 
   return (

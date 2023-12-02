@@ -7,10 +7,10 @@ import MainNavEnd from "@components/base/MainNavEnd"
 
 const navigation = [
   { name: 'Collection', link: '/' },
-  { name: 'Earrings', link: '/' },
-  { name: 'Necklaces', link: '/' },
-  { name: 'Bracelets', link: '/' },
-  { name: 'Rings', link: '/' },
+  { name: 'Earrings', link: '/collection/earring' },
+  { name: 'Necklaces', link: '/collection/necklace' },
+  { name: 'Bracelets', link: '/collection/bracelet' },
+  { name: 'Rings', link: '/collection/ring' },
 ]
 
 export default async function Header() {

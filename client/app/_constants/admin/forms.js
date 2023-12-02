@@ -4,10 +4,10 @@ import * as z from "zod"
 import { PRODUCTS_BASE_FORM_SCHEMA, PRODUCT_VARIANTS_BASE_FORM_SCHEMA, USERS_BASE_FORM_SCHEMA, MAX_FILE_SIZE_IN_MB } from "@constants/shared/forms"
 
 export const PRODUCT_CATEGORIES = [
-  { name: 'Earrings', value: 'earrings' },
-  { name: 'Necklaces', value: 'necklaces' },
-  { name: 'Bracelets', value: 'bracelets' },
-  { name: 'Rings', value: 'rings' },
+  { name: 'Earrings', value: 'earring' },
+  { name: 'Necklaces', value: 'necklace' },
+  { name: 'Bracelets', value: 'bracelet' },
+  { name: 'Rings', value: 'ring' },
 ]
 
 export const ADD_PRODUCT_FORM_SCHEMA = z.object({
