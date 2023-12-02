@@ -8,11 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
 import Separator from '@components/shared/Separator'
 import { Badge } from '@components/ui/badge'
 import { Button } from '@components/ui/button'
+import getRandomProducts from '@services/main/getRandomProducts'
+import SuggestionProductCard from '@components/main/SuggestionProductCard'
+import { ScrollArea, ScrollBar } from '@components/ui/scroll-area'
 
 export default async function Page({ params }) {
   const { id: productId } = params
   const { data: product, error } = await getProductById({ productId: productId })
   const { name: productName, description: productDescription, category: productCategory } = product
+  const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
+
   const breadcrumbs = [
     { label: "Collection", link: "/" },
     { label: productCategory, link: `/collection/${productCategory}` },
@@ -112,9 +117,24 @@ export default async function Page({ params }) {
               </div>
             </div>
           </div>
-
-
         </Tabs>
+
+        {randomProducts[0] && <div className="">
+          <Separator>
+            <h3 className="text-center my-16 text-lg text-muted-foreground">Other jewelries you might like</h3>
+          </Separator>
+
+          <ScrollArea className={'whitespace-nowrap rounded-lg mb-10'}>
+            <div className="flex w-full space-x-4 pb-2 justify-center">
+              {randomProducts.map((randomProduct, index) => (
+                <div className="overflow-hidden w-max rounded-lg" key={`RandomProduct-${randomProduct.id}`}>
+                  <SuggestionProductCard product={randomProduct} />
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation={'horizontal'} />
+          </ScrollArea>
+        </div>}
       </div>
     </>
   )
