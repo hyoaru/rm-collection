@@ -18,7 +18,7 @@ export default async function Header() {
 
   return (
     <>
-      <header className="sticky top-0 pt-4 z-50 backdrop-filter backdrop-blur-lg backdrop-grayscale">
+      <header className="sticky top-0 pt-4 z-50 backdrop-filter backdrop-blur-lg backdrop-brightness-150">
         <div className="md:container mx-auto px-4 pb-1">
           <nav className="flex items-center">
             <MainNavStart navigation={navigation} />

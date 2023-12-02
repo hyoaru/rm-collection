@@ -26,7 +26,7 @@ export default function ProductCard(props) {
             src={productThumbnailPublicUrl}
           />
         </div>
-        <div className="p-3 flex flex-wrap text-xs md:text-sm">
+        <div className="sm:px-3 py-3 flex flex-wrap text-xs md:text-sm">
           <span className="me-auto">{productName}</span>
           <span className="">{`₱ ${lowestProductVariantPrice.toLocaleString()}`}</span>
         </div>

@@ -20,7 +20,9 @@ export default function CollectionHeader(props) {
       <div className="md:container mx-auto px-4 mb-8">
         <div className="flex items-center px-2">
           <div className="flex items-center justify-start w-3/6 sm:w-2/6 xl:w-1/3">
-            <Breadcrumbs breadcrumbs={breadcrumbs} />
+            <div className="hidden sm:block">
+              <Breadcrumbs breadcrumbs={breadcrumbs} />
+            </div>
             <small className='opacity-50'>{`In stock (${inStock})`}</small>
           </div>
 
@@ -30,7 +32,7 @@ export default function CollectionHeader(props) {
 
           <div className="flex justify-end w-3/6 sm:w-2/6 xl:w-1/3 ">
             <small
-              className='cursor-pointer opacity-50 hover:opacity-80'
+              className='cursor-pointer opacity-50 hover:opacity-80 text-end'
               onClick={onSortOrderClick}>
               Sort order: {sortOrder}
             </small>
