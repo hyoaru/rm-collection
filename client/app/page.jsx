@@ -7,7 +7,7 @@ import ProductsFeed from "@components/shared/ProductsFeed"
 export default async function Home() {
   const { data: products, error } = await getCollection()
   const breadcrumbs = [{ label: "Collection", link: "/" }]
-  const inStock = products.length
+  const inStock = products?.length ?? 0
 
   return (
     <>
