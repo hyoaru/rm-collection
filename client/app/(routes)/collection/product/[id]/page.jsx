@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
 // App imports
 import getProductById from '@services/main/getProductById'
@@ -15,14 +16,17 @@ import { ScrollArea, ScrollBar } from '@components/ui/scroll-area'
 export default async function Page({ params }) {
   const { id: productId } = params
   const { data: product, error } = await getProductById({ productId: productId })
-  const { name: productName, description: productDescription, category: productCategory } = product
   const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
 
   const breadcrumbs = [
     { label: "Collection", link: "/" },
-    { label: productCategory, link: `/collection/${productCategory}` },
-    { label: productName, link: `/collection/product/${productId}` }
+    { label: product?.category, link: `/collection/${product?.category}` },
+    { label: product?.name, link: `/collection/product/${productId}` }
   ]
+
+  if (error) {
+    return notFound()
+  }
 
   return (
     <>
@@ -86,7 +90,7 @@ export default async function Page({ params }) {
 
                     <div className="space-y-5 mb-10">
                       <div id="productHeader" className='text-center sm:text-start'>
-                        <h2 className="text-2xl font-semibold">{productName}</h2>
+                        <h2 className="text-2xl font-semibold">{product.name}</h2>
                         <h4 className="text-sm text-muted-foreground">{`${productVariant.id}`}</h4>
                       </div>
 
@@ -102,7 +106,7 @@ export default async function Page({ params }) {
                         </p>
                       </div>
 
-                      <div id="productDescription">
+                      <div id="product.description">
                         <p>{product.description}</p>
                       </div>
                     </div>

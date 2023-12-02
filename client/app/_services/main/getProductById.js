@@ -9,12 +9,16 @@ export default async function getProductById({ productId }) {
     .eq('id', productId)
     .single()
     .then(async ({ data, error }) => {
-      for await (const productVariant of data.product_variants) {
-          const productVariantImagesPublicUrl = await getProductVariantImagesPublicUrl({
-            productId: data.id, variantId: productVariant.id
-          })
+      if (error) {
+        return { data, error }
+      }
 
-          productVariant.images_public_url = productVariantImagesPublicUrl
+      for await (const productVariant of data.product_variants) {
+        const productVariantImagesPublicUrl = await getProductVariantImagesPublicUrl({
+          productId: data.id, variantId: productVariant.id
+        })
+
+        productVariant.images_public_url = productVariantImagesPublicUrl
       }
 
       return { data, error }
