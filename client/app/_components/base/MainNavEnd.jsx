@@ -41,7 +41,7 @@ export default function MainNavEnd(props) {
       <div id="main-nav-end" className="flex justify-end items-center w-1/6 xl:w-1/3">
         <div id="main-nav-end-expanded" className="hidden xl:flex">
           <Button variant={'link'} className={'px-2 text-xs'}>
-            <Link href={"/"} className="uppercase font-light">Search</Link>
+            <Link href={"/collection/search"} className="uppercase font-light">Search</Link>
           </Button>
           <Button variant={'link'} className={'px-2 text-xs'}>
             <Link href={"/"} className="uppercase font-light">Cart</Link>
