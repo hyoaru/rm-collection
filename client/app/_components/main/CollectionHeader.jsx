@@ -3,6 +3,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 
+// App imports
+import Breadcrumbs from '@components/shared/Breadcrumbs'
+
 export default function CollectionHeader(props) {
   const { breadcrumbs, inStock, toggleSortOrder } = props
   const [sortOrder, setSortOrder] = useState("Ascending")
@@ -17,11 +20,7 @@ export default function CollectionHeader(props) {
       <div className="md:container mx-auto px-4 mb-8">
         <div className="flex items-center px-2">
           <div className="flex items-center justify-start w-3/6 sm:w-2/6 xl:w-1/3">
-            {breadcrumbs && breadcrumbs.map((breadcrumb) => (
-              <small className='me-1 opacity-50 hover:opacity-80' key={`Breadcrumb-${breadcrumb.label}`}>
-                <Link href={breadcrumb.link}>{`${breadcrumb.label} >`}</Link>
-              </small>
-            ))}
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
             <small className='opacity-50'>{`In stock (${inStock})`}</small>
           </div>
 
