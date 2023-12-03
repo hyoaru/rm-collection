@@ -21,12 +21,12 @@ export default function ProductsFeed(props) {
 
   function onPreviousPage() {
     if (currentPage <= 0) { return }
-    router.push(`/?page=${currentPage - 1}`)
+    router.push(`/?page=${Number(currentPage) - 1}`)
   }
 
   function onNextPage() {
     if (currentPage == endPage) { return }
-    router.push(`/?page=${currentPage + 1}`)
+    router.push(`/?page=${Number(currentPage) + 1}`)
   }
 
   return (
