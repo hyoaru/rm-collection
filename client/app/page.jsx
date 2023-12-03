@@ -1,13 +1,15 @@
 import React from "react"
 
 // App imports
-import getCollection from "@services/main/getCollection"
+import getCollectionPaginated from "@services/main/getCollectionPaginated"
 import ProductsFeed from "@components/shared/ProductsFeed"
 
-export default async function Home() {
-  const { data: products, error } = await getCollection()
+export default async function Home(props) {
+  const { searchParams } = props
+  const currentPage = searchParams.page ?? 0
+  const { data: products, error, count, endPage } = await getCollectionPaginated({ page: currentPage })
   const breadcrumbs = [{ label: "Collection", link: "/" }]
-  const inStock = products?.length ?? 0
+  const inStock = count ?? 0
 
   return (
     <>
@@ -15,6 +17,8 @@ export default async function Home() {
         products={products}
         breadcrumbs={breadcrumbs}
         inStock={inStock}
+        endPage={endPage}
+        currentPage={currentPage}
       />
     </>
   )

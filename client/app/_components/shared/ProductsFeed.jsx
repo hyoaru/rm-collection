@@ -6,14 +6,27 @@ import Image from 'next/image'
 // App imports
 import ProductCard from '@components/main/ProductCard'
 import CollectionHeader from '@components/main/CollectionHeader'
+import { Button } from '@components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export default function ProductsFeed(props) {
-  const { products, breadcrumbs, inStock } = props
+  const { products, breadcrumbs, inStock, endPage, currentPage } = props
+  const router = useRouter()
   const [_, setState] = useState()
 
   function toggleProductsOrder() {
     products.reverse()
     setState(performance.now())
+  }
+
+  function onPreviousPage() {
+    if (currentPage <= 0) { return }
+    router.push(`/?page=${currentPage - 1}`)
+  }
+
+  function onNextPage() {
+    if (currentPage == endPage) { return }
+    router.push(`/?page=${currentPage + 1}`)
   }
 
   return (
@@ -52,6 +65,27 @@ export default function ProductsFeed(props) {
             </div>
           ))}
         </div>
+        {currentPage <= endPage && <>
+          <div className="flex justify-center gap-4 mt-14">
+            <Button
+              size={'lg'}
+              className={'w-28'}
+              onClick={onPreviousPage}
+              disabled={currentPage == 0}
+            >
+              Previous
+            </Button>
+
+            <Button
+              size={'lg'}
+              className={'w-28'}
+              onClick={onNextPage}
+              disabled={currentPage == endPage}
+            >
+              Next
+            </Button>
+          </div>
+        </>}
       </div>
     </>
   )

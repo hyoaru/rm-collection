@@ -1,12 +1,14 @@
 import React from "react"
 
 // App imports
-import getCollectionByCategory from "@services/main/getCollectionByCategory"
+import getCollectionByCategoryPaginated from "@services/main/getCollectionByCategoryPaginated"
 import ProductsFeed from "@components/shared/ProductsFeed"
 
-export default async function Page() {
-  const { data: products, error } = await getCollectionByCategory({category: 'earring'})
-  const inStock = products?.length ?? 0
+export default async function Page(props) {
+  const { searchParams } = props
+  const currentPage = searchParams.page ?? 0
+  const { data: products, error, count, endPage } = await getCollectionByCategoryPaginated({category: 'earring', page: currentPage})
+  const inStock = count ?? 0
 
   const breadcrumbs = [
     { label: "Collection", link: "/" },
@@ -19,6 +21,8 @@ export default async function Page() {
         products={products}
         breadcrumbs={breadcrumbs}
         inStock={inStock}
+        endPage={endPage}
+        currentPage={currentPage}
       />
     </>
   )

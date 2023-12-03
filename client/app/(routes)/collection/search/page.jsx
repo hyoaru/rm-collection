@@ -1,7 +1,7 @@
 import React from 'react'
 
 // App imports
-import getCollection from '@services/main/getCollection'
+import getCollection from '@services/main/getCollectionPaginated'
 import CollectionHeader from '@components/main/CollectionHeader'
 import ProductSearchFeed from './ProductSearchFeed'
 
