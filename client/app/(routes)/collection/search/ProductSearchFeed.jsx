@@ -24,11 +24,14 @@ export default function ProductSearchFeed(props) {
 
     if (searchQuery) {
       const productsMatchingQuery = products.filter(
-        (product) => Object
-          .values(product)
-          .join(' ')
-          .toLowerCase()
-          .includes(searchQuery)
+        (product) => {
+          let stringToSearch = Object.values(product).join(' ').toLowerCase()
+          product?.product_variants?.forEach((productVariant) => {
+            stringToSearch += Object.values(productVariant).join(' ').toLowerCase()
+          })
+
+          return stringToSearch.includes(searchQuery)
+        }
       )
 
       setMatchedProducts(productsMatchingQuery)
