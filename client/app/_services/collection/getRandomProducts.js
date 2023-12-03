@@ -1,4 +1,4 @@
-import getCollection from "@services/main/getCollection";
+import getCollection from "@/app/_services/collection/getCollection";
 
 export default async function getRandomProducts(count = 4) {
   const { data: products, error } = await getCollection()

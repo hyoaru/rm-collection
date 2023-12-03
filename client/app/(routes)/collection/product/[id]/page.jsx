@@ -3,14 +3,14 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 // App imports
-import getProductById from '@services/main/getProductById'
+import getProductById from '@/app/_services/collection/getProductById'
 import Breadcrumbs from '@components/shared/Breadcrumbs'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
 import Separator from '@components/shared/Separator'
 import { Badge } from '@components/ui/badge'
 import { Button } from '@components/ui/button'
-import getRandomProducts from '@services/main/getRandomProducts'
-import SuggestionProductCard from '@components/main/SuggestionProductCard'
+import getRandomProducts from '@/app/_services/collection/getRandomProducts'
+import SuggestionProductCard from '@/app/_components/collection/SuggestionProductCard'
 import { ScrollArea, ScrollBar } from '@components/ui/scroll-area'
 
 export default async function Page({ params }) {

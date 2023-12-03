@@ -1,8 +1,8 @@
 import React from 'react'
 
 // App imports
-import getCollection from '@services/main/getCollectionPaginated'
-import CollectionHeader from '@components/main/CollectionHeader'
+import getCollection from '@/app/_services/collection/getCollectionPaginated'
+import CollectionHeader from '@/app/_components/collection/CollectionHeader'
 import ProductSearchFeed from './ProductSearchFeed'
 
 export default async function Page() {

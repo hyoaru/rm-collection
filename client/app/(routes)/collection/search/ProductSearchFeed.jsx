@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 // App imports
-import CollectionHeader from '@components/main/CollectionHeader'
+import CollectionHeader from '@/app/_components/collection/CollectionHeader'
 import { Input } from '@components/ui/input'
-import ProductCard from '@components/main/ProductCard'
+import ProductCard from '@/app/_components/collection/ProductCard'
 
 export default function ProductSearchFeed(props) {
   const { products, breadcrumbs } = props

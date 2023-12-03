@@ -1,8 +1,8 @@
 import React from "react"
 
 // App imports
-import getCollectionPaginated from "@services/main/getCollectionPaginated"
-import ProductsFeed from "@components/shared/ProductsFeed"
+import getCollectionPaginated from "@/app/_services/collection/getCollectionPaginated"
+import ProductsFeed from "@/app/_components/collection/ProductsFeed"
 
 export default async function Home(props) {
   const { searchParams } = props
