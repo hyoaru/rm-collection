@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
-import updateProductThumbnail from '@/app/_services/admin/operations/updateProductThumbnail'
+import updateProductThumbnail from '@services/admin/operations/updateProductThumbnail'
 
 export default function useUpdateProduct() {
   const supabase = getBrowserClient()

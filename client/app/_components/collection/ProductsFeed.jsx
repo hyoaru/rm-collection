@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 
 // App imports
-import ProductCard from '@/app/_components/collection/ProductCard'
-import CollectionHeader from '@/app/_components/collection/CollectionHeader'
+import ProductCard from '@components/collection/ProductCard'
+import CollectionHeader from '@components/collection/CollectionHeader'
 import { Button } from '@components/ui/button'
 import { useRouter } from 'next/navigation'
 
