@@ -21,12 +21,19 @@ export default function ProductListCombobox(props) {
           >
             {value
               ? productList?.data.find((product) => product.id === value)?.name
-              : "Select product..."}
+              : "Select product by id, name, and other attribute..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
-          <Command>
+          <Command
+            filter={(value, search) => {
+              const productFromValue = productList?.data.find((product) => product.id === value)
+              const stringToSearch = Object.values(productFromValue).join(' ').toLowerCase()
+              if (stringToSearch.includes(search)) return 1
+              return 0
+            }}
+          >
             <CommandInput placeholder="Search product..." />
             <CommandEmpty>No product found.</CommandEmpty>
             <CommandGroup>

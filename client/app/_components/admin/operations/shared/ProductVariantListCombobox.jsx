@@ -28,8 +28,15 @@ export default function ProductVariantListCombobox(props) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
-          <Command>
-            <CommandInput placeholder="Search product variant..." />
+          <Command
+            filter={(value, search) => {
+              const productVariantFromValue = filteredProductVariantList?.find((productVariant) => productVariant.id === value)
+              const stringToSearch = Object.values(productVariantFromValue).join(' ').toLowerCase()
+              if (stringToSearch.includes(search)) return 1
+              return 0
+            }}
+          >
+            <CommandInput placeholder="Search product variant by id, material, and other attribute..." />
             <CommandEmpty>No product variant found.</CommandEmpty>
             <CommandGroup>
               {filteredProductVariantList.map((productVariant) => (
@@ -48,7 +55,7 @@ export default function ProductVariantListCombobox(props) {
                       value === productVariant.id ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {productVariant.id}
+                  {productVariant.material} {productVariant.material_property}
                 </CommandItem>
               ))}
             </CommandGroup>
