@@ -1,6 +1,6 @@
 import { getBrowserClient } from "@services/supabase/getBrowserClient"
 
-export default async function addProductVariant({ productId, material, materialProperty, quantity, price }) {
+export default async function addProductVariant({ productId, material, materialProperty, quantity, price, discountRate }) {
   const TABLE_NAME = 'product_variants'
   const supabase = getBrowserClient()
 
@@ -11,7 +11,8 @@ export default async function addProductVariant({ productId, material, materialP
       material: material,
       material_property: materialProperty,
       quantity: quantity,
-      price: price
+      price: price,
+      discount_rate: discountRate
     }])
     .select()
 

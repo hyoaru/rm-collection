@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS public.product_variants
+ADD COLUMN IF NOT EXISTS discount_rate NUMERIC DEFAULT(0);

@@ -17,7 +17,7 @@ export default async function Page() {
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'product_id' }, { accessorKey: 'material' },
     { accessorKey: 'material_property' }, { accessorKey: 'quantity' }, { accessorKey: 'price' },
-    { accessorKey: 'is_displayed' }
+    { accessorKey: 'discount_rate' }, { accessorKey: 'is_displayed' },
   ]
 
   const rowActions = [

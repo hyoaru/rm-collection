@@ -14,6 +14,7 @@ export const PRODUCTS_BASE_FORM_SCHEMA = {
 export const PRODUCT_VARIANTS_BASE_FORM_SCHEMA = {
   quantity: z.coerce.number(),
   price: z.coerce.number(),
+  discountRate: z.coerce.number().min(0).max(100),
   material: z.string().trim().min(4).max(50),
   materialProperty: z.string().trim().min(2).max(50),
   images: z.any()

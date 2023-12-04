@@ -32,6 +32,7 @@ export default function AddProductForm() {
       description: '',
       quantity: 0,
       price: 0,
+      discountRate: 0,
       material: '',
       materialProperty: '',
       thumbnail: '',
@@ -48,6 +49,7 @@ export default function AddProductForm() {
       materialProperty: data.materialProperty,
       quantity: data.quantity,
       price: data.price,
+      discountRate: data.discountRate,
       thumbnail: data.thumbnail,
       images: data.images
     })
@@ -141,8 +143,8 @@ export default function AddProductForm() {
                     </div>
                     <ScrollBar orientation={'horizontal'} />
                   </ScrollArea>
-
                 </>}
+
                 <FormField
                   control={form.control}
                   name="images"
@@ -171,12 +173,12 @@ export default function AddProductForm() {
             </div>
 
             <div className="">
-              <div className="grid grid-cols-4 gap-4 gap-y-2">
+              <div className="grid grid-cols-12 gap-4 gap-y-2">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-6'}>
                       <FormLabel>Product name</FormLabel>
                       <FormControl>
                         <Input placeholder="your-descriptive-product-name" {...field} />
@@ -190,7 +192,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="category"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-6'}>
                       <FormLabel>Product category</FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
@@ -215,7 +217,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="price"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-4'}>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-price" {...field} />
@@ -227,9 +229,23 @@ export default function AddProductForm() {
 
                 <FormField
                   control={form.control}
+                  name="discountRate"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-4'}>
+                      <FormLabel>{'Discount rate (%)'}</FormLabel>
+                      <FormControl>
+                        <Input type="number" min="0" max="100" placeholder="(e.g., 25 for 25%)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-4'}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-quantity" {...field} />
@@ -243,7 +259,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-6'}>
                       <FormLabel>Material used</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., Yellow Gold)" {...field} />
@@ -257,7 +273,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
+                    <FormItem className={'col-span-6'}>
                       <FormLabel>Material property</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 18 karats)" {...field} />
@@ -271,7 +287,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="description"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12'}>
                       <FormLabel>Product description</FormLabel>
                       <FormControl>
                         <Textarea placeholder="your-descriptive-product-description" {...field} />
@@ -283,7 +299,7 @@ export default function AddProductForm() {
               </div>
             </div>
 
-            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2"  disabled={isLoading}>Add product</Button>
+            <Button type="submit" size={'lg'} className="mt-8 flex mx-auto w-full lg:w-1/2" disabled={isLoading}>Add product</Button>
           </div>
 
         </form>

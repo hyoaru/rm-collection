@@ -16,6 +16,7 @@ export const ADD_PRODUCT_FORM_SCHEMA = z.object({
   description: PRODUCTS_BASE_FORM_SCHEMA.description,
   quantity: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.quantity,
   price: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.price,
+  discountRate: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.discountRate,
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   thumbnail: PRODUCTS_BASE_FORM_SCHEMA.thumbnail,
@@ -28,6 +29,7 @@ export const ADD_PRODUCT_VARIANT_FORM_SCHEMA = z.object({
   description: PRODUCTS_BASE_FORM_SCHEMA.description,
   quantity: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.quantity,
   price: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.price,
+  discountRate: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.discountRate,
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   images: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.images,
@@ -50,6 +52,7 @@ export const EDIT_PRODUCT_VARIANT_FORM_SCHEMA = z.object({
   description: PRODUCTS_BASE_FORM_SCHEMA.description,
   quantity: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.quantity,
   price: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.price,
+  discountRate: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.discountRate,
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   images: z.any()

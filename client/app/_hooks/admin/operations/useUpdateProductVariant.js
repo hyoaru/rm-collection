@@ -10,7 +10,7 @@ export default function useUpdateProductVariant() {
 
   async function updateProductVariant(props) {
     const TABLE_NAME = 'product_variants'
-    const { productId, variantId, price, quantity, material, materialProperty, images } = props
+    const { productId, variantId, price, discountRate, quantity, material, materialProperty, images } = props
 
     setIsLoading(true)
 
@@ -18,6 +18,7 @@ export default function useUpdateProductVariant() {
       .from(TABLE_NAME)
       .update({
         price: price,
+        discount_rate: discountRate,
         quantity: quantity,
         material: material,
         material_property: materialProperty
