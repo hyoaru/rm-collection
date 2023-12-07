@@ -8,10 +8,10 @@ import Breadcrumbs from '@components/shared/Breadcrumbs'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
 import Separator from '@components/shared/Separator'
 import { Badge } from '@components/ui/badge'
-import { Button } from '@components/ui/button'
 import getRandomProducts from '@services/collection/getRandomProducts'
 import SuggestionProductCard from '@components/collection/SuggestionProductCard'
 import { ScrollArea, ScrollBar } from '@components/ui/scroll-area'
+import ProductViewActions from '@components/collection/ProductViewActions'
 
 export default async function Page({ params }) {
   const { id: productId } = params
@@ -83,18 +83,34 @@ export default async function Page({ params }) {
 
                 {product.product_variants.map((productVariant, index) => (
                   <TabsContent value={productVariant.id} key={`TabContent-${productVariant.id}-${index}`}>
-                    <div className="flex justify-center sm:justify-start mb-3 gap-2">
+                    <div className="flex justify-center sm:justify-start mb-8 gap-2">
                       <Badge className={'capitalize'}>{product.category}</Badge>
                       <Badge className={''}>{`${product.product_variants.length} variant(s)`}</Badge>
                     </div>
 
-                    <div className="space-y-5 mb-10">
+                    <div className="space-y-5">
                       <div id="productHeader" className='text-center sm:text-start'>
-                        <h2 className="text-2xl font-semibold">{product.name}</h2>
+                        <h2 className="text-3xl font-bold mb-1">{product.name}</h2>
                         <h4 className="text-sm text-muted-foreground">{`${productVariant.id}`}</h4>
+                        <h4 className="text-sm text-muted-foreground">
+                          <span className='font-semibold'>In stock: </span>
+                          {productVariant.quantity.toLocaleString()}
+                        </h4>
                       </div>
 
-                      {/* <h3 className="text-sm">{`₱ ${productVariant.price.toLocaleString()}`}</h3> */}
+                      {productVariant.discount_rate > 0 && <>
+                        <div className="">
+                          <p className="">
+                            <span className='font-semibold'>Original price: </span>
+                            {`₱ ${productVariant.price.toLocaleString()}`}
+                          </p>
+                          <p>
+                            <span className='font-semibold'>Discount: </span>
+                            {productVariant.discount_rate}% off
+                          </p>
+                        </div>
+                      </>}
+
                       <div id='productVariantSpecification' className="text-md">
                         <p>
                           <span className='text-muted-foreground'>Material: </span>
@@ -111,10 +127,8 @@ export default async function Page({ params }) {
                       </div>
                     </div>
 
-                    <div className="">
-                      <Button className={'w-full'}>
-                        {`₱ ${productVariant.price.toLocaleString()} ・ Add to cart`}
-                      </Button>
+                    <div className="mt-8 border-t py-4 space-y-4">
+                      <ProductViewActions productVariant={productVariant} />
                     </div>
                   </TabsContent>
                 ))}
