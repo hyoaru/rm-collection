@@ -9,7 +9,7 @@ import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 import { useUserSignOut } from "@hooks/authentication/useUserSignOut"
 import { Button } from "@components/ui/button"
 import { useToast } from "@components/ui/use-toast"
-import MainNavEndDropdownContent from "@components/base/MainNavEndDropdownContent"
+import MainNavEndUserDropdownContent from "@components/base/MainNavEndUserDropdownContent"
 
 export default function MainNavEnd(props) {
   const { userStateAuth, userStateGeneral } = props
@@ -57,7 +57,7 @@ export default function MainNavEnd(props) {
                     </span>
                   </div>
                 </DropdownMenuTrigger>
-                <MainNavEndDropdownContent
+                <MainNavEndUserDropdownContent
                   userStateAuth={userStateAuth}
                   userStateGeneral={userStateGeneral}
                   onUserSignOut={onUserSignOut}
@@ -83,7 +83,7 @@ export default function MainNavEnd(props) {
                     <span><User size={17} /></span>
                   </Button>
                 </DropdownMenuTrigger>
-                <MainNavEndDropdownContent
+                <MainNavEndUserDropdownContent
                   userStateAuth={userStateAuth}
                   userStateGeneral={userStateGeneral}
                   onUserSignOut={onUserSignOut}

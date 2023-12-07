@@ -8,7 +8,7 @@ import React from 'react'
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@components/ui/dropdown-menu"
 
 
-export default function MainNavEndDropdownContent(props) {
+export default function MainNavEndUserDropdownContent(props) {
   const { userStateGeneral, userStateAuth, onUserSignOut } = props
 
   return (
