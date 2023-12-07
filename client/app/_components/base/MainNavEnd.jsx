@@ -9,7 +9,8 @@ import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 import { useUserSignOut } from "@hooks/authentication/useUserSignOut"
 import { Button } from "@components/ui/button"
 import { useToast } from "@components/ui/use-toast"
-import MainNavEndUserDropdownContent from "@components/base/MainNavEndUserDropdownContent"
+import MainNavEndUserDropdownContent from "./MainNavEndUserDropdownContent"
+import MainNavEndCartDropdownContent from "./MainNavEndCartDropdownContent"
 
 export default function MainNavEnd(props) {
   const { userStateAuth, userStateGeneral } = props
@@ -43,12 +44,22 @@ export default function MainNavEnd(props) {
           <Button variant={'link'} className={'px-2 text-xs'}>
             <Link href={"/collection/search"} className="uppercase font-light">Search</Link>
           </Button>
-          <Button variant={'link'} className={'px-2 text-xs'}>
-            <Link href={"/"} className="uppercase font-light">Cart</Link>
-          </Button>
 
           {(userStateAuth && userStateGeneral)
             ? <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant={'link'} className={'px-2 text-xs uppercase font-light'}>
+                    Cart
+                  </Button>
+                </DropdownMenuTrigger>
+                <MainNavEndCartDropdownContent
+                  userStateAuth={userStateAuth}
+                  userStateGeneral={userStateGeneral}
+                  onUserSignOut={onUserSignOut}
+                />
+              </DropdownMenu>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className="p-2 text-sm cursor-pointer">
@@ -72,11 +83,20 @@ export default function MainNavEnd(props) {
         </div>
 
         <div id="main-nav-end-collapsed" className="flex xl:hidden">
-          <Button variant={'ghost'} className={'px-1'}>
-            <Link href={"/"} className=""><ShoppingCart size={17} /></Link>
-          </Button>
           {(userStateAuth && userStateGeneral)
             ? <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant={'link'} className={'px-2 text-xs uppercase font-light'}>
+                    <ShoppingCart size={17} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <MainNavEndCartDropdownContent
+                  userStateAuth={userStateAuth}
+                  userStateGeneral={userStateGeneral}
+                  onUserSignOut={onUserSignOut}
+                />
+              </DropdownMenu>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant={'ghost'} className={'px-1'}>
