@@ -24,7 +24,7 @@ export default function ProductViewActions(props) {
   }
 
   function onOrderQuantityDecrease() {
-    if (orderQuantity <= 0) return
+    if (orderQuantity <= 1) return
     setOrderQuantity(previousOrderQuantity => previousOrderQuantity - 1)
   }
 
