@@ -16,7 +16,7 @@ const navigation = [
 
 export default async function Header() {
   const userState = await getUserStateServer()
-  const cart = await getCartByUser({userId: userState.userStateAuth.id})
+  const cart = await getCartByUser({userId: userState?.userStateAuth?.id})
 
   return (
     <>
