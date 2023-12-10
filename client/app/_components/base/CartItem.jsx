@@ -104,7 +104,7 @@ export default function CartItem(props) {
               onClick={() => onRemove(cartItemId)}
               className="w-10 h-10 justify-center items-center flex rounded-lg cursor-pointer"
             >
-              <Trash size={18} className="hover:text-destructive" />
+              <Trash size={18} className="transition-all ease-in-out duration-300 hover:text-destructive" />
             </div>
 
           </div>
