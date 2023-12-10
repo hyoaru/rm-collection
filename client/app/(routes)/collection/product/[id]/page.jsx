@@ -12,9 +12,11 @@ import getRandomProducts from '@services/collection/getRandomProducts'
 import SuggestionProductCard from '@components/collection/SuggestionProductCard'
 import { ScrollArea, ScrollBar } from '@components/ui/scroll-area'
 import ProductViewActions from '@components/collection/ProductViewActions'
+import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page({ params }) {
   const { id: productId } = params
+  const userState = await getUserStateServer()
   const { data: product, error } = await getProductById({ productId: productId })
   const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
 
@@ -128,7 +130,11 @@ export default async function Page({ params }) {
                     </div>
 
                     <div className="mt-8 border-t py-4 space-y-4">
-                      <ProductViewActions productVariant={productVariant} />
+                      <ProductViewActions
+                        userState={userState}
+                        product={product}
+                        productVariant={productVariant}
+                      />
                     </div>
                   </TabsContent>
                 ))}

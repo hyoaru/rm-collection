@@ -5,12 +5,18 @@ import React, { useState } from 'react'
 // App imports
 import { Button } from '@components/ui/button'
 import getDiscountedPrice from '@lib/getDiscountedPrice'
+import useAddToCart from '@hooks/collection/useAddToCart'
+import { useToast } from '@components/ui/use-toast'
+import revalidateAllData from '@services/shared/revalidateAllData'
 
 export default function ProductViewActions(props) {
-  const { productVariant } = props
+  const { product, productVariant, userState } = props
+  const { userStateAuth, userStateGeneral } = userState
   const { price: productVariantPrice, discount_rate: productVariantDiscountRate, quantity: productVariantQuantity } = productVariant
   const productVariantDiscountedPrice = getDiscountedPrice({ originalPrice: productVariantPrice, discountRate: productVariantDiscountRate })
   const [orderQuantity, setOrderQuantity] = useState(productVariantQuantity > 0 ? 1 : 0)
+  const { addToCart, isLoading } = useAddToCart()
+  const { toast } = useToast()
 
   function onOrderQuantityIncrease() {
     if (orderQuantity >= productVariantQuantity) return
@@ -20,6 +26,28 @@ export default function ProductViewActions(props) {
   function onOrderQuantityDecrease() {
     if (orderQuantity <= 0) return
     setOrderQuantity(previousOrderQuantity => previousOrderQuantity - 1)
+  }
+
+  async function onAddToCart() {
+    await addToCart({
+      userId: userStateAuth.id,
+      productVariantId: productVariant.id,
+      quantity: orderQuantity,
+    }).then(async ({ data, error }) => {
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "An error has occured.",
+          description: "Please try again later."
+        })
+      } else {
+        toast({
+          title: `${product.name} ${productVariant.material}-${productVariant.material_property} added to cart.`
+        })
+
+        await revalidateAllData()
+      }
+    })
   }
 
   return (
@@ -44,7 +72,7 @@ export default function ProductViewActions(props) {
           </Button>
         </div>
       </div>
-      <Button size={'lg'} className={'w-full'}>
+      <Button size={'lg'} className={'w-full'} onClick={onAddToCart}>
         {`₱ ${productVariantDiscountedPrice.toLocaleString()} ・ Add to cart`}
       </Button>
     </>
