@@ -4,6 +4,7 @@ import Link from "next/link"
 import { getUserStateServer } from "@services/authentication/getUserStateServer"
 import MainNavStart from "@components/base/MainNavStart"
 import MainNavEnd from "@components/base/MainNavEnd"
+import getCartByUser from "@services/collection/getCartByUser"
 
 const navigation = [
   { name: 'Collection', link: '/' },
@@ -14,7 +15,8 @@ const navigation = [
 ]
 
 export default async function Header() {
-  const { userStateGeneral, userStateAuth } = await getUserStateServer()
+  const userState = await getUserStateServer()
+  const cart = await getCartByUser({userId: userState.userStateAuth.id})
 
   return (
     <>
@@ -29,7 +31,7 @@ export default async function Header() {
               <Link href={'/'} className="flex uppercase text-lg sm:hidden md:text-xl">RM Collection</Link>
             </div>
 
-            <MainNavEnd userStateGeneral={userStateGeneral} userStateAuth={userStateAuth} />
+            <MainNavEnd userState={userState} cart={cart} />
           </nav>
         </div >
       </header >

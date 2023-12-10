@@ -13,7 +13,8 @@ import MainNavEndUserDropdownContent from "./MainNavEndUserDropdownContent"
 import MainNavEndCartDropdownContent from "./MainNavEndCartDropdownContent"
 
 export default function MainNavEnd(props) {
-  const { userStateAuth, userStateGeneral } = props
+  const { userState, cart } = props
+  const { userStateAuth, userStateGeneral } = userState
   const { userSignOut } = useUserSignOut()
   const { toast } = useToast()
 
@@ -54,9 +55,8 @@ export default function MainNavEnd(props) {
                   </Button>
                 </DropdownMenuTrigger>
                 <MainNavEndCartDropdownContent
-                  userStateAuth={userStateAuth}
-                  userStateGeneral={userStateGeneral}
-                  onUserSignOut={onUserSignOut}
+                  userState={userState}
+                  cart={cart}
                 />
               </DropdownMenu>
 
@@ -92,9 +92,8 @@ export default function MainNavEnd(props) {
                   </Button>
                 </DropdownMenuTrigger>
                 <MainNavEndCartDropdownContent
-                  userStateAuth={userStateAuth}
-                  userStateGeneral={userStateGeneral}
-                  onUserSignOut={onUserSignOut}
+                  userState={userState}
+                  cart={cart}
                 />
               </DropdownMenu>
               <DropdownMenu>
