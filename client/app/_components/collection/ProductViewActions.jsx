@@ -72,7 +72,12 @@ export default function ProductViewActions(props) {
           </Button>
         </div>
       </div>
-      <Button size={'lg'} className={'w-full'} onClick={onAddToCart}>
+      <Button
+        size={'lg'}
+        className={'w-full'}
+        onClick={onAddToCart}
+        disabled={isLoading}
+      >
         {`₱ ${productVariantDiscountedPrice.toLocaleString()} ・ Add to cart`}
       </Button>
     </>
