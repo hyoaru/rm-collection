@@ -10,12 +10,14 @@ import getProductThumbnailPublicUrl from '@services/shared/getProductThumbnailPu
 import deleteCartItem from '@/app/_services/collection/deleteCartItem'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
+import updateCartItemQuantity from '@services/collection/updateCartItemQuantity'
 
 export default function CartItem(props) {
-  const { cartItem, product, productVariant } = props
+  const { cartItem, product, productVariant, userState } = props
   const { id: productId, name: productName } = product
   const { toast } = useToast()
 
+  const { userStateAuth: { id: userId } } = userState
   const { id: cartItemId, quantity: cartItemQuantity } = cartItem
   const { id: productVariantId, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariant
   const { quantity: productVariantQuantity, price: productVariantPrice, discount_rate: productVariantDiscountRate } = productVariant
@@ -24,15 +26,24 @@ export default function CartItem(props) {
 
   const [orderQuantity, setOrderQuantity] = useState(cartItemQuantity)
 
-  function onOrderQuantityIncrease() {
-    if (orderQuantity >= productVariantQuantity) return
-    setOrderQuantity(previousOrderQuantity => previousOrderQuantity + 1)
-    
+  async function commitCartItemQuantity(quantity) {
+    await updateCartItemQuantity({
+      userId: userId,
+      productVariantId: productVariantId,
+      quantity: quantity
+    }) 
   }
 
-  function onOrderQuantityDecrease() {
+  async function onOrderQuantityIncrease() {
+    if (orderQuantity >= productVariantQuantity) return
+    setOrderQuantity(previousOrderQuantity => previousOrderQuantity + 1)
+    await commitCartItemQuantity(orderQuantity + 1)
+  }
+
+  async function onOrderQuantityDecrease() {
     if (orderQuantity <= 0) return
     setOrderQuantity(previousOrderQuantity => previousOrderQuantity - 1)
+    await commitCartItemQuantity(orderQuantity - 1)
   }
 
   async function onRemove(itemId) {

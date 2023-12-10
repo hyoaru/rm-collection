@@ -34,6 +34,7 @@ export default function MainNavEndCartDropdownContent(props) {
                       product={cartItem.product_variants.products}
                       productVariant={cartItem.product_variants}
                       quantity={cartItem.quantity}
+                      userState={userState}
                     />
                   )
                 })}
