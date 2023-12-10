@@ -9,8 +9,6 @@ import { DropdownMenuContent } from "@components/ui/dropdown-menu"
 import { Button } from "@components/ui/button"
 import { ScrollArea } from "@components/ui/scroll-area"
 import CartItem from "./CartItem"
-import getDiscountedPrice from "@/app/_lib/getDiscountedPrice"
-
 
 export default function MainNavEndCartDropdownContent(props) {
   const { userState, cart } = props

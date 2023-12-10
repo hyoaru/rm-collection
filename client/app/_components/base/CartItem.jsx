@@ -5,7 +5,6 @@ import { Trash } from "lucide-react"
 
 // App imports
 import { Button } from "@components/ui/button"
-import getDiscountedPrice from '@lib/getDiscountedPrice'
 import getProductThumbnailPublicUrl from '@services/shared/getProductThumbnailPublicUrl'
 import deleteCartItem from '@/app/_services/collection/deleteCartItem'
 import { useToast } from '@components/ui/use-toast'
@@ -21,7 +20,7 @@ export default function CartItem(props) {
   const { id: cartItemId, quantity: cartItemQuantity } = cartItem
   const { id: productVariantId, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariant
   const { quantity: productVariantQuantity, price: productVariantPrice, discount_rate: productVariantDiscountRate } = productVariant
-  const productVariantDiscountedPrice = getDiscountedPrice({ originalPrice: productVariantPrice, discountRate: productVariantDiscountRate })
+  const { discounted_price: productVariantDiscountedPrice } = productVariant
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
 
   const [orderQuantity, setOrderQuantity] = useState(cartItemQuantity)

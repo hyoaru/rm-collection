@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 
 // App imports
 import { Button } from '@components/ui/button'
-import getDiscountedPrice from '@lib/getDiscountedPrice'
 import useAddToCart from '@hooks/collection/useAddToCart'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
@@ -12,8 +11,7 @@ import revalidateAllData from '@services/shared/revalidateAllData'
 export default function ProductViewActions(props) {
   const { product, productVariant, userState } = props
   const { userStateAuth, userStateGeneral } = userState
-  const { price: productVariantPrice, discount_rate: productVariantDiscountRate, quantity: productVariantQuantity } = productVariant
-  const productVariantDiscountedPrice = getDiscountedPrice({ originalPrice: productVariantPrice, discountRate: productVariantDiscountRate })
+  const { quantity: productVariantQuantity, discounted_price: productVariantDiscountedPrice } = productVariant
   const [orderQuantity, setOrderQuantity] = useState(productVariantQuantity > 0 ? 1 : 0)
   const { addToCart, isLoading } = useAddToCart()
   const { toast } = useToast()

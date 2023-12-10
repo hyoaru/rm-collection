@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 // App imports
 import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl"
-import getDiscountedPrice from '@lib/getDiscountedPrice'
 import { Badge } from '@components/ui/badge'
 
 export default function ProductCard(props) {
@@ -14,13 +13,7 @@ export default function ProductCard(props) {
   const size = { width: 1000, height: 1000 }
 
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id })
-  const productVariantsWithDiscountedPricesSorted = productVariants.map((productVariant) => {
-    const discountedPrice = getDiscountedPrice({ originalPrice: productVariant.price, discountRate: productVariant.discount_rate })
-    productVariant.discounted_price = discountedPrice
-    return productVariant
-  })
-    .sort((x, y) => x.discounted_price - y.discounted_price)
-
+  const productVariantsWithDiscountedPricesSorted = productVariants.sort((x, y) => x.discounted_price - y.discounted_price)
   const lowestDiscountedProductVariant = productVariantsWithDiscountedPricesSorted[0]
 
   return (
