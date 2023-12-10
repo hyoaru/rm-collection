@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 // App imports
 import { getBrowserClient } from '@services/supabase/getBrowserClient'
-import updateOrderQuantity from '@services/collection/updateOrderQuantity'
+import updateCartItemQuantity from '@services/collection/updateCartItemQuantity'
 
 export default function useAddToCart() {
   const supabase = getBrowserClient()
@@ -20,7 +20,7 @@ export default function useAddToCart() {
       .select()
       .then(async ({ data: insertData, error: insertError }) => {
         if (insertError?.code === '23505') {
-          const { data, error } = await updateOrderQuantity({
+          const { data, error } = await updateCartItemQuantity({
             userId: userId,
             productVariantId: productVariantId,
             quantity: quantity

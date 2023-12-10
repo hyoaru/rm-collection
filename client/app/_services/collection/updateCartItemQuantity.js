@@ -1,6 +1,6 @@
 import { getBrowserClient } from "@services/supabase/getBrowserClient";
 
-export default async function updateOrderQuantity({ userId, productVariantId, quantity }) {
+export default async function updateCartItemQuantity({ userId, productVariantId, quantity }) {
   const supabase = getBrowserClient()
 
   const { data, error } = await supabase

@@ -27,6 +27,7 @@ export default function CartItem(props) {
   function onOrderQuantityIncrease() {
     if (orderQuantity >= productVariantQuantity) return
     setOrderQuantity(previousOrderQuantity => previousOrderQuantity + 1)
+    
   }
 
   function onOrderQuantityDecrease() {
