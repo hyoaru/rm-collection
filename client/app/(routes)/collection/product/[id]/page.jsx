@@ -16,7 +16,7 @@ import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page({ params }) {
   const { id: productId } = params
-  const userState = await getUserStateServer()
+  const { userStateAuth, userStateGeneral } = await getUserStateServer()
   const { data: product, error } = await getProductById({ productId: productId })
   const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
 
@@ -129,13 +129,15 @@ export default async function Page({ params }) {
                       </div>
                     </div>
 
-                    <div className="mt-8 border-t py-4 space-y-4">
-                      <ProductViewActions
-                        userState={userState}
-                        product={product}
-                        productVariant={productVariant}
-                      />
-                    </div>
+                    {(userStateAuth && userStateGeneral) && <>
+                      <div className="mt-8 border-t py-4 space-y-4">
+                        <ProductViewActions
+                          userState={{ userStateAuth, userStateGeneral }}
+                          product={product}
+                          productVariant={productVariant}
+                        />
+                      </div>
+                    </>}
                   </TabsContent>
                 ))}
               </div>
