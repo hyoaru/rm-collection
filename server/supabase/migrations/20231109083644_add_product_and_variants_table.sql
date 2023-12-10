@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS products (
   category TEXT
 );
 
+
 CREATE TABLE IF NOT EXISTS product_variants (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   product_id UUID REFERENCES public.products NOT NULL,
@@ -17,4 +18,7 @@ CREATE TABLE IF NOT EXISTS product_variants (
   quantity NUMERIC,
   price NUMERIC
 );
+
+ALTER TABLE IF EXISTS public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.product_variants ENABLE ROW LEVEL SECURITY;
 

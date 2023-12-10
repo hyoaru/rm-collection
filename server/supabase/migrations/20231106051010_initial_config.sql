@@ -5,6 +5,8 @@ create table users (
   last_name text
 );
 
+ALTER TABLE IF EXISTS public.users ENABLE ROW LEVEL SECURITY;
+
 create or replace function public.handle_new_user() 
 returns trigger as $$
 begin
