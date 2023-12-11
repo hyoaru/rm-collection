@@ -19,6 +19,7 @@ export default async function Page({ params }) {
   const { userStateAuth, userStateGeneral } = await getUserStateServer()
   const { data: product, error } = await getProductById({ productId: productId })
   const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
+  const productVariants = product.product_variants.filter((productVariant) => productVariant.is_displayed === true)
 
   const breadcrumbs = [
     { label: "Collection", link: "/" },
@@ -26,7 +27,7 @@ export default async function Page({ params }) {
     { label: product?.name, link: `/collection/product/${productId}` }
   ]
 
-  if (error) {
+  if (!productVariants?.[0] || error) {
     return notFound()
   }
 
@@ -39,10 +40,10 @@ export default async function Page({ params }) {
       </div>
 
       <div className="md:container mx-auto px-4 mb-8">
-        <Tabs defaultValue={product.product_variants[0].id}>
+        <Tabs defaultValue={productVariants[0].id}>
           <div className="grid grid-cols-12 mt-4 gap-5 sm:gap-10 md:gap-12 lg:gap-14">
             <div className="col-span-12 order-last sm:order-first sm:col-span-7 md:col-span-8">
-              {product.product_variants.map((productVariant) => {
+              {productVariants.map((productVariant) => {
                 return productVariant.images_public_url.map((variantImagePublicUrl, index) => (
                   <TabsContent
                     value={productVariant.id}
@@ -63,12 +64,12 @@ export default async function Page({ params }) {
             </div>
             <div className="col-span-12 order-first sm:order-last sm:col-span-5 md:col-span-4">
               <div className="sm:sticky sm:top-20">
-                {product.product_variants.length > 1 && <>
+                {productVariants.length > 1 && <>
                   <div className="mb-4">
                     <Separator>
                       <div className="flex items-center">
                         <TabsList className={'bg-background'}>
-                          {product.product_variants.map((productVariant, index) => (
+                          {productVariants.map((productVariant, index) => (
                             <TabsTrigger
                               key={`TabTrigger-${productVariant.id}`}
                               value={productVariant.id}
@@ -83,11 +84,11 @@ export default async function Page({ params }) {
                   </div>
                 </>}
 
-                {product.product_variants.map((productVariant, index) => (
+                {productVariants.map((productVariant, index) => (
                   <TabsContent value={productVariant.id} key={`TabContent-${productVariant.id}-${index}`}>
                     <div className="flex justify-center sm:justify-start mb-8 gap-2">
                       <Badge className={'capitalize'}>{product.category}</Badge>
-                      <Badge className={''}>{`${product.product_variants.length} variant(s)`}</Badge>
+                      <Badge className={''}>{`${productVariants.length} variant(s)`}</Badge>
                     </div>
 
                     <div className="space-y-5">
@@ -145,7 +146,7 @@ export default async function Page({ params }) {
           </div>
         </Tabs>
 
-        {randomProducts[0] && <div className="">
+        {randomProducts?.[0] && <div className="">
           <Separator>
             <h3 className="text-center my-16 text-lg text-muted-foreground">Other jewelries you might like</h3>
           </Separator>
