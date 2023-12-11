@@ -65,7 +65,7 @@ export default function ProductsFeed(props) {
             </div>
           ))}
         </div>
-        {currentPage <= endPage && <>
+        {(currentPage <= endPage) && (!products?.[0]) && <>
           <div className="flex justify-center gap-4 mt-14">
             <Button
               size={'lg'}
