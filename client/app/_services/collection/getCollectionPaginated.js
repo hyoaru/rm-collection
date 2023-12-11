@@ -7,7 +7,7 @@ export default async function getCollectionPaginated({ page }) {
 
   const { data, error, count } = await supabase
     .from('products')
-    .select(`*, product_variants(*)`)
+    .select(`*, product_variants!inner(*)`)
     .eq('product_variants.is_displayed', true)
     .order('name', { ascending: true })
     .range(from, to)
@@ -18,7 +18,7 @@ export default async function getCollectionPaginated({ page }) {
 
       const { count, error } = await supabase
         .from('products')
-        .select(`*, product_variants(*)`, { count: 'exact', head: true })
+        .select(`*, product_variants!inner(*)`, { count: 'exact', head: true })
         .eq('product_variants.is_displayed', true)
       
       return {data: collectionData, error, count}
