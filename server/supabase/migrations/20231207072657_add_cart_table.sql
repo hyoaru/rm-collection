@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS public.cart CASCADE;
 
 CREATE TABLE IF NOT EXISTS cart (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
-  user_id UUID REFERENCES public.users NOT NULL,
-  product_variant_id UUID REFERENCES public.product_variants UNIQUE NOT NULL,
+  user_id UUID REFERENCES public.users ON DELETE CASCADE,
+  product_variant_id UUID REFERENCES public.product_variants ON DELETE CASCADE UNIQUE,
   quantity NUMERIC DEFAULT(1),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

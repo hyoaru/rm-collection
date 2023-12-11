@@ -1,5 +1,5 @@
 create table users (
-  id uuid references auth.users not null primary key,
+  id uuid references auth.users on delete cascade primary key,
   email text unique,
   first_name text,
   last_name text

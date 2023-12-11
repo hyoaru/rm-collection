@@ -7,21 +7,9 @@ export default async function deleteProduct(productId) {
   const supabase = getServerClient()
 
   const { data, error } = await supabase
-    .from('product_variants')
+    .from('products')
     .delete()
-    .eq('product_id', productId)
-    .then(async ({ data: deleteProductVariantData, error: deleteProductVariantError }) => {
-      if (deleteProductVariantError) {
-        return { data: deleteProductVariantData, error: deleteProductVariantError }
-      }
-
-      const { data, error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', productId)
-
-      return { data, error }
-    })
+    .eq('id', productId)
     .then(async ({ data: deleteProductData, error: deleteProductError }) => {
       if (deleteProductError) {
         return { data: deleteProductData, error: deleteProductError }

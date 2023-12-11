@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS product_variants (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
-  product_id UUID REFERENCES public.products NOT NULL,
+  product_id UUID REFERENCES public.products ON DELETE CASCADE,
   material TEXT,
   material_property TEXT,
   is_displayed BOOLEAN DEFAULT(TRUE),
