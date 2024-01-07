@@ -47,7 +47,7 @@ export default function ProductsFeed(props) {
               </div>
               <Image
                 src={'/undraw-illustrations/light-undraw_taken_re_yn20.svg'}
-                className='w-[300px] sm:w-[400px]  object-cover mx-auto'
+                className='w-[250px] sm:w-[350px]  object-cover mx-auto'
                 height={1000}
                 width={1000}
                 alt=''

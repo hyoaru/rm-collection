@@ -127,7 +127,7 @@ export default function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder={'confirm password'} {...field} />
+                  <Input type="password" placeholder={'confirm-password'} {...field} />
                 </FormControl>
                 <FormMessage className={'text-center text-xs'} />
               </FormItem>
