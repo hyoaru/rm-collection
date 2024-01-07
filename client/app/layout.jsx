@@ -1,3 +1,5 @@
+export const revalidate = 600
+
 import { Lora } from 'next/font/google'
 
 // App imports
