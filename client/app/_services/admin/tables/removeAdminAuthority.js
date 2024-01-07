@@ -2,9 +2,10 @@
 
 import { getServerClient } from "@services/supabase/getServerClient"
 import { ADMIN_ROLES } from "@constants/admin/base"
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 
 export default async function removeAdminAuthority(userId) {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
 
   const { data: { user: userStateAuth } } = await supabase.auth.getUser()
   let { data: userStateGeneral } = await supabase
@@ -42,5 +43,5 @@ export default async function removeAdminAuthority(userId) {
       return { data, error }
     })
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

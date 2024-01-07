@@ -1,11 +1,12 @@
 "use server"
 
 // App imports
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function deleteUser(userId) {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
   const { data, error } = await supabase.auth.admin.deleteUser(userId)
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

@@ -1,9 +1,18 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient";
+'use server'
+
+import { getServerClient } from "@services/supabase/getServerClient";
 
 export default async function getProductVariantImagesPublicUrl({ productId, variantId }) {
   const BUCKET_NAME = 'products'
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
   let productVariantImagesPublicUrl = []
+
+  const test = await supabase
+    .storage
+    .from('products')
+    .list(`${productId}/${variantId}`)
+
+  console.log(test)
 
   const { data, error } = await supabase
     .storage

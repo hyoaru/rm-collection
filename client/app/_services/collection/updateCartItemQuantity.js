@@ -1,7 +1,10 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient";
+'use server'
+
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
+import { getServerClient } from "@services/supabase/getServerClient";
 
 export default async function updateCartItemQuantity({ userId, productVariantId, quantity }) {
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
 
   const { data, error } = await supabase
     .from('cart')
@@ -10,5 +13,5 @@ export default async function updateCartItemQuantity({ userId, productVariantId,
     .eq('product_variant_id', productVariantId)
     .select()
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

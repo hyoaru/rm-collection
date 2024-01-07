@@ -1,3 +1,5 @@
+'use server'
+
 import getCollection from "@services/collection/getCollection";
 
 export default async function getRandomProducts(count = 4) {

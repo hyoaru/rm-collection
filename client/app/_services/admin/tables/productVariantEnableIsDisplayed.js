@@ -1,9 +1,10 @@
 "use server"
 
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function productVariantEnableIsDisplayed(productVariantId) {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
 
   const { data, error } = await supabase
     .from('product_variants')
@@ -11,5 +12,5 @@ export default async function productVariantEnableIsDisplayed(productVariantId) 
     .eq('id', productVariantId)
     .select()
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

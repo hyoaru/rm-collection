@@ -1,12 +1,15 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient";
+'use server'
+
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
+import { getServerClient } from "@services/supabase/getServerClient";
 
 export default async function getCollection() {
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
   const { data, error } = await supabase
     .from('products')
     .select(`*, product_variants!inner(*)`)
     .eq('product_variants.is_displayed', true)
     .order('name', { ascending: true })
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

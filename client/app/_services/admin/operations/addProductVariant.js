@@ -1,8 +1,11 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient"
+'use server'
+
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe"
+import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function addProductVariant({ productId, material, materialProperty, quantity, price, discountRate }) {
   const TABLE_NAME = 'product_variants'
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
 
   const { data, error } = await supabase
     .from(TABLE_NAME)
@@ -16,5 +19,5 @@ export default async function addProductVariant({ productId, material, materialP
     }])
     .select()
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

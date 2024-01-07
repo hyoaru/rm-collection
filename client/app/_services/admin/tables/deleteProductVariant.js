@@ -1,11 +1,12 @@
 "use server"
 
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 // App imports
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function deleteProductVariant(productVariantId) {
   const BUCKET_NAME = 'products'
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
 
   const { data, error } = await supabase
     .from('product_variants')
@@ -57,5 +58,5 @@ export default async function deleteProductVariant(productVariantId) {
       return { data, error }
     })
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

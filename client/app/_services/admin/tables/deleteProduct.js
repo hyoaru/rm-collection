@@ -1,10 +1,11 @@
 "use server"
 
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 // App imports
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function deleteProduct(productId) {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
 
   const { data, error } = await supabase
     .from('products')
@@ -75,5 +76,5 @@ export default async function deleteProduct(productId) {
       return { data, error }
     })
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

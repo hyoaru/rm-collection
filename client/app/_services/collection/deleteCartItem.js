@@ -1,12 +1,15 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient";
+'use server'
+
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
+import { getServerClient } from "@services/supabase/getServerClient";
 
 export default async function deleteCartItem({ itemId }) {
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
 
   const { error } = await supabase
     .from('cart')
     .delete()
     .eq('id', itemId)
 
-  return { error }
+  return { error: processErrorToCrossSideSafe(error) }
 }

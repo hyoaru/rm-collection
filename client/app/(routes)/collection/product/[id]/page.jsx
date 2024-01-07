@@ -19,7 +19,7 @@ export default async function Page({ params }) {
   const { userStateAuth, userStateGeneral } = await getUserStateServer()
   const { data: product, error } = await getProductById({ productId: productId })
   const { data: randomProducts, error: randomProductsError } = await getRandomProducts()
-  const productVariants = product.product_variants.filter((productVariant) => productVariant.is_displayed === true)
+  const productVariants = product?.product_variants?.filter((productVariant) => productVariant.is_displayed === true)
 
   const breadcrumbs = [
     { label: "Collection", link: "/" },

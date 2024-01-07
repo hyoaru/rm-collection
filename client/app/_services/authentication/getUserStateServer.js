@@ -1,8 +1,9 @@
+"use server"
+
 import { getServerClient } from "@services/supabase/getServerClient"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export async function getUserStateServer() {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
   const { data: { user: userStateAuth } } = await supabase.auth.getUser()
   let { data: userStateGeneral } = await supabase
     .from('users')

@@ -1,14 +1,15 @@
 "use server"
 
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function getProductPostingListCsv() {
-  const supabase = getServerClient()
+  const supabase = await getServerClient()
   const { data, error } = await supabase
     .from('product_variants')
     .select()
     .eq('is_displayed', true)
     .csv()
 
-  return { data, error }
+  return { data, error: processErrorToCrossSideSafe(error) }
 }

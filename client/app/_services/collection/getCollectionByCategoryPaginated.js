@@ -1,8 +1,11 @@
-import { getBrowserClient } from "@services/supabase/getBrowserClient";
+'use server'
+
+import { getServerClient } from "@services/supabase/getServerClient";
 import { getPagination } from "@constants/collection/base";
+import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
 
 export default async function getCollectionByCategoryPaginated({ category, page }) {
-  const supabase = getBrowserClient()
+  const supabase = await getServerClient()
   const { from, to, itemsPerPage } = getPagination({ page })
 
   const { data, error, count } = await supabase
@@ -28,5 +31,5 @@ export default async function getCollectionByCategoryPaginated({ category, page 
 
   const endPage = Math.ceil(count / itemsPerPage) - 1
 
-  return { data, error, count, endPage }
+  return { data, error: processErrorToCrossSideSafe(error), count, endPage }
 }
