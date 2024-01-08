@@ -7,13 +7,6 @@ export default async function getProductVariantImagesPublicUrl({ productId, vari
   const supabase = await getServerClient()
   let productVariantImagesPublicUrl = []
 
-  const test = await supabase
-    .storage
-    .from('products')
-    .list(`${productId}/${variantId}`)
-
-  console.log(test)
-
   const { data, error } = await supabase
     .storage
     .from(BUCKET_NAME)
