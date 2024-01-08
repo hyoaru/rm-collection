@@ -8,6 +8,7 @@ import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 import { useUserSignOut } from "@hooks/authentication/useUserSignOut"
 import { Button } from "@components/ui/button"
+import { Badge } from "@components/ui/badge"
 import { useToast } from "@components/ui/use-toast"
 import MainNavEndUserDropdownContent from "./MainNavEndUserDropdownContent"
 import MainNavEndCartDropdownContent from "./MainNavEndCartDropdownContent"
@@ -41,7 +42,7 @@ export default function MainNavEnd(props) {
   return (
     <>
       <div id="main-nav-end" className="flex justify-end items-center w-1/6 xl:w-1/3">
-        <div id="main-nav-end-expanded" className="hidden xl:flex">
+        <div id="main-nav-end-expanded" className="hidden xl:flex items-center">
           <Button variant={'link'} className={'px-2 text-xs'}>
             <Link href={"/collection/search"} className="uppercase font-light">Search</Link>
           </Button>
@@ -50,8 +51,11 @@ export default function MainNavEnd(props) {
             ? <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant={'link'} className={'px-2 text-xs uppercase font-light'}>
+                  <Button variant={'link'} className={'text-xs uppercase font-light relative px-4 h-max'}>
                     Cart
+                    <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
+                      {cart?.data?.length}
+                    </div>
                   </Button>
                 </DropdownMenuTrigger>
                 <MainNavEndCartDropdownContent
@@ -87,8 +91,11 @@ export default function MainNavEnd(props) {
             ? <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant={'link'} className={'px-2 text-xs uppercase font-light'}>
+                  <Button variant={'link'} className={'px-2 text-xs uppercase font-light relative'}>
                     <ShoppingCart size={17} />
+                    <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
+                      {cart?.data?.length}
+                    </div>
                   </Button>
                 </DropdownMenuTrigger>
                 <MainNavEndCartDropdownContent
