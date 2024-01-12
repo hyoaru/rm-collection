@@ -38,7 +38,11 @@ export default function MainNavEndCartDropdownContent(props) {
                 })}
               </ScrollArea>
               <div className="flex justify-center py-3">
-                <Button size={'sm'} >Proceed to checkout</Button>
+                <Link href={'/checkout'} className="">
+                  <Button size={'sm'}>
+                    Proceed to checkout
+                  </Button>
+                </Link>
               </div>
             </>}
         </div>

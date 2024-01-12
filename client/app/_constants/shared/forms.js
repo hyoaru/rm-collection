@@ -30,3 +30,10 @@ export const USERS_BASE_FORM_SCHEMA = {
   firstName: z.string().trim().min(2).max(100),
   lastName: z.string().trim().min(2).max(100),
 }
+
+export const ORDERS_BASE_FORM_SCHEMA = {
+  firstName: USERS_BASE_FORM_SCHEMA.firstName,
+  lastName: USERS_BASE_FORM_SCHEMA.lastName,
+  email: USERS_BASE_FORM_SCHEMA.email,
+  shippingAddress: z.string().trim().min(10).max(400),
+}

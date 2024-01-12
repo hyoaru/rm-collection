@@ -63,6 +63,10 @@ export async function middleware(req) {
     }
   }
 
+  if (req.nextUrl.pathname.includes('/checkout') && !userStateAuth) {
+    return NextResponse.redirect(new URL('/', req.url))
+  }
+
   return res
 }
 

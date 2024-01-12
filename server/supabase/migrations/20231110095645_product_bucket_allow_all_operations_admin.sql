@@ -1,3 +1,8 @@
+INSERT INTO storage.buckets
+  (id, name, public)
+VALUES
+  ('products', 'products', true);
+
 CREATE POLICY "Allow all operations to main admin 1ifhysk_0" ON storage.objects 
 FOR UPDATE 
 TO public 

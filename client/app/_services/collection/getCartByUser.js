@@ -11,5 +11,9 @@ export default async function getCartByUser({ userId }) {
     .select(`*, product_variants(*, products(*))`)
     .eq('user_id', userId)
 
-  return { data, error: processErrorToCrossSideSafe(error) }
+  const totalCost = data
+    ?.map((cartItem) => cartItem.product_variants)
+    ?.reduce((accumulator, currentVariant) => accumulator + currentVariant.discounted_price, 0)
+
+  return { data, error: processErrorToCrossSideSafe(error), totalCost }
 }
