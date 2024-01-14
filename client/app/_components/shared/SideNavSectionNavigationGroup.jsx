@@ -4,7 +4,7 @@ import Link from 'next/link'
 // App imports
 import { Button } from '@components/ui/button'
 
-export default function AccountSideNavSectionNavigationGroup(props) {
+export default function SideNavSectionNavigationGroup(props) {
   const { navigations, label } = props
   return (
     <>

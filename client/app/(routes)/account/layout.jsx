@@ -1,7 +1,7 @@
 import React from 'react'
 
 // App imports
-import AccountSideNavSectionNavigationGroup from '@components/account/shared/AccountSideNavSectionNavigationGroup'
+import AccountSideNavSectionNavigationGroup from '@/app/_components/shared/SideNavSectionNavigationGroup'
 import SelectNavigation from '@components/shared/SelectNavigation'
 import { NAVIGATIONS as navigations } from '@constants/account/base'
 
