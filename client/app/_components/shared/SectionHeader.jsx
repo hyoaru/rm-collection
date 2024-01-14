@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function AccountSectionHeader(props) {
+export default function SectionHeader(props) {
   const { title, description } = props
   return (
     <>

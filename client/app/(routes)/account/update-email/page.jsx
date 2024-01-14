@@ -1,5 +1,5 @@
 import React from 'react'
-import AccountSectionHeader from '@components/account/shared/AccountSectionHeader'
+import SectionHeader from '@components/shared/SectionHeader'
 import AccountUpdateEmailForm from '@components/account/AccountUpdateEmailForm'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
@@ -8,7 +8,7 @@ export default async function Page() {
   
   return (
     <>
-      <AccountSectionHeader
+      <SectionHeader
         title={'Update email'}
         description={'Update the email of your account.'}
       />
