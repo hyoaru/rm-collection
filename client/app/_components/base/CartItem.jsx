@@ -12,7 +12,7 @@ import revalidateAllData from '@services/shared/revalidateAllData'
 import updateCartItemQuantity from '@services/collection/updateCartItemQuantity'
 
 export default function CartItem(props) {
-  const { cartItem, product, productVariant, userState } = props
+  const { cartItem, product, productVariant, userState, isReadOnly } = props
   const { id: productId, name: productName } = product
   const { toast } = useToast()
 
@@ -66,12 +66,12 @@ export default function CartItem(props) {
         <div className="col-span-3">
           <img
             src={productThumbnailPublicUrl}
-            className="object-cover rounded-lg w-full max-h-[100px]"
+            className="object-cover rounded-lg h-full "
             alt=""
           />
         </div>
 
-        <div className="col-span-7 self-center">
+        <div className={`self-center ${isReadOnly ? 'col-span-9' : 'col-span-7'}`}>
           <p className="font-semibold text-sm">{productName}</p>
           <p className="text-xs">{productVariantMaterial}-{productVariantMaterialProperty}</p>
           <p className="text-xs text-muted-foreground">{productVariantId}</p>
@@ -79,7 +79,7 @@ export default function CartItem(props) {
             <div className="me-auto">
               <p className=''>{`₱ ${productVariantDiscountedPrice.toLocaleString()}`}</p>
             </div>
-            <div className="flex items-center gap-x-1">
+            <div className={`flex items-center gap-x-1 ${isReadOnly ? 'hidden' : ''}`}>
               <button
                 type='button'
                 className='px-2 rounded-lg transition-all ease-in-out duration-300 hover:bg-background'
@@ -99,7 +99,7 @@ export default function CartItem(props) {
           </div>
         </div>
 
-        <div className="col-span-2 border-s ">
+        <div className={`border-s ${isReadOnly ? 'hidden' : 'col-span-2'}`}>
           <div className="flex items-center justify-center h-full">
             <div
               onClick={() => onRemove(cartItemId)}
