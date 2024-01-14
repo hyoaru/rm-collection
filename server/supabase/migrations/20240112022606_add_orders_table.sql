@@ -28,8 +28,16 @@ CREATE TABLE IF NOT EXISTS orders (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.users ON DELETE SET NULL,
   product_variant_id UUID REFERENCES public.product_variants ON DELETE CASCADE,
-  quantity NUMERIC,
-  shipping_address TEXT,
+  quantity NUMERIC NOT NULL,
+  price NUMERIC NOT NULL,
+  discount_rate NUMERIC NOT NULL,
+  total_price NUMERIC GENERATED ALWAYS AS (
+    CASE
+      WHEN discount_rate = 0 THEN price * quantity
+      ELSE (price - (price * (discount_rate / 100))) * quantity
+    END
+  ) STORED,
+  shipping_address TEXT NOT NULL,
   status_id SMALLINT REFERENCES public.order_status ON DELETE SET NULL DEFAULT(2),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()

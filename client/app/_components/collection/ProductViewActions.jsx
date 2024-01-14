@@ -13,6 +13,7 @@ export default function ProductViewActions(props) {
   const { userStateAuth, userStateGeneral } = userState
   const { quantity: productVariantQuantity, discounted_price: productVariantDiscountedPrice } = productVariant
   const [orderQuantity, setOrderQuantity] = useState(productVariantQuantity > 0 ? 1 : 0)
+  const isOutOfStock = productVariantQuantity <= 0
   const { addToCart, isLoading } = useAddToCart()
   const { toast } = useToast()
 
@@ -74,9 +75,9 @@ export default function ProductViewActions(props) {
         size={'lg'}
         className={'w-full'}
         onClick={onAddToCart}
-        disabled={isLoading}
+        disabled={isLoading || isOutOfStock}
       >
-        {`₱ ${productVariantDiscountedPrice.toLocaleString()} ・ Add to cart`}
+        {isOutOfStock ? 'Out of stock' : `₱ ${productVariantDiscountedPrice.toLocaleString()} ・ Add to cart`}
       </Button>
     </>
   )

@@ -58,11 +58,11 @@ export default function CheckoutForm(props) {
             description: "Please try again later."
           })
         } else {
-          await revalidateAllData()
           toast({
             title: "Success",
             description: "Your item is now ready to be showcased."
           })
+          await revalidateAllData()
         }
       })
 

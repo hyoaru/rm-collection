@@ -81,6 +81,7 @@ export default function CartItem(props) {
             </div>
             <div className="flex items-center gap-x-1">
               <button
+                type='button'
                 className='px-2 rounded-lg transition-all ease-in-out duration-300 hover:bg-background'
                 onClick={onOrderQuantityDecrease}
               >
@@ -88,6 +89,7 @@ export default function CartItem(props) {
               </button>
               <p className='font-semibold'>{orderQuantity}</p>
               <button
+                type='button'
                 className='px-2 rounded-lg transition-all ease-in-out duration-300 hover:bg-background'
                 onClick={onOrderQuantityIncrease}
               >

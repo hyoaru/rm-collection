@@ -21,7 +21,9 @@ export default function useCheckoutOrder() {
           user_id: userId,
           product_variant_id: cartItem.product_variant_id,
           quantity: cartItem.quantity,
-          shipping_address: shippingAddress
+          shipping_address: shippingAddress,
+          price: cartItem?.product_variants?.price,
+          discount_rate: cartItem?.product_variants?.discount_rate,
         }])
         .select()
         .then(async ({ data: orderInsertData, error: orderInsertError }) => {
