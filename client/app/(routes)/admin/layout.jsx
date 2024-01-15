@@ -35,7 +35,7 @@ export default async function Layout({ children }) {
 
           {/* Admin side nav expanded */}
           <div id='AdminSideNavExpanded' className="hidden col-span-12 sm:block sm:col-span-4 lg:col-span-3">
-            <div className="flex flex-col gap-0 sm:gap-8 sticky top-16">
+            <div className="flex flex-col gap-0 sm:gap-4 sticky top-16">
               <AdminSideNavSectionNavigationGroup
                 sectionTitle={'operations'}
                 navigations={navigationOperations}

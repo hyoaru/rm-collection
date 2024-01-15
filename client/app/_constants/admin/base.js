@@ -15,6 +15,7 @@ export const NAVIGATION_OPERATIONS = {
 }
 
 export const NAVIGATION_TABLES = {
+  orders: { name: 'Orders', pathName: `${ADMIN_TABLES_BASE_PATH}/orders`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
   admins: { name: 'Admins', pathName: `${ADMIN_TABLES_BASE_PATH}/admins`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
   users: { name: 'Users', pathName: `${ADMIN_TABLES_BASE_PATH}/users`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
   products: { name: 'Products', pathName: `${ADMIN_TABLES_BASE_PATH}/products`, adminRolesPermitted: [...BASE_ADMIN_ROLES] },
