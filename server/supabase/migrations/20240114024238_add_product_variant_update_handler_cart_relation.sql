@@ -9,6 +9,8 @@ BEGIN
     END
   )
   WHERE product_variant_id = new.id;
+
+  DELETE FROM public.cart WHERE quantity <= 0;
   RETURN new;
 END;
 $$ language plpgsql security definer;

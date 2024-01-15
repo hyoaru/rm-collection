@@ -13,11 +13,33 @@ INSERT INTO public.order_status (id, label)
 VALUES
   (0, 'cancelled-by-user'),
   (1, 'cancelled-by-management'),
-  (2, 'to-ship'),
-  (3, 'to-receive'),
-  (4, 'completed');
+  (2, 'pending'),
+  (3, 'to-ship'),
+  (4, 'to-receive'),
+  (5, 'completed');
 
 ALTER TABLE IF EXISTS public.order_status ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow read operation for everyone" ON "public"."order_status"
+AS PERMISSIVE FOR SELECT
+TO public
+USING (true);
+
+CREATE POLICY "Allow all operations for tier 1 admin on order status table"
+ON public.order_status
+FOR ALL TO authenticated USING (
+  (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_1'
+)  WITH CHECK (
+  (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_1'
+);
+
+CREATE POLICY "Allow update operation for tier 2 admin on order status table"
+ON public.order_status
+FOR UPDATE TO authenticated USING (
+  (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_2'
+)  WITH CHECK (
+  (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_2'
+);
 
 
 -- Orders
@@ -93,5 +115,5 @@ CREATE extension IF NOT EXISTS moddatetime SCHEMA extensions;
 CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.orders
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 
-  CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.order_status
+CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.order_status
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
