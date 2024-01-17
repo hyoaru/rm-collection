@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -17,6 +19,11 @@ module.exports = {
     },
     extend: {
       colors: {
+        // Custom colors
+        info: colors.sky['700'],
+        success: colors.lime['700'],
+        
+        // ShadcnUi Colors
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

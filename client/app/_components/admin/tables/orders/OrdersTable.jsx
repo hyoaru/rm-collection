@@ -7,6 +7,7 @@ import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, RefreshCw } fro
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/tooltip"
+import { Dialog, DialogTrigger } from '@components/ui/dialog'
 import { Input } from '@components/ui/input'
 import { Button } from '@components/ui/button'
 import useGetTable from '@hooks/admin/operations/useGetTable'
@@ -17,8 +18,9 @@ import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
 import DataTableRowAction from '@components/admin/tables/shared/DataTableRowAction'
 import setOrderStatusById from '@services/shared/setOrderStatusById'
-import { ADMIN_ROLES } from '@/app/_constants/admin/base'
+import { ADMIN_ROLES } from '@constants/admin/base'
 import getOrdersCsv from '@services/admin/shared/getOrdersCsv'
+import OrderReceiptDialogContent from '@components/shared/OrderReceiptDialogContent'
 
 export default function OrdersTable(props) {
   const { orders, orderStatus, userStateGeneral } = props
@@ -84,6 +86,20 @@ export default function OrdersTable(props) {
         />)
     })
   }
+
+  columnDefinition.push({
+    id: 'receipt', accessorFn: (row) => row, header: '',
+    cell: (info) => (
+      <Dialog>
+        <DialogTrigger>
+          <Button size={'sm'}>
+            {info.getValue().status_id === 2 ? 'Validate order' : 'Order receipt'}
+          </Button>
+        </DialogTrigger>
+        <OrderReceiptDialogContent order={info.getValue()} />
+      </Dialog>
+    )
+  })
 
   const { table, globalFilter, setGlobalFilter, pageRef, flexRender } = useGetTable({
     data: filteredOrders,
