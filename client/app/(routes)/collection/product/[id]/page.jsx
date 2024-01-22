@@ -126,7 +126,7 @@ export default async function Page({ params }) {
                       </div>
 
                       <div id="product.description">
-                        <p>{product.description}</p>
+                        <p className='whitespace-pre'>{product.description}</p>
                       </div>
                     </div>
 
