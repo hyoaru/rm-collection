@@ -21,6 +21,10 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL('/', req.url))
   }
 
+  if (req.nextUrl.pathname.includes('/orders') && !userStateAuth) {
+    return NextResponse.redirect(new URL('/auth/sign-in', req.url))
+  }
+
   if (req.nextUrl.pathname.includes('/account')) {
     if (!userStateAuth && !ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/auth/sign-in', req.url))
