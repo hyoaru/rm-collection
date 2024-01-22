@@ -26,7 +26,7 @@ export default function OrdersFeed(props) {
     )
   ), [orders])
 
-  const filteredOrders = useMemo(() => {
+  const filteredOrders = (() => {
     let filteredOrdersByStatus = (
       statusFilter !== 'all'
         ? orders.filter((order) => order.order_status.label === statusFilter)
@@ -50,8 +50,7 @@ export default function OrdersFeed(props) {
     )
 
     return filteredOrderByKeyword
-
-  }, [orders, statusFilter, keywordFilter])
+  })()
 
   function toggleOrdersSortOrder() {
     orders.reverse()
@@ -121,7 +120,7 @@ export default function OrdersFeed(props) {
             </div>
           </div>
           <div className="mt-10 columns-1 space-y-8 sm:columns-2 lg:columns-3 lg:gap-x-8 ">
-            {filteredOrders.map((order, index) => (
+            {filteredOrders?.map((order, index) => (
               <div className="break-inside-avoid-column w-full" key={order.id}>
                 <OrderCard order={order} />
               </div>
