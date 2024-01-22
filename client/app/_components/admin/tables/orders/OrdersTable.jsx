@@ -83,7 +83,8 @@ export default function OrdersTable(props) {
           rowActions={rowActions}
           data={info.getValue()}
           userStateGeneral={userStateGeneral}
-        />)
+        />
+      )
     })
   }
 
@@ -91,7 +92,7 @@ export default function OrdersTable(props) {
     id: 'receipt', accessorFn: (row) => row, header: '',
     cell: (info) => (
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button size={'sm'}>
             {info.getValue().status_id === 2 ? 'Validate order' : 'Order receipt'}
           </Button>
