@@ -53,7 +53,7 @@ export default function AdminDashboard(props) {
     const currentMonthYear = dayjs().format('YYYY-MM')
     return orders
       ?.filter((order) => dayjs(order.created_at)
-      .format('YYYY-MM') == currentMonthYear)
+        .format('YYYY-MM') == currentMonthYear)
       .length
   }, [orders])
 
@@ -89,7 +89,9 @@ export default function AdminDashboard(props) {
       <div className="grid grid-cols-12 mt-4 gap-4">
         <div className="col-span-12 lg:col-span-7">
           <div className="border rounded-xl p-5">
-            <BarChartSalesThroughoutYears orders={orders} />
+            {orders?.[0]
+              ? <BarChartSalesThroughoutYears orders={orders} />
+              : <h4 className='text-center font-bold text-2xl py-24 opacity-80'>No data yet</h4>}
           </div>
         </div>
         <div className="col-span-12 lg:col-span-5">
