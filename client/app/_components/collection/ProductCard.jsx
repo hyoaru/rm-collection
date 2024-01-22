@@ -30,7 +30,7 @@ export default function ProductCard(props) {
         </div>
         <div className="sm:px-3 py-3 md:text-sm ">
           <div className="grid grid-cols-12">
-            <div className="col-span-12 lg:col-span-9 space-y-1">
+            <div className="col-span-12 lg:col-span-8 space-y-1">
               <p className="lg:text-xl font-semibold">{productName}</p>
 
               <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs items-center">
@@ -41,7 +41,7 @@ export default function ProductCard(props) {
                 </>}
               </div>
             </div>
-            <div className="hidden lg:block col-span-12 lg:col-span-3 lg:self-center lg:justify-self-end">
+            <div className="hidden lg:block col-span-12 lg:col-span-4 lg:self-center lg:justify-self-end">
               <div className="lg:text-end">
                 <Badge>{`₱ ${lowestDiscountedProductVariant.discounted_price.toLocaleString()}`}</Badge>
               </div>

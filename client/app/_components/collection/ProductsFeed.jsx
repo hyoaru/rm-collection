@@ -55,7 +55,7 @@ export default function ProductsFeed(props) {
             </div>
           </div>
         </>}
-        <div className="columns-2 space-y-8 sm:columns-3 lg:gap-x-8 ">
+        <div className="columns-1 space-y-8 sm:columns-2 lg:columns-3 lg:gap-x-8 ">
           {products && products.map((product, index) => (
             <div className="break-inside-avoid-column w-full" key={product.id}>
               <ProductCard
