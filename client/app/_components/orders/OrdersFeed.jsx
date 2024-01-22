@@ -1,42 +1,72 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
 
 // App imports
-import OrderCard from '@components/collection/OrderCard'
-import CollectionHeader from '@components/collection/CollectionHeader'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Button } from '@components/ui/button'
-import { useRouter } from 'next/navigation'
+import { Input } from '@components/ui/input'
+import OrderCard from '@components/orders/OrderCard'
 
 export default function OrdersFeed(props) {
-  const { orders, breadcrumbs, inStock, endPage, currentPage } = props
-  const router = useRouter()
+  const { orders } = props
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [keywordFilter, setKeywordFilter] = useState('')
+  const [sortOrder, setSortOrder] = useState("Ascending")
   const [_, setState] = useState()
 
-  function toggleOrdersOrder() {
+  const orderStatusList = useMemo(() => (
+    Array.from(
+      new Set(
+        orders
+          .sort((a, b) => a.status_id - b.status_id)
+          .map((order) => order.order_status.label)
+      )
+    )
+  ), [orders])
+
+  const filteredOrders = useMemo(() => {
+    let filteredOrdersByStatus = (
+      statusFilter !== 'all'
+        ? orders.filter((order) => order.order_status.label === statusFilter)
+        : orders
+    )
+
+    let filteredOrderByKeyword = (
+      keywordFilter !== ''
+        ? filteredOrdersByStatus.filter(
+          (order) => {
+            let stringToSearch = Object.values(order).join(' ').toLowerCase()
+
+            stringToSearch += Object.values(order.product_variants).join(' ').toLowerCase()
+            stringToSearch += Object.values(order.product_variants.products).join(' ').toLowerCase()
+            stringToSearch += Object.values(order.order_status).join(' ').toLowerCase()
+
+            return stringToSearch.includes(keywordFilter)
+          }
+        )
+        : filteredOrdersByStatus
+    )
+
+    return filteredOrderByKeyword
+
+  }, [orders, statusFilter, keywordFilter])
+
+  function toggleOrdersSortOrder() {
     orders.reverse()
     setState(performance.now())
   }
 
-  function onPreviousPage() {
-    if (currentPage <= 0) { return }
-    router.push(`/?page=${Number(currentPage) - 1}`)
-  }
-
-  function onNextPage() {
-    if (currentPage == endPage) { return }
-    router.push(`/?page=${Number(currentPage) + 1}`)
+  function onSortOrderClick() {
+    if (orders.length > 0) {
+      setSortOrder(prevSortOrder => prevSortOrder === "Ascending" ? "Descending" : "Ascending")
+      toggleOrdersSortOrder()
+    }
   }
 
   return (
     <>
-      <CollectionHeader
-        breadcrumbs={breadcrumbs}
-        inStock={inStock}
-        toggleSortOrder={toggleOrdersOrder}
-      />
-
       <div className="md:container mx-auto px-4 mt-4 mb-8">
         {!orders?.[0] && <>
           <div className="flex justify-center mt-10">
@@ -55,35 +85,47 @@ export default function OrdersFeed(props) {
             </div>
           </div>
         </>}
-        <div className="columns-2 space-y-8 sm:columns-3 lg:gap-x-8 ">
-          {orders && orders.map((order, index) => (
-            <div className="break-inside-avoid-column w-full" key={order.id}>
-              <OrderCard
-                order={order}
-                index={index}
-              />
-            </div>
-          ))}
-        </div>
-        {(currentPage <= endPage) && (!orders?.[0]) && <>
-          <div className="flex justify-center gap-4 mt-14">
-            <Button
-              size={'lg'}
-              className={'w-28'}
-              onClick={onPreviousPage}
-              disabled={currentPage == 0}
-            >
-              Previous
-            </Button>
+        {orders?.[0] && <>
+          <div className="flex items-center gap-x-4 gap-y-2 flex-col lg:flex-row">
+            <Input
+              className={'w-full me-auto'}
+              placeholder={'Filter by name, material, material property, etc'}
+              onChange={(event) => setKeywordFilter(event.target.value)}
+            />
 
-            <Button
-              size={'lg'}
-              className={'w-28'}
-              onClick={onNextPage}
-              disabled={currentPage == endPage}
-            >
-              Next
-            </Button>
+            <div className="flex items-center gap-x-4 w-full lg:w-max">
+              <Select className={'w-full'} onValueChange={setStatusFilter} value={statusFilter}>
+                <SelectTrigger className={'w-full lg:w-max'}>
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='all'>all-orders</SelectItem>
+                  {orderStatusList?.map((orderStatus, index) => (
+                    <SelectItem
+                      key={`orderStatus-${orderStatus}`}
+                      value={orderStatus}
+                    >
+                      {orderStatus}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Button
+                variant={'secondary'}
+                onClick={onSortOrderClick}
+                className={'w-full lg:w-max'}
+              >
+                {`Sort order: ${sortOrder}`}
+              </Button>
+            </div>
+          </div>
+          <div className="mt-10 columns-1 space-y-8 sm:columns-2 lg:columns-3 lg:gap-x-8 ">
+            {filteredOrders.map((order, index) => (
+              <div className="break-inside-avoid-column w-full" key={order.id}>
+                <OrderCard order={order} />
+              </div>
+            ))}
           </div>
         </>}
       </div>

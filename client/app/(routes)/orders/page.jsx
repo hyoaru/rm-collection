@@ -1,21 +1,25 @@
 import React from 'react'
 
 // App imports
-import SectionHeader from '@/app/_components/shared/SectionHeader'
+import SectionHeader from '@components/shared/SectionHeader'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 import getAllOrdersByUser from '@services/orders/getAllOrdersByUser'
+import OrdersFeed from '@components/orders/OrdersFeed'
 
 export default async function Page() {
   const { userStateGeneral, userStateAuth } = await getUserStateServer()
-  const { data: orders, error } = await getAllOrdersByUser()
+  const { data: orders, error } = await getAllOrdersByUser(userStateGeneral.id)
 
   return (
     <>
-      <SectionHeader
-        title={'All orders'}
-        description={'Overview information of all your orders.'}
-      />
+      <div className="mt-4">
+        <SectionHeader
+          title={'Orders'}
+          description={'Overview information of all your purchase.'}
+        />
 
+        <OrdersFeed orders={orders} />
+      </div>
     </>
   )
 }

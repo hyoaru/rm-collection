@@ -27,8 +27,13 @@ export default function MainNavEndUserDropdownContent(props) {
           </DropdownMenuItem>
         </>}
         <DropdownMenuItem>
+          <Link href={'/orders'} className="w-full font-light">Orders</Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem>
           <Link href={'/account'} className="w-full font-light">Account</Link>
         </DropdownMenuItem>
+        
         <DropdownMenuItem>
           <span onClick={onUserSignOut} className="font-light w-full cursor-pointer">Sign out</span>
         </DropdownMenuItem>
