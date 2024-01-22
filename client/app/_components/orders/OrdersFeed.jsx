@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
+import SectionHeader from '@components/shared/SectionHeader'
 import OrderCard from '@components/orders/OrderCard'
 
 export default function OrdersFeed(props) {
@@ -85,6 +86,11 @@ export default function OrdersFeed(props) {
           </div>
         </>}
         {orders?.[0] && <>
+          <SectionHeader
+            title={'Orders'}
+            description={'Overview information of all your purchase.'}
+          />
+
           <div className="flex items-center gap-x-4 gap-y-2 flex-col lg:flex-row">
             <Input
               className={'w-full me-auto'}
