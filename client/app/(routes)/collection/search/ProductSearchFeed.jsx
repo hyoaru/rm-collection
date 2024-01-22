@@ -10,8 +10,8 @@ import ProductCard from '@components/collection/ProductCard'
 
 export default function ProductSearchFeed(props) {
   const { products, breadcrumbs } = props
-  const [matchedProducts, setMatchedProducts] = useState(null)
-  const inStock = matchedProducts?.length ?? 0
+  const [keywordFilter, setKeywordFilter] = useState('')
+  const inStock = products?.length ?? 0
   const [_, setState] = useState()
 
   function toggleProductsOrder() {
@@ -19,27 +19,21 @@ export default function ProductSearchFeed(props) {
     setState(performance.now())
   }
 
-  function onSearchChange(event) {
-    const searchQuery = event.target.value
-
-    if (searchQuery) {
-      const productsMatchingQuery = products.filter(
+  const matchedProducts = (
+    keywordFilter !== ''
+      ? products.filter(
         (product) => {
           let stringToSearch = Object.values(product).join(' ').toLowerCase()
+
           product?.product_variants?.forEach((productVariant) => {
             stringToSearch += Object.values(productVariant).join(' ').toLowerCase()
           })
 
-          return stringToSearch.includes(searchQuery)
+          return stringToSearch.includes(keywordFilter)
         }
       )
-
-      setMatchedProducts(productsMatchingQuery)
-    } else {
-      setMatchedProducts(null)
-    }
-
-  }
+      : products
+  )
 
   return (
     <>
@@ -55,7 +49,7 @@ export default function ProductSearchFeed(props) {
           <Input
             className={'max-w-4xl placeholder:text-center text-center'}
             placeholder={'Search product by id, name, or any other attribute'}
-            onChange={onSearchChange}
+            onChange={(event) => setKeywordFilter(event.target.value)}
           />
         </div>
 
