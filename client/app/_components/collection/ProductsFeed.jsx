@@ -42,7 +42,7 @@ export default function ProductsFeed(props) {
           <div className="flex justify-center mt-10">
             <div className="space-y-12">
               <div className="">
-                <h1 className='text-4xl text-center font-bold'>No products avaiable yet</h1>
+                <h1 className='text-4xl text-center font-bold'>No products available yet</h1>
                 <h1 className='text-lg mt-2 text-muted-foreground text-center'>Stay tuned for dazzling exclusive deals</h1>
               </div>
               <Image
