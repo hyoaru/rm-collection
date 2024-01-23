@@ -11,8 +11,9 @@ export default function useCheckoutOrder() {
     const TABLE_NAME = 'orders'
     const { userId, cartItems, shippingAddress } = props
     let response = { data: null, error: null }
-
+    
     setIsLoading(true)
+    const orderList = []
 
     for await (const cartItem of cartItems) {
       let { data, error } = await supabase
@@ -25,7 +26,7 @@ export default function useCheckoutOrder() {
           price: cartItem?.product_variants?.price,
           discount_rate: cartItem?.product_variants?.discount_rate,
         }])
-        .select()
+        .select(`*, product_variants(*, products(*)), order_status(*), users(*)`)
         .then(async ({ data: orderInsertData, error: orderInsertError }) => {
           if (orderInsertError) {
             return { data: orderInsertData, error: orderInsertError }
@@ -43,11 +44,11 @@ export default function useCheckoutOrder() {
             .eq('id', cartItem?.product_variants?.id)
             .select()
 
-          return { data, error }
+          return { data: orderInsertData, error }
         })
-        .then(async ({ data: updateProductVariantData, error: updateProductVariantError }) => {
+        .then(async ({ data: orderInsertData, error: updateProductVariantError }) => {
           if (updateProductVariantError) {
-            return { data: updateProductVariantData, error: updateProductVariantError }
+            return { data: orderInsertData, error: updateProductVariantError }
           }
 
           const { data, error } = await supabase
@@ -55,13 +56,15 @@ export default function useCheckoutOrder() {
             .delete()
             .eq('id', cartItem.id)
 
-          return { data, error }
+          orderList.push(...orderInsertData)
+          return { data: orderInsertData, error }
         })
 
       response.data = data
       response.error = error
     }
 
+    response.data = orderList
     setIsLoading(false)
     return response
   }

@@ -13,15 +13,19 @@ import { Textarea } from '@components/ui/textarea'
 import CartItem from '@components/base/CartItem'
 import { Button } from '@components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
-import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle, DialogTrigger } from "@components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle, DialogDescription } from "@components/ui/dialog"
 import { ADD_ORDER_FORM_SCHEMA as formSchema } from '@constants/checkout/forms'
 import useCheckoutOrder from '@hooks/checkout/useCheckoutOrder'
 import revalidateAllData from '@services/shared/revalidateAllData'
+import OrderReceiptDialogContent from '@components/shared/OrderReceiptDialogContent'
+import MultipleOrderReceiptDialogContent from '@components/shared/MultipleOrderReceiptDialogContent'
 
 export default function CheckoutForm(props) {
   const { userState, cart } = props
   const { checkoutOrder, isLoading } = useCheckoutOrder()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [orders, setOrders] = useState(null)
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
   const { toast } = useToast()
 
   const form = useForm({
@@ -60,6 +64,10 @@ export default function CheckoutForm(props) {
     setIsModalOpen(true)
   }
 
+  function openReceiptModal() {
+    setIsReceiptModalOpen(true)
+  }
+
   async function onSubmit() {
     const data = form.getValues()
 
@@ -75,16 +83,16 @@ export default function CheckoutForm(props) {
             title: "An error has occured.",
             description: "Please try again later."
           })
-        } else {
-          toast({
-            title: "Success",
-            description: "Your item is now ready to be showcased."
-          })
-          form.reset()
-          await revalidateAllData()
-        }
 
-        closeConfirmationModal()
+          closeConfirmationModal()
+        } else {
+          setOrders(data)
+          form.reset()
+          closeConfirmationModal()
+          await revalidateAllData()
+
+          openReceiptModal()
+        }
       })
   }
 
@@ -175,7 +183,7 @@ export default function CheckoutForm(props) {
               </div>
             </div>
 
-            <div className="col-span-12">
+            <div className="col-span-12 flex justify-center">
               <Button
                 type={'submit'}
                 size={'lg'}
@@ -230,6 +238,13 @@ export default function CheckoutForm(props) {
           </div>
         </form>
       </Form>
+      
+      {orders && <>
+        <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+          <MultipleOrderReceiptDialogContent orders={orders} />
+        </Dialog>
+      </>}
+
     </>
   )
 }
