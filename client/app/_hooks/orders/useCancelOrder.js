@@ -16,7 +16,26 @@ export default function useCancelOrder() {
       .from(TABLE_NAME)
       .update({ status_id: 0 })
       .eq('id', orderId)
-      .select()
+      .select(`*, product_variants(*, products(*))`)
+      .single()
+      .then(async ({ data: orderUpdateData, error: orderUpdateError }) => {
+        if (orderUpdateError) {
+          return { data: orderUpdateData, error: orderUpdateError }
+        }
+
+        const postCancellationProductVariantQuantity = (
+          orderUpdateData?.product_variants?.quantity
+          + orderUpdateData?.quantity
+        )
+
+        const { data, error } = await supabase
+          .from('product_variants')
+          .update({ quantity: postCancellationProductVariantQuantity })
+          .eq('id', orderUpdateData?.product_variants.id)
+          .select()
+
+        return { data, error }
+      })
 
     setIsLoading(false)
 
