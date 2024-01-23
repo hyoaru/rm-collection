@@ -82,7 +82,7 @@ export default function OrderCard({ order }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <Link href={`/collection/product/${orderId}`}>
+        <Link href={`/collection/product/${productId}`}>
           <div className="rounded-tl-xl rounded-br-xl overflow-hidden">
             <Image
               alt=''
