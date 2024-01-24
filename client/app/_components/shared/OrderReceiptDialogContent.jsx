@@ -20,7 +20,7 @@ export default function OrderReceiptDialogContent({ order }) {
   const { id: orderId, users: user, shipping_address: shippingAddress, product_variants: productVariants, order_status: orderStatus } = order
   const { id: orderStatusId, label: orderStatusLabel } = orderStatus
   const { quantity, discount_rate: discountRate, price, total_price: totalPrice } = order
-  const { first_name: firstName, last_name: lastName, email } = user
+  const { first_name: firstName, last_name: lastName, email } = user || {}
   const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants || {}
   const { id: productId, name: productName } = product || {}
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
