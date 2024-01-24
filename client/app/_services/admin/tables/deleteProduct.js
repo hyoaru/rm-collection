@@ -7,6 +7,15 @@ import { getServerClient } from "@services/supabase/getServerClient"
 export default async function deleteProduct(productId) {
   const supabase = await getServerClient()
 
+  let { count } = await supabase
+    .from('products')
+    .select(`*, product_variants(*, orders(*, order_status(*)))`, { count: 'exact', head: true })
+    .in('product_variants.orders.order_status.label', ['pending', 'to-ship', 'to-receive'])
+
+  if (count > 0) {
+    return { data: null, error: { message: `Product has ${count} ongoing orders` } }
+  }
+
   const { data, error } = await supabase
     .from('products')
     .delete()

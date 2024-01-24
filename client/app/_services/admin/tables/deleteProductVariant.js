@@ -8,6 +8,15 @@ export default async function deleteProductVariant(productVariantId) {
   const BUCKET_NAME = 'products'
   const supabase = await getServerClient()
 
+  let { count } = await supabase
+    .from('product_variants')
+    .select(`*, orders(*, order_status(*))`, { count: 'exact', head: true })
+    .in('orders.order_status.label', ['pending', 'to-ship', 'to-receive'])
+
+  if (count > 0) {
+    return { data: null, error: { message: `Product variant has ${count} ongoing orders`} }
+  }
+
   const { data, error } = await supabase
     .from('product_variants')
     .select('*')
@@ -17,7 +26,7 @@ export default async function deleteProductVariant(productVariantId) {
       if (getProductVariantError) {
         return { data: getProductVariantData, error: getProductVariantError }
       }
-      
+
       const { data, error } = await supabase
         .storage
         .from(BUCKET_NAME)
