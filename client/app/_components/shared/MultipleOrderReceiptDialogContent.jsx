@@ -20,7 +20,7 @@ export default function MultipleOrderReceiptDialogContent({ orders }) {
   const { users: user, shipping_address: shippingAddress, product_variants: productVariants } = orders?.[0]
   const { id: userId, first_name: firstName, last_name: lastName, email } = user
   const totalCost = orders?.reduce((accumulator, currentOrder) => accumulator + currentOrder.total_price, 0)
-  const {toast} = useToast()
+  const { toast } = useToast()
 
   const [{ isLoading }, downloadReceipt] = useToJpeg({
     selector: '#receiptBody',
@@ -144,12 +144,16 @@ export default function MultipleOrderReceiptDialogContent({ orders }) {
                               />
                             </div>
                             <div className="col-span-9">
-                              <p className="text-xs text-muted-foreground">{`Order #${orderId}`}</p>
-                              <p className="font-semibold text-sm">{productName}</p>
-                              <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
-                              <div className="flex items-center gap-x-2">
-                                <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>
-                                <p className="text-xs">{`${discountRate}% off`}</p>
+                              <div className="flex h-full w-full">
+                                <div className="my-auto">
+                                  <p className="text-xs text-muted-foreground">{`Order #${orderId}`}</p>
+                                  <p className="font-semibold text-sm">{productName}</p>
+                                  <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
+                                  <div className="flex items-center gap-x-2">
+                                    <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>
+                                    <p className="text-xs">{`${discountRate}% off`}</p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
