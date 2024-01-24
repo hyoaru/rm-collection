@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS orders (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.users ON DELETE SET NULL,
-  product_variant_id UUID REFERENCES public.product_variants ON DELETE CASCADE,
+  product_variant_id UUID REFERENCES public.product_variants ON DELETE SET NULL,
   quantity NUMERIC NOT NULL,
   price NUMERIC NOT NULL,
   discount_rate NUMERIC NOT NULL,
