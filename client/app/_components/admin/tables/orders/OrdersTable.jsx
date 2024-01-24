@@ -70,7 +70,7 @@ export default function OrdersTable(props) {
     {
       label: "Order: cancel",
       onClick: (orderId) => setOrderStatusById(orderId, 1),
-      isDestructive: false,
+      isDestructive: true,
       adminRolesPermitted: ADMIN_ROLES
     }
   ]
