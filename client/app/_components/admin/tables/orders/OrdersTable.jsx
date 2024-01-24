@@ -38,8 +38,8 @@ export default function OrdersTable(props) {
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'product_variant_id' },
     { accessorFn: (row) => row.users.email, header: 'email' },
-    { accessorFn: (row) => row.product_variants.products.name, header: 'product_name' },
-    { accessorFn: (row) => row.product_variants.material, header: 'variant_material' },
+    { accessorFn: (row) => row.product_variants?.products.name, header: 'product_name' },
+    { accessorFn: (row) => row.product_variants?.material, header: 'variant_material' },
     { accessorKey: 'quantity' }, { accessorKey: 'price', header: 'price_sold_at' },
     { accessorFn: (row) => `${row.discount_rate}%`, header: 'discount_rate_sold_at' },
     { accessorKey: 'total_price', header: 'total_price_sold_at' },

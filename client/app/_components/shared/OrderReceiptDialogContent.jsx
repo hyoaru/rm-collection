@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Check, X, MoreHorizontal } from 'lucide-react'
+import { Check, X, MoreHorizontal, XCircle } from 'lucide-react'
 import Image from 'next/image'
 import dayjs from 'dayjs'
 import { useToJpeg } from '@hugocxl/react-to-image'
@@ -21,8 +21,8 @@ export default function OrderReceiptDialogContent({ order }) {
   const { id: orderStatusId, label: orderStatusLabel } = orderStatus
   const { quantity, discount_rate: discountRate, price, total_price: totalPrice } = order
   const { first_name: firstName, last_name: lastName, email } = user
-  const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants
-  const { id: productId, name: productName } = product
+  const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants || {}
+  const { id: productId, name: productName } = product || {}
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
   const { toast } = useToast()
 
@@ -134,12 +134,16 @@ export default function OrderReceiptDialogContent({ order }) {
                         />
                       </div>
                       <div className="col-span-9">
-                        <p className="font-semibold text-sm">{productName}</p>
-                        <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
-                        <p className="text-xs text-muted-foreground">{productVariantId}</p>
-                        <div className="flex items-center gap-x-2">
-                          <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>
-                          <p className="text-xs">{`${discountRate}% off`}</p>
+                        <div className="flex h-full w-full ">
+                          <div className="my-auto">
+                            <p className="font-semibold text-sm">{productName}</p>
+                            <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
+                            <p className="text-xs text-muted-foreground">{productVariantId}</p>
+                            <div className="flex items-center gap-x-2">
+                              <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>
+                              <p className="text-xs">{`${discountRate}% off`}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

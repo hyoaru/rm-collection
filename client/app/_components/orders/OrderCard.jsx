@@ -15,8 +15,9 @@ import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@/app/_services/shared/revalidateAllData'
 
 export default function OrderCard({ order }) {
-  const { id: orderId, discount_rate: discountRate, total_price: totalPrice, discounted_price: discountedPrice } = order
-  const { price, quantity, product_variants: { material, material_property: materialProperty, products: { id: productId, name: productName } } } = order
+  const { id: orderId, discount_rate: discountRate, total_price: totalPrice, discounted_price: discountedPrice, price, quantity, product_variants: productVariants } = order
+  const { material, material_property: materialProperty, products } = productVariants || {}
+  const { id: productId, name: productName } = products || {}
   const { order_status: { id: orderStatusId, label: orderStatusLabel } } = order
   const [receiptModalIsOpen, setReceiptModalIsOpen] = useState(false)
   const [cancelOrderModalIsOpen, setCancelOrderModalIsOpen] = useState(false)
@@ -71,7 +72,7 @@ export default function OrderCard({ order }) {
               >
                 View receipt
               </DropdownMenuItem>
-              {['pending', 'to-ship'].includes(orderStatusLabel) && <>
+              {(['pending', 'to-ship'].includes(orderStatusLabel) && productVariants) && <>
                 <DropdownMenuItem
                   className={'text-xs text-destructive'}
                   onClick={openCancelOrderModal}

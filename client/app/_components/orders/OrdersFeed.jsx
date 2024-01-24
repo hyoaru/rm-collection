@@ -21,8 +21,8 @@ export default function OrdersFeed(props) {
     Array.from(
       new Set(
         orders
-          .sort((a, b) => a.status_id - b.status_id)
-          .map((order) => order.order_status.label)
+          ?.sort((a, b) => a.status_id - b.status_id)
+          ?.map((order) => order.order_status.label)
       )
     )
   ), [orders])

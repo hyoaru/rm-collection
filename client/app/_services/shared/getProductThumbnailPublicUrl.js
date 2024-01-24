@@ -1,4 +1,5 @@
 import { getBrowserClient } from "@services/supabase/getBrowserClient";
+import NoImageFound from "@/public/no-image-found.png"
 
 export default function getProductThumbnailPublicUrl({ productId }) {
   const BUCKET_NAME = 'products'
@@ -8,6 +9,6 @@ export default function getProductThumbnailPublicUrl({ productId }) {
     .from(BUCKET_NAME)
     .getPublicUrl(`${productId}/thumbnail.jpeg`)
 
-  const thumbnailPublicUrl = data?.publicUrl 
+  const thumbnailPublicUrl = !productId ? NoImageFound : data?.publicUrl
   return thumbnailPublicUrl
 }
