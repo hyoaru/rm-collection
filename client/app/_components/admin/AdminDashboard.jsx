@@ -26,15 +26,20 @@ export default function AdminDashboard(props) {
     })
   }
 
-
   const filteredOrders = useMemo(() => filterRecordsByDate(orders), [orders, date])
   const filteredUsers = useMemo(() => filterRecordsByDate(userList), [userList, date])
 
-  const revenue = useMemo(() => {
-    return filteredOrders.reduce((accumulator, currentOrder) => {
-      return accumulator + currentOrder.total_price
-    }, 0)
+  const confirmedOrders = useMemo(() => {
+    return filteredOrders
+      .filter((order) => ['to-receive', 'completed'].includes(order.order_status.label))
   }, [orders, date])
+
+  const revenue = useMemo(() => {
+    return confirmedOrders
+      .reduce((accumulator, currentOrder) => {
+        return accumulator + currentOrder.total_price
+      }, 0)
+  }, [confirmedOrders, date])
 
   const pendingOrders = useMemo(() => {
     return filteredOrders.filter((order) => {
@@ -44,18 +49,18 @@ export default function AdminDashboard(props) {
 
   const metrics = [
     { label: 'Revenue', value: `₱ ${revenue.toLocaleString()}` },
-    { label: 'Sales', value: filteredOrders.length.toLocaleString() },
+    { label: 'Sales', value: confirmedOrders.length.toLocaleString() },
     { label: 'Pending orders', value: pendingOrders.toLocaleString() },
     { label: 'Users', value: filteredUsers.length.toLocaleString() },
   ]
 
   const currentMonthSales = useMemo(() => {
     const currentMonthYear = dayjs().format('YYYY-MM')
-    return orders
+    return confirmedOrders
       ?.filter((order) => dayjs(order.created_at)
         .format('YYYY-MM') == currentMonthYear)
       .length
-  }, [orders])
+  }, [confirmedOrders])
 
   const recentCompletedOrders = useMemo(() => {
     return Array.from(orders)
