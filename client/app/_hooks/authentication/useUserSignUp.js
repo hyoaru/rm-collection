@@ -7,6 +7,28 @@ export function useUserSignUp() {
 
   async function userSignUp({ email, password, firstName, lastName }) {
     setIsLoading(true)
+
+    const { count, error: countError } = await supabase
+      .from('users')
+      .select(`*`, { count: 'exact', head: true })
+      .eq('email', email)
+
+    if (countError) {
+      return { data: null, error: countError }
+    }
+
+    if (count > 0) {
+      const { data, error } = await supabase.auth.resend({
+        type: 'signup',
+        email: email,
+        options: {
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/sign-in`
+        }
+      })
+
+      return { data, error }
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -22,7 +44,7 @@ export function useUserSignUp() {
           .update({ first_name: firstName, last_name: lastName })
           .eq('id', authSignUpData.user.id)
           .select()
-          
+
         return { data, error }
       })
 
