@@ -12,7 +12,8 @@ import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPu
 import { Button } from '@components/ui/button'
 import { Badge } from '@components/ui/badge'
 import { useToast } from '@components/ui/use-toast'
-import revalidateAllData from '@/app/_services/shared/revalidateAllData'
+import revalidateAllData from '@services/shared/revalidateAllData'
+import useCompleteOrder from '@hooks/orders/useCompleteOrder'
 
 export default function OrderCard({ order }) {
   const { id: orderId, discount_rate: discountRate, total_price: totalPrice, discounted_price: discountedPrice, price, quantity, product_variants: productVariants } = order
@@ -21,7 +22,8 @@ export default function OrderCard({ order }) {
   const { order_status: { id: orderStatusId, label: orderStatusLabel } } = order
   const [receiptModalIsOpen, setReceiptModalIsOpen] = useState(false)
   const [cancelOrderModalIsOpen, setCancelOrderModalIsOpen] = useState(false)
-  const { cancelOrder, isLoading } = useCancelOrder()
+  const { cancelOrder, isLoadingCancellation } = useCancelOrder()
+  const { completeOrder, isLoadingCompletion } = useCompleteOrder()
   const { toast } = useToast()
 
   const size = { width: 1000, height: 1000 }
@@ -55,6 +57,26 @@ export default function OrderCard({ order }) {
       })
   }
 
+  async function commitCompleteOrder() {
+    await completeOrder({ orderId: orderId })
+      .then(async ({ data, error }) => {
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "An error has occured.",
+            description: "Please try again later."
+          })
+        } else {
+          toast({
+            title: "Order has been completed successfully.",
+            description: "Changes should take effect immediately."
+          })
+
+          await revalidateAllData()
+        }
+      })
+  }
+
   return (
     <>
       <div className="relative">
@@ -72,14 +94,24 @@ export default function OrderCard({ order }) {
               >
                 View receipt
               </DropdownMenuItem>
-              {(['pending', 'to-ship'].includes(orderStatusLabel) && productVariants) && <>
+              {(['pending', 'to-ship'].includes(orderStatusLabel) && productVariants && products) && <>
                 <DropdownMenuItem
-                  className={'text-xs text-destructive'}
+                  className={'text-xs text-destructive data-[highlighted]:text-destructive'}
                   onClick={openCancelOrderModal}
                 >
                   Cancel order
                 </DropdownMenuItem>
               </>}
+              {(orderStatusLabel === 'to-receive' && productVariants && products) && <>
+                <DropdownMenuItem
+                  className={'text-xs text-lime-700 data-[highlighted]:text-lime-700'}
+                  onClick={commitCompleteOrder}
+                  disabled={isLoadingCompletion}
+                >
+                  Received order
+                </DropdownMenuItem>
+              </>
+              }
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -114,7 +146,7 @@ export default function OrderCard({ order }) {
             </div>
           </div>
         </Link>
-      </div>
+      </div >
 
       <Dialog open={cancelOrderModalIsOpen} onOpenChange={setCancelOrderModalIsOpen}>
         <DialogContent>
@@ -129,6 +161,7 @@ export default function OrderCard({ order }) {
               type="button"
               size={'sm'}
               onClick={commitCancelOrder}
+              disabled={isLoadingCancellation}
             >
               Cancel order
             </Button>
