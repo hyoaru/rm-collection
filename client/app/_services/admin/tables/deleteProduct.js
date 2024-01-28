@@ -9,8 +9,9 @@ export default async function deleteProduct(productId) {
 
   let { count } = await supabase
     .from('products')
-    .select(`*, product_variants(*, orders(*, order_status(*)))`, { count: 'exact', head: true })
+    .select(`*, product_variants!inner(*, orders!inner(*, order_status!inner(*)))`, { count: 'exact', head: true })
     .in('product_variants.orders.order_status.label', ['pending', 'to-ship', 'to-receive'])
+    .eq('id', productId)
 
   if (count > 0) {
     return { data: null, error: { message: `Product has ${count} ongoing orders` } }

@@ -10,7 +10,8 @@ export default async function deleteProductVariant(productVariantId) {
 
   let { count } = await supabase
     .from('product_variants')
-    .select(`*, orders(*, order_status(*))`, { count: 'exact', head: true })
+    .select(`*, orders!inner(*, order_status!inner(*))`, { count: 'exact', head: true })
+    .eq('id', productVariantId)
     .in('orders.order_status.label', ['pending', 'to-ship', 'to-receive'])
 
   if (count > 0) {
