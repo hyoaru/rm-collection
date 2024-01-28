@@ -32,20 +32,20 @@ export default function AdminDashboard(props) {
   const confirmedOrders = useMemo(() => {
     return filteredOrders
       .filter((order) => ['to-receive', 'completed'].includes(order.order_status.label))
-  }, [orders, date])
+  }, [filteredOrders])
 
   const revenue = useMemo(() => {
     return confirmedOrders
       .reduce((accumulator, currentOrder) => {
         return accumulator + currentOrder.total_price
       }, 0)
-  }, [confirmedOrders, date])
+  }, [confirmedOrders])
 
   const pendingOrders = useMemo(() => {
     return filteredOrders.filter((order) => {
       return order.order_status.label === 'pending'
     }).length
-  }, [orders, date])
+  }, [filteredOrders])
 
   const metrics = [
     { label: 'Revenue', value: `₱ ${revenue.toLocaleString()}` },
