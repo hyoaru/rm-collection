@@ -1,10 +1,10 @@
-create extension if not exists moddatetime schema extensions;
+CREATE extension IF NOT EXISTS moddatetime SCHEMA extensions;
 
-create trigger handle_updated_at before update on public.users
-  for each row execute procedure moddatetime (updated_at);
+CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.users
+  FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 
-create trigger handle_updated_at before update on public.product_variants
-  for each row execute procedure moddatetime (updated_at);
+CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.product_variants
+  FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 
-create trigger handle_updated_at before update on public.products
-  for each row execute procedure moddatetime (updated_at);
+CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.products
+  FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);

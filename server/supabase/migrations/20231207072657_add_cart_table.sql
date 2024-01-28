@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS public.cart CASCADE;
-
 CREATE TABLE IF NOT EXISTS cart (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.users ON DELETE CASCADE,

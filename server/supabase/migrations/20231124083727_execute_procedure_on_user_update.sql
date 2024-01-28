@@ -1,13 +1,13 @@
-create or replace function public.handle_user_update() 
-returns trigger as $$
-begin
-  update public.users
-  set email = new.email
-  where id = new.id;
-  return new;
-end;
+CREATE OR REPLACE FUNCTION public.handle_user_update() 
+RETURNS trigger AS $$
+BEGIN
+  UPDATE public.users
+  SET email = new.email
+  WHERE id = new.id;
+  RETURN new;
+END;
 $$ language plpgsql security definer;
 
-create trigger on_auth_user_update
-  after update on auth.users
-  for each row execute procedure public.handle_user_update();
+CREATE TRIGGER on_auth_user_update
+  AFTER UPDATE ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_user_update();

@@ -1,4 +1,4 @@
-create table users (
+CREATE TABLE IF NOT EXISTS users (
   id uuid references auth.users on delete cascade primary key,
   email text unique,
   first_name text,
@@ -7,15 +7,15 @@ create table users (
 
 ALTER TABLE IF EXISTS public.users ENABLE ROW LEVEL SECURITY;
 
-create or replace function public.handle_new_user() 
-returns trigger as $$
-begin
-  insert into public.users (id, email)
-  values (new.id, new.email);
-  return new;
-end;
+CREATE OR REPLACE FUCNTION public.handle_new_user() 
+RETURNS trigger AS $$
+BEGIN
+  INSERT INTO public.users (id, email)
+  VALUES (new.id, new.email);
+  RETURN new;
+END;
 $$ language plpgsql security definer;
 
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute procedure public.handle_new_user();
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();

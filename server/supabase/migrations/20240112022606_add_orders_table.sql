@@ -1,7 +1,4 @@
 -- Order status
-
-DROP TABLE IF EXISTS public.order_status CASCADE;
-
 CREATE TABLE IF NOT EXISTS order_status (
   id SMALLINT PRIMARY KEY,
   label TEXT,
@@ -43,8 +40,6 @@ FOR UPDATE TO authenticated USING (
 
 
 -- Orders
-
-DROP TABLE IF EXISTS public.orders CASCADE;
 
 CREATE TABLE IF NOT EXISTS orders (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,

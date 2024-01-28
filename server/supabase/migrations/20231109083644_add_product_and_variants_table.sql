@@ -1,13 +1,9 @@
-DROP TABLE IF EXISTS public.products CASCADE;
-DROP TABLE IF EXISTS public.product_variants CASCADE;
-
 CREATE TABLE IF NOT EXISTS products (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   name TEXT,
   description TEXT,
   category TEXT
 );
-
 
 CREATE TABLE IF NOT EXISTS product_variants (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
