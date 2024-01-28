@@ -13,15 +13,19 @@ VALUES
   (2, 'pending'),
   (3, 'to-ship'),
   (4, 'to-receive'),
-  (5, 'completed');
+  (5, 'completed')
+ON CONFLICT(id)
+DO UPDATE SET label = EXCLUDED.label;
 
 ALTER TABLE IF EXISTS public.order_status ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Allow read operation for everyone" ON "public"."order_status";
 CREATE POLICY "Allow read operation for everyone" ON "public"."order_status"
 AS PERMISSIVE FOR SELECT
 TO public
 USING (true);
 
+DROP POLICY IF EXISTS "Allow all operations for tier 1 admin on order status table" ON public.order_status;
 CREATE POLICY "Allow all operations for tier 1 admin on order status table"
 ON public.order_status
 FOR ALL TO authenticated USING (
@@ -30,6 +34,7 @@ FOR ALL TO authenticated USING (
   (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_1'
 );
 
+DROP POLICY IF EXISTS "Allow update operation for tier 2 admin on order status table" ON public.order_status;
 CREATE POLICY "Allow update operation for tier 2 admin on order status table"
 ON public.order_status
 FOR UPDATE TO authenticated USING (
@@ -64,22 +69,26 @@ CREATE TABLE IF NOT EXISTS orders (
 
 ALTER TABLE IF EXISTS public.orders ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Allow read operation for orders table based on user id" ON "public"."orders";
 CREATE POLICY "Allow read operation for orders table based on user id" ON "public"."orders"
 AS PERMISSIVE FOR SELECT
 TO authenticated
 USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Allow update operation for orders based on id" ON "public"."orders";
 CREATE POLICY "Allow update operation for orders based on id" ON "public"."orders"
 AS PERMISSIVE FOR UPDATE
 TO authenticated
 USING (auth.uid() = user_id)
 WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Allow insert operation for authenticated users" ON "public"."orders";
 CREATE POLICY "Allow insert operation for authenticated users" ON "public"."orders"
 AS PERMISSIVE FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow all operations for tier 1 admin on orders table" ON public.orders;
 CREATE POLICY "Allow all operations for tier 1 admin on orders table"
 ON public.orders
 FOR ALL TO authenticated USING (
@@ -88,6 +97,7 @@ FOR ALL TO authenticated USING (
   (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_1'
 );
 
+DROP POLICY IF EXISTS "Allow update operation for tier 2 admin on orders table" ON public.orders;
 CREATE POLICY "Allow update operation for tier 2 admin on orders table"
 ON public.orders
 FOR UPDATE TO authenticated USING (
@@ -96,6 +106,7 @@ FOR UPDATE TO authenticated USING (
   (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) = 'admin_tier_2'
 );
 
+DROP POLICY IF EXISTS "Allow read operation for tier 2 admin on orders table" ON public.orders;
 CREATE POLICY "Allow read operation for tier 2 admin on orders table"
 ON public.orders
 AS PERMISSIVE FOR SELECT TO authenticated USING (
@@ -107,8 +118,8 @@ AS PERMISSIVE FOR SELECT TO authenticated USING (
 
 CREATE extension IF NOT EXISTS moddatetime SCHEMA extensions;
 
-CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.orders
+CREATE OR REPLACE TRIGGER handle_updated_at BEFORE UPDATE ON public.orders
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);
 
-CREATE TRIGGER handle_updated_at BEFORE UPDATE ON public.order_status
+CREATE OR REPLACE TRIGGER handle_updated_at BEFORE UPDATE ON public.order_status
   FOR EACH ROW EXECUTE PROCEDURE moddatetime (updated_at);

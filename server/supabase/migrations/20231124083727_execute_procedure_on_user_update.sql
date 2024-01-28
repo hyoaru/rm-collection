@@ -8,6 +8,6 @@ BEGIN
 END;
 $$ language plpgsql security definer;
 
-CREATE TRIGGER on_auth_user_update
+CREATE OR REPLACE TRIGGER on_auth_user_update
   AFTER UPDATE ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_user_update();
