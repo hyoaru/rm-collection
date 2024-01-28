@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import Image from "next/image"
 
 // App imports
 import { Button } from "@components/ui/button"
@@ -114,7 +115,7 @@ export default function EditProductForm(props) {
                   <small className="text-center uppercase">Thumbnail</small>
                 </div>
                 {thumbnailSrc && <>
-                  <img
+                  <Image
                     src={thumbnailSrc}
                     className='h-[250px] w-full max-w-[350px] object-cover rounded-lg mx-auto'
                     alt=""

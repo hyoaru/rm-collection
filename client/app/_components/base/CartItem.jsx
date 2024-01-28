@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Trash } from "lucide-react"
+import Image from 'next/image'
 
 // App imports
 import { Button } from "@components/ui/button"
@@ -64,7 +65,7 @@ export default function CartItem(props) {
     <>
       <div className="grid grid-cols-12 gap-x-4 justify-center p-3 rounded-lg transition-all ease-in-out duration-300 hover:bg-secondary">
         <div className="col-span-3">
-          <img
+          <Image
             src={productThumbnailPublicUrl}
             className="object-cover rounded-lg h-full "
             alt=""

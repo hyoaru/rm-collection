@@ -4,6 +4,7 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import Image from "next/image"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 // App imports
@@ -188,7 +189,7 @@ export default function EditProductVariantForm(props) {
                       <div className="flex w-max space-x-4">
                         {imagesSrc.map((imageSrc, index) => (
                           <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                            <img src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
+                            <Image src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
                           </div>
                         ))}
                       </div>
