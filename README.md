@@ -1,8 +1,8 @@
-# Virtual Jewelry Wholesaler Storefront
+# Virtual Storefront Platform
 
 A virtual storefront for a jewelry wholesaler based in Japan. Explore exquisite jewelry collections and experience the convenience of virtual wholesale shopping. 
 * See live at - [https://rea-mariz-collection.vercel.app](https://rea-mariz-collection.vercel.app)
-
+* A course requirement CS Elective 2
 ## User interface
 ![](images/1.png)
 ![](images/2.png)
