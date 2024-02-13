@@ -100,6 +100,8 @@ export default function AddProductForm() {
                 {thumbnailSrc && <>
                   <Image
                     src={thumbnailSrc}
+                    width={350}
+                    height={250}
                     className='h-[250px] w-full max-w-[350px] object-cover rounded-lg mx-auto'
                     alt=""
                   />
@@ -138,7 +140,13 @@ export default function AddProductForm() {
                     <div className="flex w-max space-x-4">
                       {imagesSrc.map((imageSrc, index) => (
                         <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                          <Image src={imageSrc} className='h-[250px] w-[250px] object-cover rounded-lg' alt="" />
+                          <Image
+                            src={imageSrc}
+                            width={350}
+                            height={250}
+                            className='h-[250px] w-[250px] object-cover rounded-lg'
+                            alt=""
+                          />
                         </div>
                       ))}
                     </div>

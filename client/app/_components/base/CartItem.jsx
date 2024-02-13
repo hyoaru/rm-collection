@@ -68,6 +68,8 @@ export default function CartItem(props) {
           <Image
             src={productThumbnailPublicUrl}
             className="object-cover rounded-lg h-full "
+            width={200}
+            height={150}
             alt=""
           />
         </div>

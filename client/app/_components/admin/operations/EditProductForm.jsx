@@ -117,6 +117,8 @@ export default function EditProductForm(props) {
                 {thumbnailSrc && <>
                   <Image
                     src={thumbnailSrc}
+                    width={350}
+                    height={250}
                     className='h-[250px] w-full max-w-[350px] object-cover rounded-lg mx-auto'
                     alt=""
                   />
