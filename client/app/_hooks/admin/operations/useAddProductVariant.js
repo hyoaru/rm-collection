@@ -10,7 +10,7 @@ export default function useAddProductVariant() {
   const [isLoading, setIsLoading] = useState(false)
 
   async function addProductVariant(props) {
-    const { productId, material, materialProperty, quantity, price, discountRate, images } = props
+    const { productId, material, materialProperty, quantity, price, discountRate, images, size } = props
 
     setIsLoading(true)
 
@@ -21,6 +21,7 @@ export default function useAddProductVariant() {
       quantity: quantity,
       price: price,
       discountRate: discountRate,
+      size: size
     }).then(async ({ data: addProductVariantData, error: addProductVariantError }) => {
       if (addProductVariantError) {
         return { data: addProductVariantData, error: addProductVariantError }

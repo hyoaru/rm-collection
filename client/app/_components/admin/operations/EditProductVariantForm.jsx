@@ -3,16 +3,13 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import Image from "next/image"
-import { Check, ChevronsUpDown } from "lucide-react"
 
 // App imports
 import { Button } from "@components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Input } from "@components/ui/input"
-import { Label } from "@components/ui/label"
 import { Textarea } from "@components/ui/textarea"
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useToast } from "@components/ui/use-toast"
@@ -48,7 +45,8 @@ export default function EditProductVariantForm(props) {
       discountRate: '',
       material: '',
       materialProperty: '',
-      images: ''
+      images: '',
+      size: ''
     }
   })
 
@@ -61,7 +59,8 @@ export default function EditProductVariantForm(props) {
       quantity: data.quantity,
       price: data.price,
       discountRate: data.discountRate,
-      images: data.images
+      images: data.images,
+      size: data.size
     })
       .then(({ data, error }) => {
         if (error) {
@@ -99,7 +98,8 @@ export default function EditProductVariantForm(props) {
       quantity: '',
       material: '',
       materialProperty: '',
-      images: ''
+      images: '',
+      size: ''
     })
   }
 
@@ -123,6 +123,7 @@ export default function EditProductVariantForm(props) {
         quantity: productVariant.quantity,
         material: productVariant.material,
         materialProperty: productVariant.material_property,
+        size: productVariant.size,
         images: ''
       })
 
@@ -189,12 +190,12 @@ export default function EditProductVariantForm(props) {
                       <div className="flex w-max space-x-4">
                         {imagesSrc.map((imageSrc, index) => (
                           <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                            <Image 
-                              src={imageSrc} 
+                            <Image
+                              src={imageSrc}
                               width={350}
                               height={250}
-                              className='h-[250px] w-[250px] object-cover rounded-lg' 
-                              alt="" 
+                              className='h-[250px] w-[250px] object-cover rounded-lg'
+                              alt=""
                             />
                           </div>
                         ))}
@@ -236,7 +237,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 md:col-span-6'}>
                       <FormLabel className="text-muted-foreground">Product name</FormLabel>
                       <FormControl>
                         <Input placeholder="your-descriptive-product-name" {...field} disabled />
@@ -250,7 +251,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="category"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 md:col-span-6'}>
                       <FormLabel className="text-muted-foreground">Product category</FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value} disabled>
@@ -275,7 +276,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="price"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input
@@ -295,7 +296,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="discountRate"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>{'Discount rate (%)'}</FormLabel>
                       <FormControl>
                         <Input
@@ -316,7 +317,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input
@@ -336,7 +337,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Material used</FormLabel>
                       <FormControl>
                         <Input
@@ -354,7 +355,7 @@ export default function EditProductVariantForm(props) {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Material property</FormLabel>
                       <FormControl>
                         <Input
@@ -367,6 +368,25 @@ export default function EditProductVariantForm(props) {
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="size"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
+                      <FormLabel>Size</FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field} 
+                          placeholder="(e.g., 20mm)" 
+                          disabled={!(productListComboboxValue && productVariantListComboboxValue)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
 
                 <FormField
                   control={form.control}

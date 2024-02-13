@@ -3,23 +3,17 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Check, ChevronsUpDown } from "lucide-react"
 import Image from "next/image"
 
 // App imports
 import { Button } from "@components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
 import { Input } from "@components/ui/input"
-import { Label } from "@components/ui/label"
 import { Textarea } from "@components/ui/textarea"
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area"
 import { useToast } from "@components/ui/use-toast"
 import revalidateAllData from "@services/shared/revalidateAllData"
-import { cn } from "@lib/utils"
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@components/ui/command"
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover"
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant"
 import { PRODUCT_CATEGORIES as productCategories, ADD_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms"
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox"
@@ -44,6 +38,7 @@ export default function AddProductVariantForm(props) {
       discountRate: 0,
       material: '',
       materialProperty: '',
+      size: '',
       images: ''
     }
   })
@@ -72,7 +67,8 @@ export default function AddProductVariantForm(props) {
       quantity: data.quantity,
       price: data.price,
       discountRate: data.discountRate,
-      images: data.images
+      images: data.images,
+      size: data.size
     })
       .then(({ data, error }) => {
         if (error) {
@@ -148,12 +144,12 @@ export default function AddProductVariantForm(props) {
                       <div className="flex w-max space-x-4">
                         {imagesSrc.map((imageSrc, index) => (
                           <div className="overflow-hidden rounded-lg" key={`ProductImages-${index}`}>
-                            <Image 
-                              src={imageSrc} 
-                              className='h-[250px] w-[250px] object-cover rounded-lg' 
+                            <Image
+                              src={imageSrc}
+                              className='h-[250px] w-[250px] object-cover rounded-lg'
                               width={350}
                               height={250}
-                              alt="" 
+                              alt=""
                             />
                           </div>
                         ))}
@@ -195,7 +191,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 md:col-span-6'}>
                       <FormLabel className={'text-muted-foreground'}>Product name</FormLabel>
                       <FormControl>
                         <Input placeholder="your-descriptive-product-name" {...field} disabled />
@@ -209,7 +205,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="category"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 md:col-span-6'}>
                       <FormLabel className={'text-muted-foreground'}>Product category</FormLabel>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value} disabled>
@@ -234,7 +230,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="price"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-price" {...field} disabled={!value} />
@@ -248,7 +244,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="discountRate"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>{'Discount rate (%)'}</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" max="100" placeholder="(e.g., 25 for 25%)" {...field} disabled={!value} />
@@ -262,7 +258,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={'col-span-4'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-quantity" {...field} disabled={!value} />
@@ -276,7 +272,7 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Material used</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., Yellow Gold)" {...field} disabled={!value} />
@@ -290,10 +286,24 @@ export default function AddProductVariantForm(props) {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem className={'col-span-6'}>
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
                       <FormLabel>Material property</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 18 karats)" {...field} disabled={!value} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="size"
+                  render={({ field }) => (
+                    <FormItem className={'col-span-12 sm:col-span-6 lg:col-span-4'}>
+                      <FormLabel>Size</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(e.g., 20mm)" {...field} disabled={!value} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

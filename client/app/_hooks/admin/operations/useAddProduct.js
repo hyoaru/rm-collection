@@ -12,7 +12,7 @@ export default function useAddProduct() {
 
   async function addProduct(props) {
     const { thumbnail, images, name, category, quantity } = props
-    const { material, materialProperty, price, discountRate, description } = props
+    const { material, materialProperty, size, price, discountRate, description } = props
 
     setIsLoading(true)
 
@@ -36,6 +36,7 @@ export default function useAddProduct() {
           quantity: quantity,
           price: price,
           discountRate: discountRate,
+          size: size
         })
 
         return { data, error }
