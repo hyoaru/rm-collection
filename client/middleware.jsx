@@ -5,7 +5,7 @@ import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 
 export async function middleware(req) {
   const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password']
-  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/account/update-password']
+  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/profile/account/update-password']
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
 
@@ -25,7 +25,7 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL('/auth/sign-in', req.url))
   }
 
-  if (req.nextUrl.pathname.includes('/account')) {
+  if (req.nextUrl.pathname.includes('/profile')) {
     if (!userStateAuth && !ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(req.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/auth/sign-in', req.url))
     }
@@ -34,14 +34,14 @@ export async function middleware(req) {
       return res
     }
 
-    if (req.nextUrl.pathname === '/account/update-password') {
+    if (req.nextUrl.pathname === '/profile/account/update-password') {
       await supabase.auth.signOut()
       const code = req.nextUrl.searchParams.get('code')
 
       try {
         await supabase.auth.exchangeCodeForSession(code)
       } catch (error) {
-        return NextResponse.redirect(new URL('/account', req.url))
+        return NextResponse.redirect(new URL('/profile', req.url))
       }
 
       return res

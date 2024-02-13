@@ -1,6 +1,6 @@
 import React from 'react'
 import SectionHeader from '@components/shared/SectionHeader'
-import AccountUpdateInformationForm from '@components/account/AccountUpdateInformationForm'
+import AccountUpdateInformationForm from '@/app/_components/profile/account/AccountUpdateInformationForm'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {

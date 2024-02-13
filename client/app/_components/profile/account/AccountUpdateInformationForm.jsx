@@ -10,11 +10,11 @@ import { nanoid } from 'nanoid'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
-import { ACCOUNT_UPDATE_INFORMATION_FORM as formSchema } from '@constants/account/forms'
-import useUpdateUserInformation from '@hooks/account/useUpdateUserInformation'
+import { ACCOUNT_UPDATE_INFORMATION_FORM as formSchema } from '@/app/_constants/profile/account/forms'
+import useUpdateUserInformation from '@/app/_hooks/profile/account/useUpdateUserInformation'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
-import useSendPasswordResetRequest from '@hooks/account/useSendPasswordResetRequest'
+import useSendPasswordResetRequest from '@/app/_hooks/profile/account/useSendPasswordResetRequest'
 
 export default function AccountUpdateInformationForm(props) {
   const { userStateGeneral } = props

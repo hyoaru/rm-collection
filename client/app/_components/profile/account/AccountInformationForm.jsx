@@ -8,8 +8,9 @@ import Link from 'next/link'
 // App imports
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
-import { ACCOUNT_INFORMATION_FORM as formSchema } from '@constants/account/forms'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { ACCOUNT_INFORMATION_FORM as formSchema } from '@constants/profile/account/forms'
+import { ACCOUNT_BASE_PATH as accountBasePath } from '@constants/profile/base'
 
 export default function AccountInformationForm(props) {
   const { userStateGeneral } = props
@@ -89,11 +90,11 @@ export default function AccountInformationForm(props) {
       </Form>
                 
       <Button variant={'ghost'} className={'w-full mt-6 '}>
-        <Link href={"/account/update-information"} className='hidden sm:block w-full text-muted-foreground'>
+        <Link href={`/${accountBasePath}/update-information`} className='hidden sm:block w-full text-muted-foreground'>
             Change some of your personal details? Update information
         </Link>
 
-        <Link href={"/account/update-information"} className='block sm:hidden w-full text-muted-foreground'>
+        <Link href={`/${accountBasePath}/update-information`} className='block sm:hidden w-full text-muted-foreground'>
             Update information
         </Link>
       </Button>

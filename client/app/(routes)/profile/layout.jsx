@@ -1,9 +1,9 @@
 import React from 'react'
 
 // App imports
-import AccountSideNavSectionNavigationGroup from '@/app/_components/shared/SideNavSectionNavigationGroup'
+import AccountSideNavSectionNavigationGroup from '@components/shared/SideNavSectionNavigationGroup'
 import SelectNavigation from '@components/shared/SelectNavigation'
-import { NAVIGATIONS as navigations } from '@constants/account/base'
+import { NAVIGATIONS as navigations } from '@constants/profile/base'
 
 export default function Layout({ children }) {
   return (

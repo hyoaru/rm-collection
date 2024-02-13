@@ -11,8 +11,8 @@ import { Input } from '@components/ui/input'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
-import { UPDATE_PASSWORD_FORM as formSchema } from '@constants/account/forms'
-import useUpdatePassword from '@hooks/account/useUpdatePassword'
+import { UPDATE_PASSWORD_FORM as formSchema } from '@/app/_constants/profile/account/forms'
+import useUpdatePassword from '@/app/_hooks/profile/account/useUpdatePassword'
 import { useRouter } from 'next/navigation'
 
 export default function AccountUpdatePasswordForm(props) {

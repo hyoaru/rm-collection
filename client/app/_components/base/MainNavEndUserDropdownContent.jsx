@@ -31,7 +31,7 @@ export default function MainNavEndUserDropdownContent(props) {
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <Link href={'/account'} className="w-full font-light">Account</Link>
+          <Link href={'/profile'} className="w-full font-light">Profile</Link>
         </DropdownMenuItem>
         
         <DropdownMenuItem>
