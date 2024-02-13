@@ -50,6 +50,7 @@ export default function DataTableRowActionItem(props) {
         className={`text-sm p-2 ${rowAction.isDestructive ? 'text-destructive data-[highlighted]:text-destructive' : ''}`}
         onSelect={(e) => e.preventDefault()}
         onClick={onClick} 
+        disabled={!rowAction.adminRolesPermitted.includes(userStateGeneral.role)}
       >
         {rowAction.label}
       </DropdownMenuItem>
