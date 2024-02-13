@@ -2,7 +2,7 @@
 
 import { getServerClient } from "@services/supabase/getServerClient";
 import getProductVariantImagesPublicUrl from "@services/shared/getProductVariantImagesPublicUrl";
-import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
 
 export default async function getProductById({ productId }) {
   const supabase = await getServerClient()

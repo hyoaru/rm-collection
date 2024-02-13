@@ -1,6 +1,6 @@
 'use server'
 
-import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe"
 import { getServerClient } from "@services/supabase/getServerClient"
 
 export default async function getProductList() {

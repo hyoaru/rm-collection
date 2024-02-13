@@ -11,7 +11,7 @@ import { Input } from "@components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@components/ui/form"
 import { useToast } from '@components/ui/use-toast';
 import { FORGOT_PASSWORD_FORM_SCHEMA as formSchema } from '@constants/auth/forms';
-import useSendPasswordResetRequest from '@/app/_hooks/profile/account/useSendPasswordResetRequest';
+import useSendPasswordResetRequest from '@hooks/profile/account/useSendPasswordResetRequest';
 
 export default function ForgotPasswordForm() {
   const { sendPasswordResetRequest, isLoading } = useSendPasswordResetRequest()

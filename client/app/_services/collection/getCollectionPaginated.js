@@ -2,7 +2,7 @@
 
 import { getServerClient } from "@services/supabase/getServerClient";
 import { getPagination } from "@constants/collection/base";
-import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe";
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
 
 export default async function getCollectionPaginated({ page }) {
   const supabase = await getServerClient()

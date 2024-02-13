@@ -1,7 +1,7 @@
 "use server"
 
 // App imports
-import processErrorToCrossSideSafe from "@/app/_lib/processErrorToCrossSideSafe"
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe"
 import { createClient } from "@supabase/supabase-js"
 
 export default async function deleteUser(userId) {

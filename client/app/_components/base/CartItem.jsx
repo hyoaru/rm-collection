@@ -7,7 +7,7 @@ import Image from 'next/image'
 // App imports
 import { Button } from "@components/ui/button"
 import getProductThumbnailPublicUrl from '@services/shared/getProductThumbnailPublicUrl'
-import deleteCartItem from '@/app/_services/collection/deleteCartItem'
+import deleteCartItem from '@services/collection/deleteCartItem'
 import { useToast } from '@components/ui/use-toast'
 import revalidateAllData from '@services/shared/revalidateAllData'
 import updateCartItemQuantity from '@services/collection/updateCartItemQuantity'
