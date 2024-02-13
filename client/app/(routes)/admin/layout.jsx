@@ -1,15 +1,13 @@
 import React from 'react'
-import Link from 'next/link'
 
 // App imports
-import { Button } from '@components/ui/button'
 import { getUserStateServer } from '@services/authentication/getUserStateServer'
 import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
 import AdminSideNavSectionNavigationGroup from '@components/admin/shared/AdminSideNavSectionNavigationGroup'
-import SelectNavigation from '@components/shared/SelectNavigation'
+import AdminSelectNavigation from '@components/admin/shared/AdminSelectNavigation'
 
 export default async function Layout({ children }) {
-  const { userStateGeneral, userStateAuth } = await getUserStateServer()
+  const { userStateGeneral } = await getUserStateServer()
 
   const navigationOperations = Array.from(Object.values(NAVIGATION_OPERATIONS))
   const navigationTables = Array.from(Object.values(NAVIGATION_TABLES))
@@ -22,13 +20,15 @@ export default async function Layout({ children }) {
           {/* Admin side nav collapsed */}
           <div id="AdminSideNavCollapsed" className='col-span-12 block sm:hidden'>
             <div className="grid grid-cols-2 gap-4">
-              <SelectNavigation
+              <AdminSelectNavigation
                 navigations={navigationOperations}
                 label={'operations'}
+                userStateGeneral={userStateGeneral}
               />
-              <SelectNavigation
+              <AdminSelectNavigation
                 navigations={navigationTables}
                 label={'tables'}
+                userStateGeneral={userStateGeneral}
               />
             </div>
           </div>

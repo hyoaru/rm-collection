@@ -4,7 +4,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 
 // App imports
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@components/ui/select"
 
 export default function SelectNavigation(props) {
   const { navigations, label } = props
