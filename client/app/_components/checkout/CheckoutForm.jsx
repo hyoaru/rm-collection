@@ -12,13 +12,14 @@ import { ScrollArea } from '@components/ui/scroll-area'
 import { Textarea } from '@components/ui/textarea'
 import CartItem from '@components/base/CartItem'
 import { Button } from '@components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
-import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle, DialogDescription } from "@components/ui/dialog"
+import { Label } from '@components/ui/label'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
+import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle } from "@components/ui/dialog"
 import { ADD_ORDER_FORM_SCHEMA as formSchema } from '@constants/checkout/forms'
 import useCheckoutOrder from '@hooks/checkout/useCheckoutOrder'
 import revalidateAllData from '@services/shared/revalidateAllData'
-import OrderReceiptDialogContent from '@components/shared/OrderReceiptDialogContent'
 import MultipleOrderReceiptDialogContent from '@components/shared/MultipleOrderReceiptDialogContent'
+import CountriesCombobox from '@components/shared/CountriesCombobox'
 
 export default function CheckoutForm(props) {
   const { userState, cart } = props
@@ -26,15 +27,18 @@ export default function CheckoutForm(props) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [orders, setOrders] = useState(null)
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState(null)
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: userState?.userStateGeneral?.email,
-      firstName: userState?.userStateGeneral?.first_name,
-      lastName: userState?.userStateGeneral?.last_name,
       shippingAddress: '',
+      receiverEmail: '',
+      receiverFirstName: '',
+      receiverLastName: '',
+      shippingZipCode: '',
+      receiverPhoneNumber: ''
     }
   })
 
@@ -74,7 +78,13 @@ export default function CheckoutForm(props) {
     await checkoutOrder({
       userId: userState?.userStateAuth.id,
       cartItems: cart?.data,
-      shippingAddress: data.shippingAddress
+      shippingAddress: data.shippingAddress,
+      receiverEmail: data.receiverEmail,
+      receiverFirstName: data.receiverFirstName,
+      receiverLastName: data.receiverLastName,
+      shippingCountry: selectedCountry.name,
+      shippingZipCode: data.shippingZipCode,
+      receiverPhoneNumber: data.receiverPhoneNumber
     })
       .then(async ({ data, error }) => {
         if (error) {
@@ -101,64 +111,110 @@ export default function CheckoutForm(props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(validateInputs)}>
           <div className="grid grid-cols-12 gap-y-10 mx-auto w-11/12 md:w-10/12 md:gap-10">
-            <div className="col-span-12 md:col-span-6">
-              <p className='font-bold mb-2'>Information about you</p>
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
-                      <FormLabel className={'text-muted-foreground'}>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="your-email-address" {...field} disabled />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <div className="col-span-12 md:col-span-6 space-y-6">
+              <div className="">
+                <p className='font-bold mb-2'>Shipping information</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <FormField
+                    control={form.control}
+                    name="receiverEmail"
+                    render={({ field }) => (
+                      <FormItem className={'col-span-full'}>
+                        <FormLabel>Receiver email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="receiver@email.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={'text-muted-foreground'}>First name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="your-first-name" {...field} disabled />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="receiverFirstName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Receiver first name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="receiver-first-name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem >
-                      <FormLabel className={'text-muted-foreground'}>Last name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="your-last-name" {...field} disabled />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="receiverLastName"
+                    render={({ field }) => (
+                      <FormItem >
+                        <FormLabel>Receiver last name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="receiver-last-name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="shippingAddress"
-                  render={({ field }) => (
-                    <FormItem className={'col-span-2'}>
-                      <FormLabel>Shipping address</FormLabel>
-                      <FormControl>
-                        <Textarea rows="6" placeholder="your-full-shipping-address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <div className="col-span-full space-y-2">
+                    <Label>Shipping country</Label>
+                    <CountriesCombobox
+                      setSelectedItem={setSelectedCountry}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="shippingAddress"
+                    render={({ field }) => (
+                      <FormItem className={'col-span-2'}>
+                        <FormLabel>Shipping address</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            rows="2"
+                            placeholder="full-shipping-address"
+                            disabled={!selectedCountry}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="shippingZipCode"
+                    render={({ field }) => (
+                      <FormItem >
+                        <FormLabel>Shipping zip code</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="shipping-zip-code"
+                            disabled={!selectedCountry}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="receiverPhoneNumber"
+                    render={({ field }) => (
+                      <FormItem >
+                        <FormLabel>Receiver phone number</FormLabel>
+                        <FormControl>
+                          <Input {...field} placeholder="receiver-phone-number" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
             <div className="col-span-12 md:col-span-6">
@@ -238,7 +294,7 @@ export default function CheckoutForm(props) {
           </div>
         </form>
       </Form>
-      
+
       {orders && <>
         <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
           <MultipleOrderReceiptDialogContent orders={orders} />

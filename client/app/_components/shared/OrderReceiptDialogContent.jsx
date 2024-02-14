@@ -17,12 +17,14 @@ import { useToast } from '@components/ui/use-toast'
 
 
 export default function OrderReceiptDialogContent({ order }) {
-  const { id: orderId, users: user, shipping_address: shippingAddress, product_variants: productVariants, order_status: orderStatus } = order
+  const { id: orderId, users: user, product_variants: productVariants, order_status: orderStatus, orders_shipping: orderShipping } = order
   const { id: orderStatusId, label: orderStatusLabel } = orderStatus
   const { quantity, discount_rate: discountRate, price, total_price: totalPrice } = order
   const { first_name: firstName, last_name: lastName, email } = user || {}
   const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants || {}
   const { id: productId, name: productName } = product || {}
+  const { receiver_email: receiverEmail, receiver_first_name: receiverFirstName, receiver_last_name: receiverLastName } = orderShipping
+  const { receiver_phone_number: receiverPhoneNumber, shipping_country: shippingCountry, shipping_address: shippingAddress, shipping_zip_code: shippingZipCode } = orderShipping
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
   const { toast } = useToast()
 
@@ -84,12 +86,32 @@ export default function OrderReceiptDialogContent({ order }) {
                     value={`${firstName} ${lastName}`}
                   />
                   <ReadOnlyFormControl
-                    label={'Email'}
+                    label={'Customer email'}
                     value={`${email}`}
+                  />
+                  <ReadOnlyFormControl
+                    label={'Receiver email'}
+                    value={`${receiverEmail}`}
+                  />
+                  <ReadOnlyFormControl
+                    label={'Receiver name'}
+                    value={`${receiverFirstName} ${receiverLastName}`}
+                  />
+                  <ReadOnlyFormControl
+                    label={'Receiver phone number'}
+                    value={`${receiverPhoneNumber}`}
+                  />
+                  <ReadOnlyFormControl
+                    label={'Shipping country'}
+                    value={`${shippingCountry}`}
                   />
                   <ReadOnlyFormControl
                     label={'Shipping address'}
                     value={`${shippingAddress}`}
+                  />
+                  <ReadOnlyFormControl
+                    label={'Shipping zip code'}
+                    value={`${shippingZipCode}`}
                   />
                   <ReadOnlyFormControl
                     label={'Delivery'}

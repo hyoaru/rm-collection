@@ -36,14 +36,20 @@ export default function OrdersTable(props) {
   }, [orders, statusFilter])
 
   const columnDefinition = [
-    { accessorKey: 'id' }, { accessorKey: 'product_variant_id' },
+    { accessorKey: 'id' }, 
+    { accessorKey: 'product_variant_id' },
     { accessorFn: (row) => row.users?.email, header: 'email' },
     { accessorFn: (row) => row.product_variants?.products.name, header: 'product_name' },
     { accessorFn: (row) => row.product_variants?.material, header: 'variant_material' },
-    { accessorKey: 'quantity' }, { accessorKey: 'price', header: 'price_sold_at' },
+    { accessorKey: 'quantity' }, 
+    { accessorKey: 'price', header: 'price_sold_at' },
     { accessorFn: (row) => `${row.discount_rate}%`, header: 'discount_rate_sold_at' },
     { accessorKey: 'total_price', header: 'total_price_sold_at' },
-    { accessorFn: (row) => row.order_status.label, header: 'status' }, { accessorKey: 'shipping_address' },
+    { accessorFn: (row) => row.order_status.label, header: 'status' }, 
+    { accessorFn: (row) => row.orders_shipping.receiver_email, header: 'receiver_email' },
+    { accessorFn: (row) => `${row.orders_shipping.receiver_first_name} ${row.orders_shipping.receiver_last_name}`, header: 'receiver_name' },
+    { accessorFn: (row) => row.orders_shipping.receiver_phone_number, header: 'receiver_phone_number' },
+    { accessorFn: (row) => `${row.orders_shipping.shipping_country}\n${row.orders_shipping.shipping_address}\n${row.orders_shipping.shipping_zip_code}`, header: 'shipping_address' },
     { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'created_at' },
     { accessorFn: (row) => formatTimestampTable(row.created_at), header: 'updated_at' },
   ]

@@ -8,7 +8,7 @@ export default async function getAllOrdersByUser(userId) {
 
   const { data, error } = await supabase
     .from('orders')
-    .select(`*, product_variants(*, products(*)), order_status(*), users(*)`)
+    .select(`*, product_variants(*, products(*)), order_status(*), users(*), orders_shipping(*)`)
     .eq('user_id', userId)
     .order('created_at', { ascending: true })
     .then(({ data: orders, error }) => {

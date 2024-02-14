@@ -77,7 +77,7 @@ export default function CartItem(props) {
         <div className={`self-center ${isReadOnly ? 'col-span-9' : 'col-span-7'}`}>
           <p className="font-semibold text-sm">{productName}</p>
           <p className="text-xs">{productVariantMaterial}-{productVariantMaterialProperty}</p>
-          <p className="text-xs text-muted-foreground">{productVariantId}</p>
+          <p className="text-xs text-muted-foreground break-all">{productVariantId}</p>
           <div className="flex items-center text-xs mt-2">
             <div className="me-auto">
               <p className=''>{`₱ ${productVariantDiscountedPrice.toLocaleString()}`}</p>
