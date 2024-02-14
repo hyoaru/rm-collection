@@ -53,6 +53,7 @@ export default function OrderCard({ order }) {
           })
 
           await revalidateAllData()
+          setCancelOrderModalIsOpen(false)
         }
       })
   }

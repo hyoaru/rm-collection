@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useMemo, useState } from 'react'
-import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, RefreshCw, MoreHorizontal } from 'lucide-react'
 
 // App imports
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@components/ui/table"
@@ -36,16 +36,16 @@ export default function OrdersTable(props) {
   }, [orders, statusFilter])
 
   const columnDefinition = [
-    { accessorKey: 'id' }, 
+    { accessorKey: 'id' },
     { accessorKey: 'product_variant_id' },
     { accessorFn: (row) => row.users?.email, header: 'email' },
     { accessorFn: (row) => row.product_variants?.products.name, header: 'product_name' },
     { accessorFn: (row) => row.product_variants?.material, header: 'variant_material' },
-    { accessorKey: 'quantity' }, 
+    { accessorKey: 'quantity' },
     { accessorKey: 'price', header: 'price_sold_at' },
     { accessorFn: (row) => `${row.discount_rate}%`, header: 'discount_rate_sold_at' },
     { accessorKey: 'total_price', header: 'total_price_sold_at' },
-    { accessorFn: (row) => row.order_status.label, header: 'status' }, 
+    { accessorFn: (row) => row.order_status.label, header: 'status' },
     { accessorFn: (row) => row.orders_shipping.receiver_email, header: 'receiver_email' },
     { accessorFn: (row) => `${row.orders_shipping.receiver_first_name} ${row.orders_shipping.receiver_last_name}`, header: 'receiver_name' },
     { accessorFn: (row) => row.orders_shipping.receiver_phone_number, header: 'receiver_phone_number' },
@@ -83,14 +83,23 @@ export default function OrdersTable(props) {
 
   if (rowActions) {
     columnDefinition.push({
-      id: 'actions', accessorKey: 'id', header: '',
-      cell: (info) => (
-        <DataTableRowAction
-          rowActions={rowActions}
-          data={info.getValue()}
-          userStateGeneral={userStateGeneral}
-        />
-      )
+      id: 'actions', accessorFn: (row) => row, header: '',
+      cell: (info) => (<>
+        {!['cancelled-by-user', 'cancelled-by-management'].includes(info.getValue().order_status.label)
+          ? <>
+            <DataTableRowAction
+              rowActions={rowActions}
+              data={info.getValue().id}
+              userStateGeneral={userStateGeneral}
+            />
+          </>
+          : <>
+            <Button variant={'ghost'} className={'h-8 w-8 p-0'} disabled>
+              <MoreHorizontal className="h-4 w-4 text-red-600" />
+            </Button>
+          </>
+        }
+      </>)
     })
   }
 
