@@ -244,6 +244,7 @@ export default function CheckoutForm(props) {
                 type={'submit'}
                 size={'lg'}
                 className={'w-full md:w-3/12'}
+                disabled={isModalOpen || isReceiptModalOpen}
               >
                 Checkout
               </Button>
