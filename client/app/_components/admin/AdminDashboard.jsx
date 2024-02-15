@@ -94,8 +94,8 @@ export default function AdminDashboard(props) {
       <div className="grid grid-cols-12 mt-4 gap-4">
         <div className="col-span-12 lg:col-span-7">
           <div className="border rounded-xl p-5">
-            {orders?.[0]
-              ? <BarChartSalesThroughoutYears orders={orders} />
+            {confirmedOrders?.[0]
+              ? <BarChartSalesThroughoutYears orders={confirmedOrders} />
               : <h4 className='text-center font-bold text-2xl py-24 opacity-80'>No data yet</h4>}
           </div>
         </div>
