@@ -12,24 +12,25 @@ import { getUserStateServer } from '@services/authentication/getUserStateServer'
 
 export default async function Page() {
   const productPostingList = await getProductPostingList()
-  const {userStateGeneral, userStateAuth} = await getUserStateServer()
+  const { userStateGeneral } = await getUserStateServer()
 
   const columnDefinition = [
     { accessorKey: 'id' }, { accessorKey: 'product_id' }, { accessorKey: 'material' },
-    { accessorKey: 'material_property' }, { accessorKey: 'quantity' }, { accessorKey: 'price' },
+    { accessorKey: 'material_property' }, { accessorKey: 'size' },
+    { accessorKey: 'quantity' }, { accessorKey: 'price' },
     { accessorKey: 'discount_rate' }, { accessorKey: 'is_displayed' },
   ]
 
   const rowActions = [
-    { 
-      label: "Delete product variant", 
-      onClick: deleteProductVariant, 
+    {
+      label: "Delete product variant",
+      onClick: deleteProductVariant,
       isDestructive: true,
-      adminRolesPermitted: ADMIN_ROLES.slice(0,1)
+      adminRolesPermitted: ADMIN_ROLES.slice(0, 1)
     },
-    { 
-      label: "Hide from collections", 
-      onClick: productVariantDisableIsDisplayed, 
+    {
+      label: "Hide from collections",
+      onClick: productVariantDisableIsDisplayed,
       isDestructive: false,
       adminRolesPermitted: BASE_ADMIN_ROLES
     },

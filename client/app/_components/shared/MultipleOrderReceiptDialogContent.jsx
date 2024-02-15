@@ -17,7 +17,7 @@ import { useToast } from '@components/ui/use-toast'
 
 
 export default function MultipleOrderReceiptDialogContent({ orders }) {
-  const { users: user, product_variants: productVariants, orders_shipping: orderShipping } = orders?.[0]
+  const { users: user, product_variants: productVariants, orders_shipping: orderShipping, created_at: createdAt } = orders?.[0]
   const { id: userId, first_name: firstName, last_name: lastName, email } = user
   const { receiver_email: receiverEmail, receiver_first_name: receiverFirstName, receiver_last_name: receiverLastName } = orderShipping
   const { receiver_phone_number: receiverPhoneNumber, shipping_country: shippingCountry, shipping_address: shippingAddress, shipping_zip_code: shippingZipCode } = orderShipping
@@ -112,6 +112,11 @@ export default function MultipleOrderReceiptDialogContent({ orders }) {
                   />
 
                   <ReadOnlyFormControl
+                    label={'Order date'}
+                    value={`${dayjs(createdAt)}`}
+                  />
+
+                  <ReadOnlyFormControl
                     label={'Delivery'}
                     value={`${'Home delivery'}`}
                   />
@@ -150,7 +155,7 @@ export default function MultipleOrderReceiptDialogContent({ orders }) {
                     <div className="grid grid-cols-12 gap-2">
                       {orders.map((order) => {
                         const { id: orderId, quantity, discount_rate: discountRate, price, product_variants: productVariants } = order
-                        const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants
+                        const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty, size: productVariantSize } = productVariants
 
                         const { id: productId, name: productName } = product
                         const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
@@ -171,7 +176,7 @@ export default function MultipleOrderReceiptDialogContent({ orders }) {
                                 <div className="my-auto">
                                   <p className="text-xs text-muted-foreground">{`Order #${orderId}`}</p>
                                   <p className="font-semibold text-sm">{productName}</p>
-                                  <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
+                                  <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty} : {productVariantSize}</p>
                                   <div className="flex items-center gap-x-2">
                                     <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>
                                     <p className="text-xs">{`${discountRate}% off`}</p>

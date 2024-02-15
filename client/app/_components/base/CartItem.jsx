@@ -19,8 +19,8 @@ export default function CartItem(props) {
 
   const { userStateAuth: { id: userId } } = userState
   const { id: cartItemId, quantity: cartItemQuantity } = cartItem
-  const { id: productVariantId, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariant
-  const { quantity: productVariantQuantity, price: productVariantPrice, discount_rate: productVariantDiscountRate } = productVariant
+  const { id: productVariantId, material: productVariantMaterial, material_property: productVariantMaterialProperty, size: productVariantSize } = productVariant
+  const { quantity: productVariantQuantity } = productVariant
   const { discounted_price: productVariantDiscountedPrice } = productVariant
   const productThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
 
@@ -76,7 +76,7 @@ export default function CartItem(props) {
 
         <div className={`self-center ${isReadOnly ? 'col-span-9' : 'col-span-7'}`}>
           <p className="font-semibold text-sm">{productName}</p>
-          <p className="text-xs">{productVariantMaterial}-{productVariantMaterialProperty}</p>
+          <p className="text-xs break-words">{productVariantMaterial} - {productVariantMaterialProperty} : {productVariantSize}</p>
           <p className="text-xs text-muted-foreground break-all">{productVariantId}</p>
           <div className="flex items-center text-xs mt-2">
             <div className="me-auto">

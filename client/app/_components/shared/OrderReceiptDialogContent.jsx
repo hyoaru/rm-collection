@@ -17,11 +17,11 @@ import { useToast } from '@components/ui/use-toast'
 
 
 export default function OrderReceiptDialogContent({ order }) {
-  const { id: orderId, users: user, product_variants: productVariants, order_status: orderStatus, orders_shipping: orderShipping } = order
+  const { id: orderId, users: user, product_variants: productVariants, order_status: orderStatus, orders_shipping: orderShipping, created_at: createdAt } = order
   const { id: orderStatusId, label: orderStatusLabel } = orderStatus
   const { quantity, discount_rate: discountRate, price, total_price: totalPrice } = order
   const { first_name: firstName, last_name: lastName, email } = user || {}
-  const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty } = productVariants || {}
+  const { id: productVariantId, products: product, material: productVariantMaterial, material_property: productVariantMaterialProperty, size: productVariantSize } = productVariants || {}
   const { id: productId, name: productName } = product || {}
   const { receiver_email: receiverEmail, receiver_first_name: receiverFirstName, receiver_last_name: receiverLastName } = orderShipping
   const { receiver_phone_number: receiverPhoneNumber, shipping_country: shippingCountry, shipping_address: shippingAddress, shipping_zip_code: shippingZipCode } = orderShipping
@@ -114,6 +114,10 @@ export default function OrderReceiptDialogContent({ order }) {
                     value={`${shippingZipCode}`}
                   />
                   <ReadOnlyFormControl
+                    label={'Order date'}
+                    value={`${dayjs(createdAt)}`}
+                  />
+                  <ReadOnlyFormControl
                     label={'Delivery'}
                     value={`${'Home delivery'}`}
                   />
@@ -159,7 +163,7 @@ export default function OrderReceiptDialogContent({ order }) {
                         <div className="flex h-full w-full ">
                           <div className="my-auto">
                             <p className="font-semibold text-sm">{productName}</p>
-                            <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty}</p>
+                            <p className="text-xs">{quantity} unit - {productVariantMaterial}-{productVariantMaterialProperty} : {productVariantSize}</p>
                             <p className="text-xs text-muted-foreground">{productVariantId}</p>
                             <div className="flex items-center gap-x-2">
                               <p className="text-xs">{`₱ ${price.toLocaleString()}`}</p>

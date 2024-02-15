@@ -55,7 +55,7 @@ export default function ProductVariantListCombobox(props) {
                       value === productVariant.id ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {productVariant.material} {productVariant.material_property}
+                  {productVariant.material} {productVariant.material_property} : {productVariant.size}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -123,6 +123,12 @@ export default async function Page({ params }) {
                           <span className='text-muted-foreground'>Material property: </span>
                           {productVariant.material_property}
                         </p>
+                        {productVariant.size && <>
+                          <p>
+                            <span className='text-muted-foreground'>Size: </span>
+                            {productVariant.size}
+                          </p>
+                        </>}
                       </div>
 
                       <div id="product.description">

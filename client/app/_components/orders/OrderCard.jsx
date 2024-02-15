@@ -17,7 +17,7 @@ import useCompleteOrder from '@hooks/orders/useCompleteOrder'
 
 export default function OrderCard({ order }) {
   const { id: orderId, discount_rate: discountRate, total_price: totalPrice, discounted_price: discountedPrice, price, quantity, product_variants: productVariants } = order
-  const { material, material_property: materialProperty, products } = productVariants || {}
+  const { material, material_property: materialProperty, size, products } = productVariants || {}
   const { id: productId, name: productName } = products || {}
   const { order_status: { id: orderStatusId, label: orderStatusLabel } } = order
   const [receiptModalIsOpen, setReceiptModalIsOpen] = useState(false)
@@ -26,7 +26,7 @@ export default function OrderCard({ order }) {
   const { completeOrder, isLoadingCompletion } = useCompleteOrder()
   const { toast } = useToast()
 
-  const size = { width: 1000, height: 1000 }
+  const imageSize = { width: 1000, height: 1000 }
   const orderThumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: productId })
 
   function openReceiptModal() {
@@ -120,8 +120,8 @@ export default function OrderCard({ order }) {
           <div className="rounded-tl-xl rounded-br-xl overflow-hidden">
             <Image
               alt=''
-              width={size.width}
-              height={size.height}
+              width={imageSize.width}
+              height={imageSize.height}
               className={`hover:scale-105 transition-all duration-500 rounded-tl-xl rounded-br-xl`}
               src={orderThumbnailPublicUrl}
             />
@@ -129,7 +129,7 @@ export default function OrderCard({ order }) {
           <div className="sm:px-3 py-3 md:text-sm ">
             <div className="grid grid-cols-12">
               <div className="col-span-12 lg:col-span-8 space-y-1">
-                <p className="text-sm font-semibold lg:text-xl ">{productName}: {material} - {materialProperty}</p>
+                <p className="text-sm font-semibold lg:text-xl ">{productName} : {material} {materialProperty} : {size}</p>
 
                 <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs items-center">
                   <Badge className={'lg:hidden'}>{`₱ ${discountedPrice.toLocaleString()}`}</Badge>
