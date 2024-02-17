@@ -14,7 +14,7 @@ export function useUserSignUp() {
 
   async function userSignUp({ email, password, firstName, lastName }: UserSignUpProps) {
     setIsLoading(true)
-
+    
     const { count, error: countError } = await supabase
       .from('users')
       .select(`*`, { count: 'exact', head: true })
@@ -33,6 +33,7 @@ export function useUserSignUp() {
         }
       })
 
+      setIsLoading(false)
       return { data, error }
     }
 
