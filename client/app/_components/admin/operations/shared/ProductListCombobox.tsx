@@ -51,7 +51,7 @@ export default function ProductListCombobox({ onSelectedValueChange }: ProductLi
           >
             <CommandInput placeholder="Search product..." />
             <CommandEmpty>No product found.</CommandEmpty>
-            <CommandGroup>
+            <CommandGroup className="h-[200px] overflow-y-auto">
               {memoizedProducts?.data?.map((product) => (
                 <CommandItem
                   key={`ProductCombobox-${product.id}`}
