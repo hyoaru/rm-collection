@@ -1,82 +1,50 @@
-import addProduct from "@services/admin/operations/addProduct";
-import addProductVariant from "@services/admin/operations/addProductVariant";
-import addProductThumbnail from "@services/admin/operations/addProductThumbnail";
-import addProductVariantImages from "@services/admin/operations/addProductVariantImages";
+import addProductVariantWithImages from "@services/admin/operations/addProductVariantWithImages";
+import addProductWithThumbnail from "@services/admin/operations/addProductWithThumbnail";
 
 type AddProductWithVariantParams = {
   product: {
-    name: string
-    description: string
-    category: string
-    thumbnail: FileList
-  }
+    name: string;
+    description: string;
+    category: string;
+    thumbnail: FileList;
+  };
   productVariant: {
-    material: string
-    materialProperty: string
-    quantity: number
-    price: number
-    discountRate: number
-    size: string | null
-    images: FileList
-  }
-}
-
-type Response = {
-  data: any
-  error: any
-}
+    material: string;
+    materialProperty: string;
+    quantity: number;
+    price: number;
+    discountRate: number;
+    size: string | null;
+    images: FileList;
+  };
+};
 
 export default async function addProductWithVariant({ product, productVariant }: AddProductWithVariantParams) {
-  let response: Response = { data: null, error: null }
-
-  // Add product and thumbnail
-  await addProduct({
+  const { data, error } = await addProductWithThumbnail({
     name: product.name,
     description: product.description,
-    category: product.category
-  })
-    .then(async ({ data: addProductData, error: addProductError }) => {
-      if (addProductError || !addProductData) {
-        return response = { data: addProductData, error: addProductError }
-      }
-
-      const { data, error } = await addProductThumbnail({
-        thumbnail: product.thumbnail,
-        productId: addProductData.id
-      })
-
-      response = { data: addProductData, error: error }
-    })
-
-  if (response.error) {
-    return response
-  }
-
-  // Add product variant and images
-  await addProductVariant({
-    product: { id: response.data.id },
-    productVariant: {
-      material: productVariant.material,
-      materialProperty: productVariant.materialProperty,
-      size: productVariant.size,
-      quantity: productVariant.quantity,
-      price: productVariant.price,
-      discountRate: productVariant.discountRate
+    category: product.category,
+    thumbnail: product.thumbnail,
+  }).then(async ({ data: addProductData, error: addProductError }) => {
+    if (addProductError || !addProductData) {
+      return { data: addProductData, error: addProductError };
     }
-  })
-    .then(async ({ data: addProductVariantData, error: addProductVariantError }) => {
-      if (addProductVariantError || !addProductVariantData) {
-        return response = { data: addProductVariantData, error: addProductVariantError }
-      }
 
-      const { data, error } = await addProductVariantImages({
+    const { data, error } = await addProductVariantWithImages({
+      product: { id: addProductData.id },
+      productVariant: {
+        material: productVariant.material,
+        materialProperty: productVariant.materialProperty,
+        quantity: productVariant.quantity,
+        price: productVariant.price,
+        discountRate: productVariant.discountRate,
+        size: productVariant.size,
         images: productVariant.images,
-        product: { id: addProductVariantData.product_id },
-        productVariant: { id: addProductVariantData.id }
-      })
+      },
+    });
 
-      response = { data: addProductVariantData, error }
-    })
+    return { data, error };
+  });
 
-  return response
+  return { data, error };
 }
