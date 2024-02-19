@@ -5,6 +5,7 @@ import { Lora } from "next/font/google";
 import "./globals.css";
 import Header from "@components/base/Header";
 import { Toaster } from "@components/ui/toaster";
+import Providers from "@providers/Providers";
 
 const typeface = Lora({ subsets: ["latin"] });
 
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={typeface.className} suppressHydrationWarning>
-        <Header />
-        {children}
-        <Toaster />
+        <Providers>
+          <Header />
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

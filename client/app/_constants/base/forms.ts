@@ -17,7 +17,7 @@ export const PRODUCT_VARIANTS_BASE_FORM_SCHEMA = {
   discountRate: z.coerce.number().min(0).max(100),
   material: z.string().trim().min(4).max(50),
   materialProperty: z.string().trim().min(2).max(50),
-  size: z.string().trim().transform((val) => val === '' ? null : val).optional().nullable().default(null),
+  size: z.string().trim().optional().nullable().default(null).transform(val => val == '' ? null : val),
   images: z.any()
     .refine((files) => Array.from(files)?.length !== 0, `Images is required`)
     .refine((files) => Array.from(files)?.length <= 4, `You can only select up to 4 images`)
