@@ -1,6 +1,9 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// App imports
+import { NAVIGATION_OPERATIONS, NAVIGATION_TABLES } from '@constants/admin/base'
+
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -54,7 +57,70 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  const AUTH_ROUTES = ['/auth/sign-in', '/auth/sign-up', '/auth/forgot-password']
+  const ACCOUNT_PUBLIC_PROTECTED_ROUTES = ['/profile/account/update-password']
+
+  const { data: { user: userStateAuth } } = await supabase.auth.getUser()
+  const { data: authenticatedUser } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userStateAuth?.id)
+    .single()
+
+
+  if (AUTH_ROUTES.includes(request.nextUrl.pathname) && userStateAuth) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  if (request.nextUrl.pathname.includes('/orders') && !userStateAuth) {
+    return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+  }
+
+  if (request.nextUrl.pathname.includes('/profile')) {
+    if (!userStateAuth && !ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+    }
+
+    if (!ACCOUNT_PUBLIC_PROTECTED_ROUTES.includes(request.nextUrl.pathname)) {
+      return response
+    }
+
+    if (request.nextUrl.pathname === '/profile/account/update-password') {
+      await supabase.auth.signOut()
+      const code = request.nextUrl.searchParams.get('code')
+
+      try {
+        await supabase.auth.exchangeCodeForSession(code!)
+      } catch (error) {
+        return NextResponse.redirect(new URL('/profile', request.url))
+      }
+
+      return response
+    }
+
+  }
+
+  if (request.nextUrl.pathname.includes('/admin')) {
+    if (!userStateAuth) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    if (authenticatedUser?.role === 'user') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    const adminNavigations = [...Array.from(Object.values(NAVIGATION_OPERATIONS)), ...Array.from(Object.values(NAVIGATION_TABLES))]
+    const matchedAdminNavigation = adminNavigations.filter((adminNavigation) => adminNavigation.pathName === request.nextUrl.pathname)[0]
+    const isPermitted = matchedAdminNavigation?.adminRolesPermitted.includes(authenticatedUser?.role)
+
+    if (matchedAdminNavigation && !isPermitted) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+  }
+
+  if (request.nextUrl.pathname.includes('/checkout') && !userStateAuth) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
 
   return response
 }
