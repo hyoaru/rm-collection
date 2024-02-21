@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import * as z from "zod";
-import { useMutation } from "@tanstack/react-query";
 
 // App imports
 import { Button } from "@components/ui/button";
@@ -17,7 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox";
 import { Tables } from "@constants/base/database-types";
-import addProductVariantWithImages from "@services/admin/operations/addProductVariantWithImages";
+import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant";
 
 import {
   PRODUCT_CATEGORIES as productCategories,
@@ -27,12 +26,8 @@ import {
 export default function AddProductVariantForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
+  const addProductVariantMutation = useAddProductVariant();
   const { toast } = useToast();
-
-  const addProductVariantMutation = useMutation({
-    mutationFn: addProductVariantWithImages,
-    mutationKey: ["product_variants"],
-  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -100,7 +95,7 @@ export default function AddProductVariantForm() {
     [selectedProduct]
   );
 
-  function onSelectedProductChange(product: Tables<"products">) {
+  const onSelectedProductChange = useCallback((product: Tables<"products"> | null) => {
     setSelectedProduct(product);
     if (product) {
       form.reset({
@@ -114,7 +109,7 @@ export default function AddProductVariantForm() {
     } else {
       emptyFormFields();
     }
-  }
+  }, [])
 
   const onImagesChange = useCallback((imageFiles: FileList | null) => {
     if (!imageFiles) return;
