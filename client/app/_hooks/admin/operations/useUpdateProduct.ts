@@ -1,6 +1,8 @@
 import * as z from "zod";
-import { AsyncReturnType } from "@constants/shared/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+// App imports
+import { AsyncReturnType } from "@constants/shared/types";
 import updateProductWithThumbnail from "@services/admin/operations/updateProductWithThumbnail";
 import { ProductsResponseType, ProductResponseType } from "@constants/base/types";
 import updateObjectValues from "@lib/updateObjectValues";
@@ -12,7 +14,7 @@ export function useUpdateProduct(formSchema: z.ZodObject<any>) {
     mutationFn: updateProductWithThumbnail,
     onMutate: async (response: z.infer<typeof formSchema>) => {
       await queryClient.cancelQueries({ queryKey: ['products'] })
-      await queryClient.cancelQueries({ queryKey: ['product'] })
+      await queryClient.cancelQueries({ queryKey: ['product', response.id] })
 
       const previousProduct = queryClient.getQueryData(['product', response.id]) as ProductsResponseType
       const previousProducts = queryClient.getQueryData(['products']) as ProductsResponseType
@@ -37,7 +39,7 @@ export function useUpdateProduct(formSchema: z.ZodObject<any>) {
     },
     onSuccess: async (response: AsyncReturnType<typeof updateProductWithThumbnail>) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["product", response.data?.id] });
     },
   });
 }
