@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image from "next/image";
-import { useMutation } from "@tanstack/react-query";
 
 // App imports
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
@@ -15,18 +14,15 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import addProductWithVariant from "@services/admin/operations/addProductWithVariant";
 import { useToast } from "@components/ui/use-toast";
+import { useAddProduct } from "@hooks/admin/operations/useAddProduct";
 
 export default function AddProductForm() {
   const [thumbnailSrc, setThumbnailSrc] = useState<string | null>();
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
   const { toast } = useToast();
 
-  const addProductWithVariantMutation = useMutation({
-    mutationFn: addProductWithVariant,
-    mutationKey: ["products", "product_variants"],
-  });
+  const addProductWithVariantMutation = useAddProduct()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
