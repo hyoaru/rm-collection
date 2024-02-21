@@ -13,8 +13,8 @@ export default async function addProductVariantImages({ images, product, product
   const response: any = { data: null, error: null }
 
   for await (const imageFile of images) {
-    const compressedImageFile = await resizeImage(imageFile)
-    const imageFileName = `${nanoid()}-${imageFile.name}`
+    const compressedImageFile = await resizeImage(imageFile) as File
+    const imageFileName = `${nanoid()}-${compressedImageFile.name}`
 
     const { data, error } = await supabase
       .storage
