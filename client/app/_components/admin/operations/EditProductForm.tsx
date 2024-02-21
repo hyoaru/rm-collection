@@ -26,7 +26,7 @@ import {
 export default function EditProductForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
   const [thumbnailSrc, setThumbnailSrc] = useState<StaticImageData | string | null>();
-  const updateProductMutation = useUpdateProduct();
+  const updateProductMutation = useUpdateProduct(formSchema);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,11 +51,9 @@ export default function EditProductForm() {
     });
   }, []);
 
-  const onSelectedProductChange = async (product: Tables<"products"> | null) => {
+  const onSelectedProductChange = useCallback(async (product: Tables<"products"> | null) => {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
     setSelectedProduct(product);
-
-    console.log(product)
 
     if (product) {
       form.reset({
@@ -64,12 +62,12 @@ export default function EditProductForm() {
         description: product.description,
       });
 
-      const thumbnailPublicUrl = getProductThumbnailPublicUrl({productId: product.id})
+      const thumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id });
       setThumbnailSrc(thumbnailPublicUrl);
     } else {
       emptyFormFields();
     }
-  };
+  }, [])
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
@@ -91,10 +89,17 @@ export default function EditProductForm() {
               description: "Please try again later.",
             });
           } else {
-            toast({
-              title: "Product has been updated successfully.",
-              description: "Changes will take effect shortly.",
-            });
+            if (data.thumbnail) {
+              toast({
+                title: "Product has been updated successfully.",
+                description: "Image changes will take effect after a while.",
+              });
+            } else {
+              toast({
+                title: "Product has been updated successfully.",
+                description: "Changes will take effect shortly.",
+              });
+            }
             emptyFormFields();
           }
         });

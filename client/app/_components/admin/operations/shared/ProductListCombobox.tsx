@@ -17,16 +17,16 @@ type ProductListComboboxProps = {
   onSelectedValueChange: (product: Tables<"products"> | null) => void;
 };
 
-export default function ProductListCombobox({ onSelectedValueChange }: ProductListComboboxProps) {
+export default function ProductListCombobox({ onSelectedValueChange}: ProductListComboboxProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>();
-  const { data: products, isPending } = useQuery(queryAllProducts());
+  const { data: products, isPending, isFetching } = useQuery(queryAllProducts());
   const memoizedProducts = useMemo(() => products, [products]);
 
-  if (isPending) {
+  if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;
   }
-
+  
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -42,7 +42,7 @@ export default function ProductListCombobox({ onSelectedValueChange }: ProductLi
           <Command
             filter={(value, search) => {
               const productFromValue = memoizedProducts?.data?.find(
-                (product) => product.id.toLocaleLowerCase() === value
+                (product) => product.id.toLowerCase() === value.toLowerCase()
               );
               const stringToSearch = productFromValue ? Object.values(productFromValue).join(" ").toLowerCase() : "";
               if (stringToSearch.includes(search)) return 1;

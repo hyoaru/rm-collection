@@ -10,5 +10,6 @@ export default function getProductThumbnailPublicUrl({ productId }: { productId:
     .getPublicUrl(`${productId}/thumbnail.JPEG`);
 
   const thumbnailPublicUrl = !productId ? NoImageFound : data?.publicUrl;
+
   return thumbnailPublicUrl;
 }
