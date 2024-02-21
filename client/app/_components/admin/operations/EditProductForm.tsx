@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Image, { StaticImageData } from "next/image";
-import { useQueryClient } from "@tanstack/react-query";
 
 // App imports
 import { Button } from "@components/ui/button";
@@ -17,7 +16,7 @@ import { useToast } from "@components/ui/use-toast";
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox";
 import { Tables } from "@constants/base/database-types";
 import { useUpdateProduct } from "@hooks/admin/operations/useUpdateProduct";
-import { queryProductThumbnail } from "@constants/shared/queries";
+import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl";
 
 import {
   PRODUCT_CATEGORIES as productCategories,
@@ -27,10 +26,8 @@ import {
 export default function EditProductForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
   const [thumbnailSrc, setThumbnailSrc] = useState<StaticImageData | string | null>();
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
   const updateProductMutation = useUpdateProduct();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +42,7 @@ export default function EditProductForm() {
   const emptyFormFields = useCallback(() => {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
     setThumbnailSrc(null);
-    setSelectedProduct(null)
+    setSelectedProduct(null);
 
     form.reset({
       name: "",
@@ -54,9 +51,11 @@ export default function EditProductForm() {
     });
   }, []);
 
-  const onSelectedProductChange = useCallback(async (product: Tables<"products">) => {
+  const onSelectedProductChange = async (product: Tables<"products"> | null) => {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
     setSelectedProduct(product);
+
+    console.log(product)
 
     if (product) {
       form.reset({
@@ -65,12 +64,12 @@ export default function EditProductForm() {
         description: product.description,
       });
 
-      const thumbnailPublicUrl = await queryClient.fetchQuery(queryProductThumbnail(product.id));
+      const thumbnailPublicUrl = getProductThumbnailPublicUrl({productId: product.id})
       setThumbnailSrc(thumbnailPublicUrl);
     } else {
       emptyFormFields();
     }
-  }, []);
+  };
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
