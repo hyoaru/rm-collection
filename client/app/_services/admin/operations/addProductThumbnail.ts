@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { getBrowserClient } from "@services/supabase/getBrowserClient";
 import { resizeImage } from "@lib/resizeImage";
 
@@ -12,7 +11,7 @@ export default async function addProductThumbnail({ thumbnail, productId }: AddP
 
   const imageFile = thumbnail[0]
   const compressedImageFile = await resizeImage(imageFile) as File
-  const imageFileName = `${nanoid()}-${compressedImageFile.name}`
+  const imageFileName = `thumbnail.JPEG`
 
   const { data, error } = await supabase
     .storage

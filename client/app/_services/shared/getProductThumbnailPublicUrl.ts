@@ -7,7 +7,7 @@ export default function getProductThumbnailPublicUrl({ productId }: { productId:
   const { data } = supabase
     .storage
     .from(BUCKET_NAME)
-    .getPublicUrl(`${productId}/thumbnail.jpeg`);
+    .getPublicUrl(`${productId}/thumbnail.JPEG`);
 
   const thumbnailPublicUrl = !productId ? NoImageFound : data?.publicUrl;
   return thumbnailPublicUrl;
