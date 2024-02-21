@@ -14,7 +14,7 @@ import { queryAllProducts } from "@constants/shared/queries";
 import { Tables } from "@constants/base/database-types";
 
 type ProductListComboboxProps = {
-  onSelectedValueChange: (product: Tables<"products">) => void;
+  onSelectedValueChange: (product: Tables<"products"> | null) => void;
 };
 
 export default function ProductListCombobox({ onSelectedValueChange }: ProductListComboboxProps) {
@@ -58,7 +58,7 @@ export default function ProductListCombobox({ onSelectedValueChange }: ProductLi
                   value={product.id}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? null : currentValue);
-                    onSelectedValueChange(product);
+                    onSelectedValueChange(currentValue === value ? null : product);
                     setOpen(false);
                   }}
                 >
