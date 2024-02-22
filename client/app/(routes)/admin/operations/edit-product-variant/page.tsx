@@ -1,13 +1,14 @@
 import React from 'react'
-import { HydrationBoundary, dehydrate, QueryClient } from '@tanstack/react-query'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 
 // App imports
 import EditProductVariantForm from '@components/admin/operations/EditProductVariantForm'
 import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import { queryAllProducts, queryAllProductVariants } from '@constants/shared/queries'
+import getQueryClient from '@services/shared/getQueryClient'
 
 export default async function Page() {
-  const queryClient = new QueryClient()
+  const queryClient = getQueryClient()
   await queryClient.prefetchQuery(queryAllProducts())
   await queryClient.prefetchQuery(queryAllProductVariants())
   
