@@ -9,3 +9,8 @@ export type ProductsResponseType = {
   data: Tables<'products'>[]
   error: any
 }
+
+export type ProductVariantsResponseType = {
+  data: Tables<'product_variants'>[]
+  error: any
+}

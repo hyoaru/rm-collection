@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // App imports
@@ -8,7 +8,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover";
 import { Button } from "@components/ui/button";
 import { Tables } from "@constants/base/database-types";
-import { queryProductVariantsByProduct } from "@constants/shared/queries";
+import { queryAllProductVariants } from "@constants/shared/queries";
 import { Skeleton } from "@components/ui/skeleton";
 
 type ProductVariantListComboboxProps = {
@@ -27,15 +27,13 @@ export default function ProductVariantListCombobox({
   const [open, setOpen] = useState(false);
 
   const {
-    data: filteredProductVariants,
+    data: productVariants,
     isPending,
     isFetching,
-  } = useQuery(
-    queryProductVariantsByProduct({
-      productId: productId ?? null,
-      isEnabled: productId ? true : false,
-    })
-  );
+  } = useQuery(queryAllProductVariants());
+
+  const memoizedProductVariants = useMemo(() => productVariants?.data, [productVariants])
+  const filteredProductVariants = memoizedProductVariants?.filter((productVariant) => productVariant.product_id === productId)
 
   if (isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;
@@ -53,7 +51,7 @@ export default function ProductVariantListCombobox({
             disabled={!productId || isPending}
           >
             {value
-              ? filteredProductVariants?.data?.find((productVariant) => productVariant.id === value)?.id
+              ? filteredProductVariants?.find((productVariant) => productVariant.id === value)?.id
               : "Select product variant..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -61,7 +59,7 @@ export default function ProductVariantListCombobox({
         <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
           <Command
             filter={(value, search) => {
-              const productVariantFromValue = filteredProductVariants?.data?.find(
+              const productVariantFromValue = filteredProductVariants?.find(
                 (productVariant) => productVariant.id.toLowerCase() === value.toLowerCase()
               );
               const stringToSearch = productVariantFromValue
@@ -74,7 +72,7 @@ export default function ProductVariantListCombobox({
             <CommandInput placeholder="Search product variant by id, material, and other attribute..." />
             <CommandEmpty>No product variant found.</CommandEmpty>
             <CommandGroup>
-              {filteredProductVariants?.data?.map((productVariant) => (
+              {filteredProductVariants?.map((productVariant) => (
                 <CommandItem
                   key={`ProductVariantCombobox-${productVariant.id}`}
                   value={productVariant.id}

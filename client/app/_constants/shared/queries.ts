@@ -4,6 +4,7 @@ import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPu
 // App imports
 import getAllProducts from "@services/shared/getAllProducts";
 import getProductVariantsByProduct from "@services/shared/getProductVariantsByProduct";
+import getAllProductVariants from "@services/shared/getAllProductVariants";
 
 export function queryProductThumbnail(productId: string) {
   return queryOptions({
@@ -19,21 +20,22 @@ export function queryAllProducts() {
   });
 }
 
+export function queryAllProductVariants(){
+  return queryOptions({
+    queryKey: ['product_variants'],
+    queryFn: getAllProductVariants
+  })
+}
+
 export function queryProductVariantsByProduct({
   productId,
-  visibility = "all",
   isEnabled = true
 }: {
-  productId: string | null;
-  visibility?: "all" | "displayed" | "hidden";
+  productId: string;
   isEnabled?: boolean
 }) {
   return queryOptions({
-    queryKey: ["product_variants", {
-      productId: productId,
-      visibility: visibility
-    }],
-    queryFn: () => getProductVariantsByProduct({ productId: productId ?? '', visibility: visibility }),
-    enabled: isEnabled
+    queryKey: ["product_variants", { productId: productId }],
+    queryFn: () => getProductVariantsByProduct({ productId: productId }),
   });
 }
