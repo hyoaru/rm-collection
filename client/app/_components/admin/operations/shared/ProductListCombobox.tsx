@@ -14,12 +14,13 @@ import { queryAllProducts } from "@constants/shared/queries";
 import { Tables } from "@constants/base/database-types";
 
 type ProductListComboboxProps = {
+  value: string | null | undefined
+  setValue: React.Dispatch<React.SetStateAction<string | null | undefined>>
   onSelectedValueChange: (product: Tables<"products"> | null) => void;
 };
 
-export default function ProductListCombobox({ onSelectedValueChange}: ProductListComboboxProps) {
+export default function ProductListCombobox({ value, setValue, onSelectedValueChange}: ProductListComboboxProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | null>();
   const { data: products, isPending, isFetching } = useQuery(queryAllProducts());
   const memoizedProducts = useMemo(() => products, [products]);
 
