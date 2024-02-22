@@ -128,7 +128,7 @@ export default function EditProductVariantForm() {
           quantity: productVariant.quantity,
           material: productVariant.material,
           materialProperty: productVariant.material_property,
-          size: productVariant.size,
+          size: productVariant.size ?? '',
           images: "",
         });
 
