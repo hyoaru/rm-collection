@@ -31,7 +31,7 @@ export default function EditProductVariantForm() {
   const [productVariantListComboboxValue, setProductVariantListComboboxValue] = useState<string | null>()
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
 
-  const updateProductVariantMutation = useUpdateProductVariant(formSchema);
+  const updateProductVariantMutation = useUpdateProductVariant();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({

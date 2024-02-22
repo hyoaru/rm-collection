@@ -47,7 +47,7 @@ export default function ProductVariantListCombobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className="w-full justify-between overflow-hidden"
             disabled={!productId || isPending}
           >
             {value

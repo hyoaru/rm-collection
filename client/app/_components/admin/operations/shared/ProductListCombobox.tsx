@@ -14,35 +14,38 @@ import { queryAllProducts } from "@constants/shared/queries";
 import { Tables } from "@constants/base/database-types";
 
 type ProductListComboboxProps = {
-  value: string | null | undefined
-  setValue: React.Dispatch<React.SetStateAction<string | null | undefined>>
+  value: string | null | undefined;
+  setValue: React.Dispatch<React.SetStateAction<string | null | undefined>>;
   onSelectedValueChange: (product: Tables<"products"> | null) => void;
 };
 
-export default function ProductListCombobox({ value, setValue, onSelectedValueChange}: ProductListComboboxProps) {
+export default function ProductListCombobox({ value, setValue, onSelectedValueChange }: ProductListComboboxProps) {
   const [open, setOpen] = useState(false);
   const { data: products, isPending, isFetching } = useQuery(queryAllProducts());
-  const memoizedProducts = useMemo(() => products, [products]);
+  const memoizedProducts = useMemo(() => products?.data, [products]);
 
   if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;
   }
-  
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
-            {value
-              ? memoizedProducts?.data?.find((product) => product.id === value)?.name
-              : "Select product by id, name, and other attribute..."}
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between overflow-hidden"
+          >
+            {value ? memoizedProducts?.find((product) => product.id === value)?.name : "Select product..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
           <Command
             filter={(value, search) => {
-              const productFromValue = memoizedProducts?.data?.find(
+              const productFromValue = memoizedProducts?.find(
                 (product) => product.id.toLowerCase() === value.toLowerCase()
               );
               const stringToSearch = productFromValue ? Object.values(productFromValue).join(" ").toLowerCase() : "";
@@ -53,7 +56,7 @@ export default function ProductListCombobox({ value, setValue, onSelectedValueCh
             <CommandInput placeholder="Search product..." />
             <CommandEmpty>No product found.</CommandEmpty>
             <CommandGroup className="h-[200px] overflow-y-auto">
-              {memoizedProducts?.data?.map((product) => (
+              {memoizedProducts?.map((product) => (
                 <CommandItem
                   key={`ProductCombobox-${product.id}`}
                   value={product.id}
