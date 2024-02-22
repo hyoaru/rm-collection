@@ -25,6 +25,7 @@ import {
 
 export default function AddProductVariantForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
+  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>()
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
   const addProductVariantMutation = useAddProductVariant();
   const { toast } = useToast();
@@ -48,6 +49,8 @@ export default function AddProductVariantForm() {
   const emptyFormFields = useCallback(() => {
     (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
     setImagesSrc(null);
+    setSelectedProduct(null)
+    setProductListComboboxValue(null)
 
     form.reset({
       name: "",
@@ -127,7 +130,12 @@ export default function AddProductVariantForm() {
                   <div className="flex border-b rounded-lg px-2 py-1">
                     <small className="text-center uppercase">Product</small>
                   </div>
-                  <ProductListCombobox onSelectedValueChange={onSelectedProductChange} />
+
+                  <ProductListCombobox 
+                    onSelectedValueChange={onSelectedProductChange} 
+                    value={productListComboboxValue}
+                    setValue={setProductListComboboxValue}
+                  />
                 </div>
               </div>
 

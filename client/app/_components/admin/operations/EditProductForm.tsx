@@ -25,8 +25,9 @@ import {
 
 export default function EditProductForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
+  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>()
   const [thumbnailSrc, setThumbnailSrc] = useState<StaticImageData | string | null>();
-  const updateProductMutation = useUpdateProduct(formSchema);
+  const updateProductMutation = useUpdateProduct();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,6 +44,7 @@ export default function EditProductForm() {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
     setThumbnailSrc(null);
     setSelectedProduct(null);
+    setProductListComboboxValue(null)
 
     form.reset({
       name: "",
@@ -164,7 +166,11 @@ export default function EditProductForm() {
                   <small className="text-center uppercase">Product</small>
                 </div>
 
-                <ProductListCombobox onSelectedValueChange={onSelectedProductChange} />
+                <ProductListCombobox 
+                  onSelectedValueChange={onSelectedProductChange} 
+                  value={productListComboboxValue}
+                  setValue={setProductListComboboxValue}
+                />
 
                 <div className="">
                   <div className="grid grid-cols-12 gap-4 mt-4">
