@@ -1,4 +1,4 @@
-import deleteProductThumbnail from "@services/admin/operations/deleteProductThumbnail";
+import deleteProductThumbnail from "@services/admin/shared/deleteProductThumbnail";
 import addProductThumbnail from "@services/admin/operations/addProductThumbnail";
 
 type UpdateProductThumbnailParams = {

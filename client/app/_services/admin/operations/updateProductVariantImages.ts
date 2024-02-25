@@ -1,4 +1,4 @@
-import deleteProductVariantImages from "@services/admin/operations/deleteProductVariantImages"
+import deleteProductVariantImages from "@services/admin/shared/deleteProductVariantImages"
 import addProductVariantImages from "@services/admin/operations/addProductVariantImages"
 
 type UpdateProductVariantImagesParams = {
