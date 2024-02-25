@@ -115,7 +115,7 @@ export default function DataTable({
 
   const onRefresh = useCallback(async () => {
     for await (const queryKey of queryKeys) {
-      await queryClient.invalidateQueries({ queryKey: queryKey, refetchType: 'all' });
+      await queryClient.invalidateQueries({ queryKey: queryKey, refetchType: "all" });
     }
 
     toast({
@@ -154,72 +154,79 @@ export default function DataTable({
       </div>
 
       {isPending || isFetching ? (
-        <Skeleton className="w-full h-40 rounded-lg transition-all duration-700 ease-in-out" />
+        <Skeleton className="w-full h-[40svh] rounded-lg transition-all duration-700 ease-in-out" />
       ) : (
-        <Table>
-          <TableHeader className={"bg-secondary"}>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    <Button
-                      size={"sm"}
-                      variant={"ghost"}
-                      onClick={header.column.getToggleSortingHandler()}
-                      className={`${header.column.getIsSorted() ? "text-primary font-bold" : ""}`}
-                    >
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                      {{ asc: " ⏶", desc: " ⏷" }[Number(header.column.getIsSorted())] ?? null}
-                    </Button>
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <>
+          <Table>
+            <TableHeader className={"bg-secondary"}>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id}>
+                      <Button
+                        size={"sm"}
+                        variant={"ghost"}
+                        onClick={header.column.getToggleSortingHandler()}
+                        className={`${header.column.getIsSorted() ? "text-primary font-bold" : ""}`}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {{ asc: " ⏶", desc: " ⏷" }[Number(header.column.getIsSorted())] ?? null}
+                      </Button>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
+          {(!memoizedData || memoizedData.length <= 0) && (
+            <>
+              <div className="flex items-center justify-center">
+                <span className="font-bold text-xl opacity-50 mt-14 mb-10 border rounded-xl p-5">
+                  {"Table is currently empty."}
+                </span>
+              </div>
+            </>
+          )}
+        </>
       )}
 
-      {(!memoizedData || memoizedData.length <= 0) && <>
-        <div className="flex items-center justify-center">
-          <span className="font-bold text-xl opacity-50 mt-14 mb-10 border rounded-xl p-5">
-            {'Table is currently empty.'}
-          </span>
-        </div>
-      </>}
 
-      {table.getCanNextPage() && <>
-        <div className="flex justify-center mt-5 gap-1 sm:gap-5">
-          <Button size={"sm"} onClick={onFirstPagePagination}>
-            <ChevronsLeft />
-          </Button>
-          <Button size={"sm"} variant={"secondary"} onClick={onPreviousPagePagination}>
-            <ChevronLeft />
-          </Button>
+      {table.getCanNextPage() && (
+        <>
+          <div className="flex justify-center mt-5 gap-1 sm:gap-5">
+            <Button size={"sm"} onClick={onFirstPagePagination}>
+              <ChevronsLeft />
+            </Button>
+            <Button size={"sm"} variant={"secondary"} onClick={onPreviousPagePagination}>
+              <ChevronLeft />
+            </Button>
 
-          <Input
-            className={"text-center max-w-[5rem] sm:max-w-[10rem]"}
-            type={"number"}
-            value={pageRef.current}
-            onChange={onPageJump}
-          />
+            <Input
+              className={"text-center max-w-[5rem] sm:max-w-[10rem]"}
+              type={"number"}
+              value={pageRef.current}
+              onChange={onPageJump}
+            />
 
-          <Button size={"sm"} variant={"secondary"} onClick={onNextPagePagination}>
-            <ChevronRight />
-          </Button>
-          <Button size={"sm"} onClick={onLastPagePagination}>
-            <ChevronsRight />
-          </Button>
-        </div>
-      </>}
+            <Button size={"sm"} variant={"secondary"} onClick={onNextPagePagination}>
+              <ChevronRight />
+            </Button>
+            <Button size={"sm"} onClick={onLastPagePagination}>
+              <ChevronsRight />
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }
