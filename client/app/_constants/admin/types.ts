@@ -3,3 +3,10 @@ export type NavigationType = {
   pathName: string
   adminRolesPermitted: string[]
 }
+
+export type DataTableRowActionType = {
+  label: string;
+  onClick: (...args: any) => any;
+  isDestructive: boolean;
+  adminRolesPermitted: string[];
+};

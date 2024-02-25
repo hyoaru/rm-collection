@@ -16,14 +16,14 @@ export function queryProductThumbnail(productId: string) {
 export function queryAllProducts() {
   return queryOptions({
     queryKey: ["products"],
-    queryFn: getAllProducts,
+    queryFn: async () => await getAllProducts(),
   });
 }
 
 export function queryAllProductVariants(){
   return queryOptions({
     queryKey: ['product_variants'],
-    queryFn: getAllProductVariants
+    queryFn: async () => await getAllProductVariants()
   })
 }
 
@@ -36,6 +36,6 @@ export function queryProductVariantsByProduct({
 }) {
   return queryOptions({
     queryKey: ["product_variants", { productId: productId }],
-    queryFn: () => getProductVariantsByProduct({ productId: productId }),
+    queryFn: async () => await getProductVariantsByProduct({ productId: productId }),
   });
 }

@@ -6,13 +6,13 @@ import getUsers from "@services/admin/shared/getUsers";
 export function queryAllUsers() {
   return queryOptions({
     queryKey: ["users"],
-    queryFn: () => getUsers({ role: "all" }),
+    queryFn: async () => await getUsers({ role: "all" }),
   });
 }
 
-export function queryUsers(role: "all" | "user" | "admin" | "admin_tier_1" | "admin_tier_2") {
+export function queryUsers({ role }: { role: "user" | "admin" | "admin_tier_1" | "admin_tier_2" }) {
   return queryOptions({
-    queryKey: role === "all" ? ["users"] : ["users", { role: role }],
-    queryFn: () => getUsers({ role: role }),
+    queryKey: ["users", { role: role }],
+    queryFn: async () => await getUsers({ role: role }),
   });
 }

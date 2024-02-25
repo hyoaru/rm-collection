@@ -18,13 +18,17 @@ export default async function getUsers({ role }: GetUsersParams) {
       break;
     case "admin":
       query.neq("role", "user");
+      break;
     case "admin_tier_1":
       query.eq("role", "admin_tier_1");
+      break;
     case "admin_tier_2":
       query.eq("role", "admin_tier_2");
+      break;
     default:
       break;
   }
+
   const { data, error } = await query;
   return { data, error };
 }
