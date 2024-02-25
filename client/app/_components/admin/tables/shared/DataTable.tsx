@@ -40,7 +40,9 @@ export default function DataTable({
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const memoizedData = useMemo(() => (queryData as any)?.data, [queryData]);
+  const memoizedData = useMemo(() => {
+    return (queryData as any)?.data
+  }, [(queryData as any)?.data]);
 
   const newColumnDefinition = useMemo(() => {
     const newColDef = [...columnDefinition];
