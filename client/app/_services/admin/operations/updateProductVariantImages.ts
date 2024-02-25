@@ -9,8 +9,8 @@ type UpdateProductVariantImagesParams = {
 
 export default async function updateProductVariantImages({ images, productId, variantId }: UpdateProductVariantImagesParams) {
   const { data, error } = await deleteProductVariantImages({
-    product: { id: productId },
-    productVariant: { id: variantId }
+    productId: productId,
+    variantId: variantId
   })
     .then(async ({ data: deleteProductData, error: deleteProductError }) => {
       if (deleteProductError) {

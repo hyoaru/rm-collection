@@ -1,17 +1,17 @@
 import { getBrowserClient } from "@services/supabase/getBrowserClient"
 
 type DeleteProductVariantImagesParams = {
-  product: { id: string }
-  productVariant: { id: string }
+  productId: string;
+  variantId: string;
 }
 
-export default async function deleteProductVariantImages({ product, productVariant }: DeleteProductVariantImagesParams) {
+export default async function deleteProductVariantImages({ productId, variantId }: DeleteProductVariantImagesParams) {
   const supabase = getBrowserClient()
 
   const { data, error } = await supabase
     .storage
     .from('products')
-    .list(`${product.id}/${productVariant.id}`, {
+    .list(`${productId}/${variantId}`, {
       limit: 4,
       offset: 0,
       sortBy: { column: 'created_at', order: 'asc' }
@@ -22,7 +22,7 @@ export default async function deleteProductVariantImages({ product, productVaria
       }
 
       const oldProductVariantImagesPaths = imagesListData?.map((imageFile) => (
-        `${product.id}/${productVariant.id}/${imageFile.name}`
+        `${productId}/${variantId}/${imageFile.name}`
       ))
 
       const { data, error } = await supabase
