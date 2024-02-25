@@ -8,8 +8,8 @@ export default function useAddProductVariant() {
   return useMutation({
     mutationFn: addProductVariantWithImages,
     onSuccess: async (response: AsyncReturnType<typeof addProductVariantWithImages>) => {
-      queryClient.invalidateQueries({ queryKey: ["product", response.data?.product_id] });
-      queryClient.invalidateQueries({ queryKey: ["product_variants"] });
+      queryClient.invalidateQueries({ queryKey: ["product", response.data?.product_id], refetchType: 'all' });
+      queryClient.invalidateQueries({ queryKey: ["product_variants"], refetchType: 'all' });
     },
   });
 }

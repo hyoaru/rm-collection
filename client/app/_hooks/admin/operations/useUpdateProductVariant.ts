@@ -9,7 +9,7 @@ export function useUpdateProductVariant() {
   return useMutation({
     mutationFn: updateProductVariantWithImages,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["product_variants"] });
+      queryClient.invalidateQueries({ queryKey: ["product_variants"], refetchType: 'all' });
     },
   });
 }

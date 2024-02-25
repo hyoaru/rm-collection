@@ -7,7 +7,7 @@ export function useAddSubAdmin() {
   return useMutation({
     mutationFn: addSubAdmin,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["users"], refetchType: 'all' });
     },
   });
 }

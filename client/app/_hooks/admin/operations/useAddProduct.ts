@@ -7,7 +7,7 @@ export function useAddProduct() {
   return useMutation({
     mutationFn: addProductWithVariant,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"], refetchType: "all" });
     },
   });
 }
