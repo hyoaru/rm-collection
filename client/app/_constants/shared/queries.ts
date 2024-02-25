@@ -1,38 +1,38 @@
 import { queryOptions } from "@tanstack/react-query";
-import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl";
 
 // App imports
-import getAllProducts from "@services/shared/getAllProducts";
 import getProductVariantsByProduct from "@services/shared/getProductVariantsByProduct";
 import getAllProductVariants from "@services/shared/getAllProductVariants";
-
-export function queryProductThumbnail(productId: string) {
-  return queryOptions({
-    queryKey: ["product-thumbnail", { product: { id: productId } }],
-    queryFn: () => getProductThumbnailPublicUrl({ productId: productId }),
-  });
-}
+import getProducts from "@services/shared/getProducts";
+import { ProductCategoryType } from "@constants/base/types";
 
 export function queryAllProducts() {
   return queryOptions({
     queryKey: ["products"],
-    queryFn: async () => await getAllProducts(),
+    queryFn: async () => await getProducts({ category: "all" }),
   });
 }
 
-export function queryAllProductVariants(){
+export function queryProducts({ category }: { category: ProductCategoryType }) {
   return queryOptions({
-    queryKey: ['product_variants'],
-    queryFn: async () => await getAllProductVariants()
-  })
+    queryKey: ["products", { category: category }],
+    queryFn: async () => await getProducts({ category: category }),
+  });
+}
+
+export function queryAllProductVariants() {
+  return queryOptions({
+    queryKey: ["product_variants"],
+    queryFn: async () => await getAllProductVariants(),
+  });
 }
 
 export function queryProductVariantsByProduct({
   productId,
-  isEnabled = true
+  isEnabled = true,
 }: {
   productId: string;
-  isEnabled?: boolean
+  isEnabled?: boolean;
 }) {
   return queryOptions({
     queryKey: ["product_variants", { productId: productId }],

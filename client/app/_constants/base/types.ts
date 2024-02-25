@@ -14,3 +14,5 @@ export type ProductVariantsResponseType = {
   data: Tables<'product_variants'>[]
   error: any
 }
+
+export type ProductCategoryType = "all" | "earring" | "necklace" | "bracelet" | "ring";
