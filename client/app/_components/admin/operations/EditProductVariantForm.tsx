@@ -19,16 +19,14 @@ import ProductVariantListCombobox from "@components/admin/operations/shared/Prod
 import getProductVariantImagesPublicUrl from "@services/shared/getProductVariantImagesPublicUrl";
 import { Tables } from "@constants/base/database-types";
 import { useUpdateProductVariant } from "@hooks/admin/operations/useUpdateProductVariant";
-import {
-  PRODUCT_CATEGORIES as productCategories,
-  EDIT_PRODUCT_VARIANT_FORM_SCHEMA as formSchema,
-} from "@constants/admin/forms";
+import { EDIT_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
+import { PRODUCT_CATEGORIES as productCategories } from "@constants/base/constants";
 
 export default function EditProductVariantForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
   const [selectedProductVariant, setSelectedProductVariant] = useState<Tables<"product_variants"> | null>();
-  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>()
-  const [productVariantListComboboxValue, setProductVariantListComboboxValue] = useState<string | null>()
+  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>();
+  const [productVariantListComboboxValue, setProductVariantListComboboxValue] = useState<string | null>();
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
 
   const updateProductVariantMutation = useUpdateProductVariant();
@@ -128,7 +126,7 @@ export default function EditProductVariantForm() {
           quantity: productVariant.quantity,
           material: productVariant.material,
           materialProperty: productVariant.material_property,
-          size: productVariant.size ?? '',
+          size: productVariant.size ?? "",
           images: "",
         });
 
@@ -161,10 +159,10 @@ export default function EditProductVariantForm() {
                   <div className="flex border-b rounded-lg px-2 py-1">
                     <small className="text-center uppercase">Product</small>
                   </div>
-                  <ProductListCombobox 
+                  <ProductListCombobox
                     value={productListComboboxValue}
                     setValue={setProductListComboboxValue}
-                    onSelectedValueChange={onSelectedProductChange} 
+                    onSelectedValueChange={onSelectedProductChange}
                   />
                 </div>
 

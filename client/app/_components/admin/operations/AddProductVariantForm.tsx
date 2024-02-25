@@ -17,15 +17,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox";
 import { Tables } from "@constants/base/database-types";
 import useAddProductVariant from "@hooks/admin/operations/useAddProductVariant";
-
-import {
-  PRODUCT_CATEGORIES as productCategories,
-  ADD_PRODUCT_VARIANT_FORM_SCHEMA as formSchema,
-} from "@constants/admin/forms";
+import { ADD_PRODUCT_VARIANT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
+import { PRODUCT_CATEGORIES as productCategories } from "@constants/base/constants";
 
 export default function AddProductVariantForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
-  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>()
+  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>();
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
   const addProductVariantMutation = useAddProductVariant();
   const { toast } = useToast();
@@ -49,8 +46,8 @@ export default function AddProductVariantForm() {
   const emptyFormFields = useCallback(() => {
     (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
     setImagesSrc(null);
-    setSelectedProduct(null)
-    setProductListComboboxValue(null)
+    setSelectedProduct(null);
+    setProductListComboboxValue(null);
 
     form.reset({
       name: "",
@@ -112,12 +109,12 @@ export default function AddProductVariantForm() {
     } else {
       emptyFormFields();
     }
-  }, [])
+  }, []);
 
   const onImagesChange = useCallback((imageFiles: FileList | null) => {
     if (!imageFiles) return;
     setImagesSrc(Array.from(imageFiles).map((imageFile) => URL.createObjectURL(imageFile)));
-  }, [])
+  }, []);
 
   return (
     <>
@@ -131,8 +128,8 @@ export default function AddProductVariantForm() {
                     <small className="text-center uppercase">Product</small>
                   </div>
 
-                  <ProductListCombobox 
-                    onSelectedValueChange={onSelectedProductChange} 
+                  <ProductListCombobox
+                    onSelectedValueChange={onSelectedProductChange}
                     value={productListComboboxValue}
                     setValue={setProductListComboboxValue}
                   />

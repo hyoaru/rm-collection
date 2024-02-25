@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 // App imports
 import AddProductVariantForm from '@components/admin/operations/AddProductVariantForm'
@@ -6,6 +6,7 @@ import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 import { queryAllProducts } from '@constants/shared/queries'
 import getQueryClient from '@services/shared/getQueryClient'
+import Loading from '@components/admin/shared/Loading'
 
 export default async function Page() {
   const queryClient = getQueryClient()
@@ -19,9 +20,11 @@ export default async function Page() {
         description={'Provide details about the product and other pertinent information.'}
       />
 
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <AddProductVariantForm />
-      </HydrationBoundary>
+      <Suspense fallback={<Loading />}>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <AddProductVariantForm />
+        </HydrationBoundary>
+      </Suspense>
     </>
   )
 }

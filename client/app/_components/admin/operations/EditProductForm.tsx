@@ -17,15 +17,12 @@ import ProductListCombobox from "@components/admin/operations/shared/ProductList
 import { Tables } from "@constants/base/database-types";
 import { useUpdateProduct } from "@hooks/admin/operations/useUpdateProduct";
 import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl";
-
-import {
-  PRODUCT_CATEGORIES as productCategories,
-  EDIT_PRODUCT_FORM_SCHEMA as formSchema,
-} from "@constants/admin/forms";
+import { EDIT_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
+import { PRODUCT_CATEGORIES as productCategories } from "@constants/base/constants";
 
 export default function EditProductForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
-  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>()
+  const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>();
   const [thumbnailSrc, setThumbnailSrc] = useState<StaticImageData | string | null>();
   const updateProductMutation = useUpdateProduct();
   const { toast } = useToast();
@@ -44,7 +41,7 @@ export default function EditProductForm() {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
     setThumbnailSrc(null);
     setSelectedProduct(null);
-    setProductListComboboxValue(null)
+    setProductListComboboxValue(null);
 
     form.reset({
       name: "",
@@ -69,7 +66,7 @@ export default function EditProductForm() {
     } else {
       emptyFormFields();
     }
-  }, [])
+  }, []);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
@@ -166,8 +163,8 @@ export default function EditProductForm() {
                   <small className="text-center uppercase">Product</small>
                 </div>
 
-                <ProductListCombobox 
-                  onSelectedValueChange={onSelectedProductChange} 
+                <ProductListCombobox
+                  onSelectedValueChange={onSelectedProductChange}
                   value={productListComboboxValue}
                   setValue={setProductListComboboxValue}
                 />
