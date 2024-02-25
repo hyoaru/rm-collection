@@ -9,7 +9,7 @@ export default async function deleteProduct(productId: string) {
     .from('products')
     .delete()
     .eq('id', productId)
-    .select('*, product_variants!inner(id)')
+    .select('*, product_variants(id)')
     .single()
 
   return { data, error }

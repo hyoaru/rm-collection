@@ -32,7 +32,7 @@ export default async function deleteProductAndRelations(product: Tables<"product
       
       // Delete related product variant images
       const response: { data: any; error: any; } = { data: null, error: null }
-      if (typeof deleteProductData === 'object' && deleteProductData?.product_variants) {
+      if (typeof deleteProductData === 'object' && deleteProductData?.product_variants?.[0]) {
         for await (const productVariant of deleteProductData.product_variants) {
           const { data, error } = await deleteProductVariantImages({
             productId: deleteProductData.id,
