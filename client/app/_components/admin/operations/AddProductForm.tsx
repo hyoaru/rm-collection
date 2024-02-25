@@ -9,7 +9,8 @@ import Image from "next/image";
 // App imports
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
-import { PRODUCT_CATEGORIES as productCategories, ADD_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
+import { ADD_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
+import { PRODUCT_CATEGORIES as productCategories } from "@constants/base/constants";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";

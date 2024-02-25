@@ -8,13 +8,6 @@ import {
   MAX_FILE_SIZE_IN_MB 
 } from "@constants/base/forms"
 
-export const PRODUCT_CATEGORIES = [
-  { name: 'Earrings', value: 'earring' },
-  { name: 'Necklaces', value: 'necklace' },
-  { name: 'Bracelets', value: 'bracelet' },
-  { name: 'Rings', value: 'ring' },
-]
-
 export const ADD_PRODUCT_FORM_SCHEMA = z.object({
   name: PRODUCTS_BASE_FORM_SCHEMA.name,
   category: PRODUCTS_BASE_FORM_SCHEMA.category,

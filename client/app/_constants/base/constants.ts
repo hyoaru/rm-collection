@@ -5,3 +5,10 @@ export const MAIN_NAVIGATION = [
   { name: 'Bracelets', link: '/collection/bracelet' },
   { name: 'Rings', link: '/collection/ring' },
 ]
+
+export const PRODUCT_CATEGORIES = [
+  { name: 'Earrings', value: 'earring' },
+  { name: 'Necklaces', value: 'necklace' },
+  { name: 'Bracelets', value: 'bracelet' },
+  { name: 'Rings', value: 'ring' },
+]
