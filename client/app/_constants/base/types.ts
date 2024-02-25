@@ -16,3 +16,5 @@ export type ProductVariantsResponseType = {
 }
 
 export type ProductCategoryType = "all" | "earring" | "necklace" | "bracelet" | "ring";
+
+export type ProductVariantVisibilityType = "all" | "shown" | "hidden";

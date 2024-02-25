@@ -2,9 +2,9 @@ import { queryOptions } from "@tanstack/react-query";
 
 // App imports
 import getProductVariantsByProduct from "@services/shared/getProductVariantsByProduct";
-import getAllProductVariants from "@services/shared/getAllProductVariants";
+import getProductVariants from "@services/shared/getProductVariants";
 import getProducts from "@services/shared/getProducts";
-import { ProductCategoryType } from "@constants/base/types";
+import { ProductCategoryType, ProductVariantVisibilityType } from "@constants/base/types";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -23,19 +23,20 @@ export function queryProducts({ category }: { category: ProductCategoryType }) {
 export function queryAllProductVariants() {
   return queryOptions({
     queryKey: ["product_variants"],
-    queryFn: async () => await getAllProductVariants(),
+    queryFn: async () => await getProductVariants({ visibility: "all" }),
   });
 }
 
-export function queryProductVariantsByProduct({
-  productId,
-  isEnabled = true,
-}: {
-  productId: string;
-  isEnabled?: boolean;
-}) {
+export function queryProductVariantsByProduct({ productId }: { productId: string }) {
   return queryOptions({
     queryKey: ["product_variants", { productId: productId }],
     queryFn: async () => await getProductVariantsByProduct({ productId: productId }),
+  });
+}
+
+export function queryProductVariants({ visibility }: { visibility: ProductVariantVisibilityType }) {
+  return queryOptions({
+    queryKey: ["product_variants", { visibility: visibility }],
+    queryFn: async () => await getProductVariants({ visibility: visibility }),
   });
 }
