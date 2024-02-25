@@ -45,7 +45,7 @@ export default function DataTableRowActionItem({ data, rowAction, authenticatedU
         });
 
         for await (const queryKey of queryKeys) {
-          await queryClient.invalidateQueries({ queryKey: queryKey})
+          await queryClient.invalidateQueries({ queryKey: queryKey, refetchType: 'all'})
         }
 
       }
