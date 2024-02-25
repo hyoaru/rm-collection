@@ -6,9 +6,9 @@ import React from "react";
 import { BASE_ADMIN_ROLES as baseAdminRoles } from "@constants/admin/base";
 import DataTable from "@components/admin/tables/shared/DataTable";
 import { Tables } from "@constants/base/database-types";
-import deleteUser from "@services/admin/tables/deleteUser";
 import { queryAllProducts } from "@constants/shared/queries";
 import getProductListCsv from "@services/admin/tables/getProductListCsv";
+import deleteProductAndRelations from "@services/admin/tables/deleteProductAndRelations";
 
 type ProductsTableFeedProps = {
   authenticatedUser: Tables<"users"> | null;
@@ -18,7 +18,7 @@ export default function ProductsTableFeed({ authenticatedUser }: ProductsTableFe
   const rowActions = [
     {
       label: "Delete product",
-      onClick: deleteUser,
+      onClick: deleteProductAndRelations,
       isDestructive: true,
       adminRolesPermitted: baseAdminRoles.filter((role) => !["admin_tier_2"].includes(role)),
     },
