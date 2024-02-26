@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import { EB_Garamond } from "next/font/google";
 
 // App imports
 import "./globals.css";
@@ -7,7 +7,7 @@ import Header from "@components/base/Header";
 import { Toaster } from "@components/ui/toaster";
 import Providers from "@providers/Providers";
 
-const typeface = Lora({ subsets: ["latin"] });
+const typeface = EB_Garamond({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Rea Mariz Collection Co.Ltd",
