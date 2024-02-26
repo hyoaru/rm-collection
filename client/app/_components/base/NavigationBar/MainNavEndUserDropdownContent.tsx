@@ -49,7 +49,7 @@ export default function MainNavEndUserDropdownContent({ authenticatedUser }: Mai
       <DropdownMenuContent side={'bottom'} align={'end'} className={'w-40'}>
         <DropdownMenuLabel className={'flex gap-2 items-center'}>
           <span className="text-muted-foreground font-light capitalize flex items-center gap-2">
-            {authenticatedUser?.role === 'user' ? <User size={15} /> : <Lock size={15} />}
+            {authenticatedUser?.role === 'user' ? <User size={17} /> : <Lock size={17} />}
             {authenticatedUser?.role.replaceAll("_", " ")}
           </span>
         </DropdownMenuLabel>
