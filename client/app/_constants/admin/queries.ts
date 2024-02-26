@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 
 // App imports
 import getUsers from "@services/admin/shared/getUsers";
+import getAllOrders from "@services/admin/tables/getAllOrders";
 
 export function queryAllUsers() {
   return queryOptions({
@@ -15,4 +16,11 @@ export function queryUsers({ role }: { role: "user" | "admin" | "admin_tier_1" |
     queryKey: ["users", { role: role }],
     queryFn: async () => await getUsers({ role: role }),
   });
+}
+
+export function queryAllOrders(){
+  return queryOptions({
+    queryKey: ['orders'],
+    queryFn: async () => await getAllOrders()
+  })
 }

@@ -5,6 +5,7 @@ import getProductVariantsByProduct from "@services/shared/getProductVariantsByPr
 import getProductVariants from "@services/shared/getProductVariants";
 import getProducts from "@services/shared/getProducts";
 import { ProductCategoryType, ProductVariantVisibilityType } from "@constants/base/types";
+import getAllOrderStatus from "@services/shared/getAllOrderStatus";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -39,4 +40,11 @@ export function queryProductVariants({ visibility }: { visibility: ProductVarian
     queryKey: ["product_variants", { visibility: visibility }],
     queryFn: async () => await getProductVariants({ visibility: visibility }),
   });
+}
+
+export function queryAllOrderStatus(){
+  return queryOptions({
+    queryKey: ['order_status'],
+    queryFn: async () => await getAllOrderStatus()
+  })
 }
