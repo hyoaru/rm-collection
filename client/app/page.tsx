@@ -7,10 +7,7 @@ export default function Home() {
     <>
       <div className="space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">
         <div className="mx-auto py-4 ">
-          <div
-            className="relative rounded-xl overflow-hidden bg-center bg-cover"
-            style={{ backgroundImage: `url(/landing-page/images/main-banner.png)` }}
-          >
+          <div className="relative rounded-xl overflow-hidden">
             <div className="absolute bottom-0 right-0 m-8 z-10 xs:m-6 sm:m-10 lg:m-14">
               <div className="flex mb-4">
                 <Button
@@ -25,13 +22,19 @@ export default function Home() {
               </p>
             </div>
             <div className="absolute w-full h-full opacity-50 backdrop-blur-[10px]"></div>
-            <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px]"></div>
+            <Image
+              className="w-full object-cover h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px]"
+              src={"/landing-page/images/main-banner.png"}
+              alt=""
+              width={2000}
+              height={500}
+            />
           </div>
         </div>
 
         <div className="mx-auto sm:w-11/12 lg:w-9/12">
           <p className="text-center text-base whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
-            {'Find Your Signature Style \nin Our Array of Curated Collections.'}
+            {"Find Your Signature Style \nin Our Array of Curated Collections."}
           </p>
           <div className="flex flex-col justify-center mt-4 gap-2 sm:gap-4 md:flex-row lg:mt-10">
             <div className="flex w-full">
