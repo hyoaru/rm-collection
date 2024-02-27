@@ -44,6 +44,7 @@ export default function ProductVariantsTableFeed({ authenticatedUser }: ProductP
     { accessorKey: "material" },
     { accessorKey: "material_property" },
     { accessorKey: "size" },
+    { accessorKey: "weight" },
     { accessorKey: "quantity" },
     { accessorKey: "price" },
     { accessorKey: "discount_rate" },
