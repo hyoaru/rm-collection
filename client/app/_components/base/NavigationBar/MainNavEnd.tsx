@@ -22,7 +22,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
         <div id="main-nav-end-expanded" className="hidden lg:flex items-center">
           <Link href={"/collection/search"} className="">
             <Button variant={"ghost"} className={"flex gap-x-2 items-center px-3 text-sm lg:px-[0.35rem] xl:px-2"}>
-              <Search size={20} />
+              <Search size={20} className="text-primary" />
               Search
             </Button>
           </Link>
@@ -33,7 +33,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className={"relative lg:px-[0.35rem] xl:px-2"}>
                     <div className="flex items-center gap-x-2">
-                      <ShoppingCart size={20} />
+                      <ShoppingCart size={20} className="text-primary" />
                       Cart
                     </div>
                     <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
@@ -50,9 +50,9 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className="flex items-center gap-x-2 lg:px-[0.35rem] xl:px-2">
-                    <User size={20} />
+                    <User size={20} className="text-primary" />
                     <span className="font-bold flex items-center capitalize">
-                      {authenticatedUser.first_name} <ChevronDown size={20} />
+                      {authenticatedUser.first_name} <ChevronDown size={20} className="text-primary" />
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -63,7 +63,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
             <>
               <Link href={"/auth/sign-in"} className="">
                 <Button variant={"ghost"} className={"flex items-center gap-x-2 lg:px-[0.35rem] xl:px-2"}>
-                  <User size={20} />
+                  <User size={20} className="text-primary" />
                   Login
                 </Button>
               </Link>
@@ -77,7 +77,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className={"p-1 relative sm:p-3"}>
-                    <ShoppingCart size={20} />
+                    <ShoppingCart size={20} className="text-primary" />
                     <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
                       {/* {cart?.data?.length} */}
                     </div>
@@ -92,7 +92,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className={"p-1 sm:p-3"}>
                     <span>
-                      <User size={20} />
+                      <User size={20} className="text-primary" />
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -103,7 +103,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
             <>
               <Button variant={"ghost"} className={"p-1 sm:p-3"}>
                 <Link href={"/auth/sign-in"}>
-                  <User size={20} />
+                  <User size={20} className="text-primary" />
                 </Link>
               </Button>
             </>
