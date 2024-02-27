@@ -45,6 +45,7 @@ export default function EditProductVariantForm() {
       materialProperty: "",
       images: "",
       size: "",
+      weight: "",
     },
   });
 
@@ -59,6 +60,7 @@ export default function EditProductVariantForm() {
           material: data.material,
           materialProperty: data.materialProperty,
           size: data.size,
+          weight: data.weight,
           quantity: data.quantity,
           price: data.price,
           discountRate: data.discountRate,
@@ -101,6 +103,7 @@ export default function EditProductVariantForm() {
       materialProperty: "",
       images: "",
       size: "",
+      weight: "",
     });
   }, []);
 
@@ -127,6 +130,7 @@ export default function EditProductVariantForm() {
           material: productVariant.material,
           materialProperty: productVariant.material_property,
           size: productVariant.size ?? "",
+          weight: productVariant.weight ?? "",
           images: "",
         });
 
@@ -272,119 +276,139 @@ export default function EditProductVariantForm() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="your-product-price"
-                          {...field}
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="col-span-12 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min="0"
+                            placeholder="your-product-price"
+                            {...field}
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="discountRate"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>{"Discount rate (%)"}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          max="100"
-                          placeholder="(e.g., 25 for 25%)"
-                          {...field}
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="discountRate"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>{"Discount rate (%)"}</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min="0"
+                            max="100"
+                            placeholder="(e.g., 25 for 25%)"
+                            {...field}
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="quantity"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>Quantity</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="0"
-                          placeholder="your-product-quantity"
-                          {...field}
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="quantity"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Quantity</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min="0"
+                            placeholder="your-product-quantity"
+                            {...field}
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="material"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>Material used</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="(e.g., Yellow Gold)"
-                          {...field}
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="material"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Material used</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="(e.g., Yellow Gold)"
+                            {...field}
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="materialProperty"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>Material property</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="(e.g., 18 karats)"
-                          {...field}
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="materialProperty"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Material property</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="(e.g., 18 karats)"
+                            {...field}
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name="size"
-                  render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
-                      <FormLabel>Size</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="(e.g., 20mm)"
-                          disabled={!(selectedProduct && selectedProductVariant)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    name="size"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Size</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="(e.g., 20mm)"
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name="weight"
+                    render={({ field }) => (
+                      <FormItem className={""}>
+                        <FormLabel>Weight</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="(e.g., 5.5 grams)"
+                            disabled={!(selectedProduct && selectedProductVariant)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
 
                 <FormField
                   control={form.control}

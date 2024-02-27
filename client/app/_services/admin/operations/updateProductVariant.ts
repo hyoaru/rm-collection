@@ -7,6 +7,7 @@ type UpdateProductVariantParams = {
   material: string;
   materialProperty: string;
   size: string | null;
+  weight: string | null;
   quantity: number;
   price: number;
   discountRate: number;
@@ -17,6 +18,7 @@ export default async function updateProductVariant({
   material,
   materialProperty,
   size,
+  weight,
   quantity,
   price,
   discountRate,
@@ -29,6 +31,7 @@ export default async function updateProductVariant({
       material: material,
       material_property: materialProperty,
       size: size,
+      weight: weight,
       quantity: quantity,
       price: price,
       discount_rate: discountRate,
