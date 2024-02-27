@@ -39,6 +39,7 @@ export default function AddProductVariantForm() {
       material: "",
       materialProperty: "",
       size: "",
+      weight: "",
       images: "",
     },
   });
@@ -53,6 +54,8 @@ export default function AddProductVariantForm() {
       name: "",
       category: "",
       description: "",
+      size: "",
+      weight: "",
       price: 0,
       quantity: 0,
       discountRate: 0,
@@ -70,6 +73,7 @@ export default function AddProductVariantForm() {
             material: data.material,
             materialProperty: data.materialProperty,
             size: data.size,
+            weight: data.weight,
             quantity: data.quantity,
             price: data.price,
             discountRate: data.discountRate,
@@ -236,7 +240,7 @@ export default function AddProductVariantForm() {
                   control={form.control}
                   name="price"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input
@@ -256,7 +260,7 @@ export default function AddProductVariantForm() {
                   control={form.control}
                   name="discountRate"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>{"Discount rate (%)"}</FormLabel>
                       <FormControl>
                         <Input
@@ -277,7 +281,7 @@ export default function AddProductVariantForm() {
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input
@@ -297,7 +301,7 @@ export default function AddProductVariantForm() {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Material used</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., Yellow Gold)" {...field} disabled={!selectedProduct} />
@@ -311,7 +315,7 @@ export default function AddProductVariantForm() {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Material property</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 18 karats)" {...field} disabled={!selectedProduct} />
@@ -324,10 +328,23 @@ export default function AddProductVariantForm() {
                 <FormField
                   name="size"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Size</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 20mm)" {...field} disabled={!selectedProduct} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="weight"
+                  render={({ field }) => (
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
+                      <FormLabel>Weight</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(e.g., 5.5 grams)" {...field} disabled={!selectedProduct} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
