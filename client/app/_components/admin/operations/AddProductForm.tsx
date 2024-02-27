@@ -23,7 +23,7 @@ export default function AddProductForm() {
   const [imagesSrc, setImagesSrc] = useState<string[] | null>();
   const { toast } = useToast();
 
-  const addProductWithVariantMutation = useAddProduct()
+  const addProductWithVariantMutation = useAddProduct();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +37,7 @@ export default function AddProductForm() {
       material: "",
       materialProperty: "",
       size: "",
+      weight: "",
       thumbnail: "",
       images: "",
     },
@@ -58,6 +59,7 @@ export default function AddProductForm() {
           price: data.price,
           discountRate: data.discountRate,
           size: data.size,
+          weight: data.weight,
           images: data.images,
         },
       })
@@ -85,17 +87,17 @@ export default function AddProductForm() {
     (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
     setThumbnailSrc(null);
     setImagesSrc(null);
-  }, [])
+  }, []);
 
   const onThumbnailChange = useCallback((imageFile: File | undefined) => {
     if (!imageFile) return;
     setThumbnailSrc(URL.createObjectURL(imageFile));
-  }, [])
+  }, []);
 
   const onImagesChange = useCallback((imageFiles: FileList | null) => {
     if (!imageFiles) return;
     setImagesSrc(Array.from(imageFiles).map((imageFile) => URL.createObjectURL(imageFile)));
-  }, [])
+  }, []);
 
   return (
     <>
@@ -243,7 +245,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="price"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-price" {...field} />
@@ -257,7 +259,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="discountRate"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>{"Discount rate (%)"}</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" max="100" placeholder="(e.g., 25 for 25%)" {...field} />
@@ -271,7 +273,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="quantity"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input type="number" min="0" placeholder="your-product-quantity" {...field} />
@@ -285,7 +287,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="material"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Material used</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., Yellow Gold)" {...field} />
@@ -299,7 +301,7 @@ export default function AddProductForm() {
                   control={form.control}
                   name="materialProperty"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Material property</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 18 karats)" {...field} />
@@ -312,10 +314,23 @@ export default function AddProductForm() {
                 <FormField
                   name="size"
                   render={({ field }) => (
-                    <FormItem className={"col-span-12 sm:col-span-6 lg:col-span-4"}>
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
                       <FormLabel>Size</FormLabel>
                       <FormControl>
                         <Input placeholder="(e.g., 20mm)" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="weight"
+                  render={({ field }) => (
+                    <FormItem className={"col-span-12 sm:col-span-6"}>
+                      <FormLabel>Weight</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(e.g., 5.5 grams)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

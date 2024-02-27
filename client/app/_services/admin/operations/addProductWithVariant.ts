@@ -15,6 +15,7 @@ type AddProductWithVariantParams = {
     price: number;
     discountRate: number;
     size: string | null;
+    weight: string | null;
     images: FileList;
   };
 };
@@ -39,6 +40,7 @@ export default async function addProductWithVariant({ product, productVariant }:
         price: productVariant.price,
         discountRate: productVariant.discountRate,
         size: productVariant.size,
+        weight: productVariant.weight,
         images: productVariant.images,
       },
     });

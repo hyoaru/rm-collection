@@ -7,6 +7,7 @@ type AddProductVariantImagesParams = {
     material: string;
     materialProperty: string;
     size: string | null;
+    weight: string | null;
     quantity: number;
     price: number;
     discountRate: number;
@@ -21,6 +22,7 @@ export default async function addProductVariantWithImages({ product, productVari
       material: productVariant.material,
       materialProperty: productVariant.materialProperty,
       size: productVariant.size,
+      weight: productVariant.weight,
       quantity: productVariant.quantity,
       price: productVariant.price,
       discountRate: productVariant.discountRate,

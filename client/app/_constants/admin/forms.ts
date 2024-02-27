@@ -18,6 +18,7 @@ export const ADD_PRODUCT_FORM_SCHEMA = z.object({
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   size: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.size,
+  weight: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.weight,
   thumbnail: PRODUCTS_BASE_FORM_SCHEMA.thumbnail,
   images: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.images,
 })
@@ -32,6 +33,7 @@ export const ADD_PRODUCT_VARIANT_FORM_SCHEMA = z.object({
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   size: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.size,
+  weight: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.weight,
   images: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.images,
 })
 
@@ -56,6 +58,7 @@ export const EDIT_PRODUCT_VARIANT_FORM_SCHEMA = z.object({
   material: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.material,
   materialProperty: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.materialProperty,
   size: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.size,
+  weight: PRODUCT_VARIANTS_BASE_FORM_SCHEMA.weight,
   images: z.any()
     .refine((files) => {
       if (files.length === 0) { return true }

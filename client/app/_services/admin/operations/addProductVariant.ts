@@ -9,6 +9,7 @@ type AddProductVariantParams = {
     material: string
     materialProperty: string
     size: string | null
+    weight: string | null
     quantity: number
     price: number
     discountRate: number
@@ -25,6 +26,7 @@ export default async function addProductVariant({ product, productVariant }: Add
       material: productVariant.material,
       material_property: productVariant.materialProperty,
       size: productVariant.size,
+      weight: productVariant.weight,
       quantity: productVariant.quantity,
       price: productVariant.price,
       discount_rate: productVariant.discountRate
