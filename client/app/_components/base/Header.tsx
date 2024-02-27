@@ -19,7 +19,7 @@ export default async function Header() {
 
             {/* Main nav middle */}
             <div id="main-nav-center" className="flex justify-center items-center w-4/6 md:w-2/6 xl:w-1/3">
-              <Link href={'/'} className="hidden font-bold text-lg text-primary sm:block sm:text-2xl">Rea Mariz Collection</Link>
+              <Link href={'/'} className="block font-bold text-lg text-primary sm:text-2xl">Rea Mariz Collection</Link>
             </div>
 
             <MainNavEnd authenticatedUser={authenticatedUser} />
