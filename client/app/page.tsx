@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <div className="space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">
-        <div className="w-11/12 mx-auto py-4 sm:w-full sm:px-4">
+        <div className="w-11/12 mx-auto py-4 ">
           <div
             className="relative rounded-xl overflow-hidden bg-center bg-cover"
             style={{ backgroundImage: `url(/landing-page/images/main-banner.png)` }}
