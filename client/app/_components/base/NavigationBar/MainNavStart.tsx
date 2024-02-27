@@ -22,7 +22,7 @@ export default function MainNavStart() {
         <div id="main-nav-start-expanded" className="hidden lg:flex">
           {navigation.map((nav, index) => (
             <Link href={nav.link} key={`MainNavStartLinkExpanded-${index}`} className="">
-              <Button variant={"link"} className={"px-3 text-sm md:px-2"}>
+              <Button variant={"ghost"} className={"px-3 text-sm lg:px-[0.35rem] xl:px-2"}>
                 {nav.name}
               </Button>
             </Link>

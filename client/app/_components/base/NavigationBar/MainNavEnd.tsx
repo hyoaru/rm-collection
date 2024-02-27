@@ -21,7 +21,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
       <div id="main-nav-end" className="flex justify-end items-center w-1/6 md:w-2/6 xl:w-1/3">
         <div id="main-nav-end-expanded" className="hidden lg:flex items-center">
           <Link href={"/collection/search"} className="">
-            <Button variant={"link"} className={"flex gap-x-2 items-center px-3 text-sm md:px-2"}>
+            <Button variant={"ghost"} className={"flex gap-x-2 items-center px-3 text-sm lg:px-[0.35rem] xl:px-2"}>
               <Search size={20} />
               Search
             </Button>
@@ -31,7 +31,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
             <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant={"link"} className={"relative px-3 h-max md:px-2"}>
+                  <Button variant={"ghost"} className={"relative lg:px-[0.35rem] xl:px-2"}>
                     <div className="flex items-center gap-x-2">
                       <ShoppingCart size={20} />
                       Cart
@@ -49,23 +49,24 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <div className="p-2 text-sm cursor-pointer flex items-center gap-x-2">
+                  <Button variant={"ghost"} className="flex items-center gap-x-2 lg:px-[0.35rem] xl:px-2">
                     <User size={20} />
                     <span className="font-bold flex items-center capitalize">
                       {authenticatedUser.first_name} <ChevronDown size={20} />
                     </span>
-                  </div>
+                  </Button>
                 </DropdownMenuTrigger>
                 <MainNavEndUserDropdownContent authenticatedUser={authenticatedUser} />
               </DropdownMenu>
             </>
           ) : (
             <>
-              <Button variant={"link"} className={"px-3"}>
-                <Link href={"/auth/sign-in"} className="">
+              <Link href={"/auth/sign-in"} className="">
+                <Button variant={"ghost"} className={"flex items-center gap-x-2 lg:px-[0.35rem] xl:px-2"}>
+                  <User size={20} />
                   Login
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </>
           )}
         </div>
