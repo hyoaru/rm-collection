@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <div className="space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">
-        <div className="w-11/12 mx-auto py-4 ">
+        <div className="mx-auto py-4 ">
           <div
             className="relative rounded-xl overflow-hidden bg-center bg-cover"
             style={{ backgroundImage: `url(/landing-page/images/main-banner.png)` }}
@@ -29,8 +29,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-11/12 mx-auto lg:w-9/12">
-          <p className="text-center text-base whitespace-pre-line sm:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
+        <div className="mx-auto sm:w-11/12 lg:w-9/12">
+          <p className="text-center text-base whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
             {'Find Your Signature Style \nin Our Array of Curated Collections.'}
           </p>
           <div className="flex flex-col justify-center mt-4 gap-2 sm:gap-4 md:flex-row lg:mt-10">

@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={typeface.className} suppressHydrationWarning>
+      <body className={`${typeface.className} px-4 mx-auto md:container`} suppressHydrationWarning>
         <Providers>
           <Header />
           {children}

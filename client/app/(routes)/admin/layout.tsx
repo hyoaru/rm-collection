@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className="md:container mx-auto px-4 mt-4 mb-8">
+      <div className="mt-4 mb-8">
         <div className="grid grid-cols-12 gap-2 sm:gap-8">
 
           {/* Admin side nav collapsed */}
