@@ -5,7 +5,7 @@ export default async function getAdminLogListCsv() {
 
   const { data, error } = await supabase
     .from('admin_logs')
-    .select('*')
+    .select('*, users(*)')
     .order('created_at', { ascending: true })
     .csv()
 
