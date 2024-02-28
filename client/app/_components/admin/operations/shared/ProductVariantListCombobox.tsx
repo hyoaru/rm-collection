@@ -32,7 +32,7 @@ export default function ProductVariantListCombobox({
     isFetching,
   } = useQuery(queryAllProductVariants());
 
-  const memoizedProductVariants = useMemo(() => productVariants?.data, [productVariants])
+  const memoizedProductVariants = useMemo(() => productVariants?.data, [productVariants, isFetching])
   const filteredProductVariants = memoizedProductVariants?.filter((productVariant) => productVariant.product_id === productId)
 
   if (isFetching) {
