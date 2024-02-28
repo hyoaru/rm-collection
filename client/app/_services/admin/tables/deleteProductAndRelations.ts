@@ -4,6 +4,7 @@ import getProductOngoingOrdersCount from "@services/admin/tables/getProductOngoi
 import deleteProduct from "@services/admin/tables/deleteProduct";
 import deleteProductThumbnail from "@services/admin/shared/deleteProductThumbnail";
 import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
+import logAdminAction from "@services/admin/shared/logAdminAction";
 
 export default async function deleteProductAndRelations(product: Tables<"products">) {
 
@@ -55,6 +56,18 @@ export default async function deleteProductAndRelations(product: Tables<"product
       // Delete product thumbnail
       const { error } = await deleteProductThumbnail(product.id)
       return { data: deleteProductData, error }
+    })
+    .then(async ({data: deleteProductData, error: deleteProductThumbnailError}) => {
+      if (deleteProductThumbnailError || !deleteProductData) {
+        return {data: deleteProductData, error: deleteProductThumbnailError}
+      } 
+
+      await logAdminAction({
+        action: "delete product",
+        details: JSON.stringify(product)
+      })
+
+      return {data: deleteProductData, error: deleteProductThumbnailError}
     })
 
 
