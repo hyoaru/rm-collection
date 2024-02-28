@@ -1,5 +1,6 @@
 import addProductVariant from "@services/admin/operations/addProductVariant";
 import addProductVariantImages from "@services/admin/operations/addProductVariantImages";
+import logAdminAction from "@services/admin/shared/logAdminAction";
 
 type AddProductVariantImagesParams = {
   product: { id: string };
@@ -27,19 +28,40 @@ export default async function addProductVariantWithImages({ product, productVari
       price: productVariant.price,
       discountRate: productVariant.discountRate,
     },
-  }).then(async ({ data: addProductVariantData, error: addProductVariantError }) => {
-    if (addProductVariantError || !addProductVariantData) {
-      return { data: addProductVariantData, error: addProductVariantError };
-    }
+  })
+    .then(async ({ data: addProductVariantData, error: addProductVariantError }) => {
+      if (addProductVariantError || !addProductVariantData) {
+        return { data: addProductVariantData, error: addProductVariantError };
+      }
 
-    const { data, error } = await addProductVariantImages({
-      images: productVariant.images,
-      product: { id: product.id },
-      productVariant: { id: addProductVariantData.id },
+      const { data, error } = await addProductVariantImages({
+        images: productVariant.images,
+        product: { id: product.id },
+        productVariant: { id: addProductVariantData.id },
+      });
+
+      return { data: addProductVariantData, error };
+    })
+    .then(async ({ data: addProductVariantData, error: addProductVariantImagesError }) => {
+      if (addProductVariantImagesError || !addProductVariantData) {
+        return { data: addProductVariantData, error: addProductVariantImagesError };
+      }
+
+      const details = {
+        product,
+        productVariant: {
+          ...productVariant,
+          images: Array.from(productVariant.images).map((file) => file.name),
+        },
+      };
+
+      await logAdminAction({
+        action: "Add product variant",
+        details: JSON.stringify(details),
+      });
+
+      return { data: addProductVariantData, error: addProductVariantImagesError };
     });
-
-    return { data: addProductVariantData, error };
-  });
 
   return { data, error };
 }
