@@ -21,7 +21,7 @@ import { Skeleton } from "@components/ui/skeleton";
 type DataTableProps = {
   authenticatedUser: Tables<"users"> | null;
   columnDefinition: any[];
-  rowActions: any[];
+  rowActions?: any[];
   tableName: string;
   getListCsv: () => Promise<{ data: string | null; error: any }>;
   queryKeys: any[][];

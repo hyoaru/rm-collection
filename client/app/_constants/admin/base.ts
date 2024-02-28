@@ -65,4 +65,9 @@ export const NAVIGATION_TABLES = {
     pathName: `${ADMIN_TABLES_BASE_PATH}/product-variants`, 
     adminRolesPermitted: BASE_ADMIN_ROLES 
   },
+  adminLogs: { 
+    name: 'Admin logs', 
+    pathName: `${ADMIN_TABLES_BASE_PATH}/admin-logs`, 
+    adminRolesPermitted: BASE_ADMIN_ROLES 
+  },
 }

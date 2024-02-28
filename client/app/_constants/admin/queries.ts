@@ -3,6 +3,7 @@ import { queryOptions } from "@tanstack/react-query";
 // App imports
 import getUsers from "@services/admin/shared/getUsers";
 import getAllOrders from "@services/admin/tables/getAllOrders";
+import getAdminLogs from "@services/admin/tables/getAdminLogs";
 
 export function queryAllUsers() {
   return queryOptions({
@@ -22,5 +23,12 @@ export function queryAllOrders(){
   return queryOptions({
     queryKey: ['orders'],
     queryFn: async () => await getAllOrders()
+  })
+}
+
+export function queryAllAdminLogs(){
+  return queryOptions({
+    queryKey: ['admin_logs'],
+    queryFn: getAdminLogs
   })
 }
