@@ -2,6 +2,7 @@
 
 import { Tables } from "@constants/base/database-types";
 import { getServerClient } from "@services/supabase/getServerClient";
+import logAdminAction from "@services/admin/shared/logAdminAction";
 
 const orderStatusMap = {
   "cancelled-by-user": 0,
@@ -25,7 +26,19 @@ export default async function setOrderStatus({ order, status }: SetOrderStatusPa
     .update({ status_id: orderStatusMap[status] })
     .eq("id", order.id)
     .select()
-    .single();
+    .single()
+    .then(async ({data, error}) => {
+      if (error || !data) {
+        return {data, error}
+      }
+      
+      await logAdminAction({
+        action: "set order status",
+        details: JSON.stringify({status, order})
+      })
+      
+      return {data, error}
+    })
 
   return { data, error };
 }
