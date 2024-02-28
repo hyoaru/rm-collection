@@ -35,7 +35,7 @@ export default function AddSubAdminForm() {
   const onSubmit = useCallback(async () => {
     if (!selectedUser) return;
 
-    await addSubAdminMutation.mutateAsync(selectedUser.id).then(({ error }) => {
+    await addSubAdminMutation.mutateAsync(selectedUser).then(({ error }) => {
       if (error) {
         toast({
           variant: "destructive",
