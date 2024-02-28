@@ -16,6 +16,8 @@ CREATE OR REPLACE TRIGGER handle_updated_at BEFORE UPDATE ON public.admin_logs
 
 
 -- Policies
+ALTER TABLE IF EXISTS public.admin_logs ENABLE ROW LEVEL SECURITY;
+
 DROP POLICY IF EXISTS "Allow read operation for admins" ON "public"."admin_logs";
 CREATE POLICY "Allow read operation for admins" ON "public"."admin_logs"
 AS PERMISSIVE FOR SELECT
@@ -31,5 +33,4 @@ TO authenticated
 WITH CHECK (
   (SELECT role FROM public.users WHERE id = auth.uid() LIMIT 1) != 'user'
 );
-
 
