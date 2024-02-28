@@ -9,7 +9,7 @@ import OrdersTable from "@components/admin/tables/OrdersTable";
 import { Tables } from "@constants/base/database-types";
 import getProductPostingListCsv from "@services/admin/tables/getProductPostingListCsv";
 import { formatTimestampTable } from "@lib/formatTimestamp";
-import setOrderStatus from "@services/shared/setOrderStatus";
+import setOrderStatusAdmin from "@services/admin/tables/setOrderStatusAdmin";
 import { Button } from "@components/ui/button";
 import DataTableRowAction from "@components/admin/tables/shared/DataTableRowAction";
 
@@ -21,25 +21,25 @@ export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps)
   const rowActions = [
     {
       label: "Order: pending",
-      onClick: (order: Tables<"orders">) => setOrderStatus({ order: order, status: "pending" }),
+      onClick: (order: Tables<"orders">) => setOrderStatusAdmin({ order: order, status: "pending" }),
       isDestructive: false,
       adminRolesPermitted: baseAdminRoles
     },
     {
       label: "Order: to-ship",
-      onClick: (order: Tables<"orders">) => setOrderStatus({ order: order, status: "to-ship" }),
+      onClick: (order: Tables<"orders">) => setOrderStatusAdmin({ order: order, status: "to-ship" }),
       isDestructive: false,
       adminRolesPermitted: baseAdminRoles
     },
     {
       label: "Order: to-receive",
-      onClick: (order: Tables<"orders">) => setOrderStatus({ order: order, status: "to-receive" }),
+      onClick: (order: Tables<"orders">) => setOrderStatusAdmin({ order: order, status: "to-receive" }),
       isDestructive: false,
       adminRolesPermitted: baseAdminRoles
     },
     {
       label: "Order: cancel",
-      onClick: (order: Tables<"orders">) => setOrderStatus({ order: order, status: "cancelled-by-management" }),
+      onClick: (order: Tables<"orders">) => setOrderStatusAdmin({ order: order, status: "cancelled-by-management" }),
       isDestructive: true,
       adminRolesPermitted: baseAdminRoles
     }
@@ -91,9 +91,7 @@ export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps)
 
   return (
     <OrdersTable
-      authenticatedUser={authenticatedUser}
       columnDefinition={columnDefinition}
-      rowActions={rowActions}
       getListCsv={getProductPostingListCsv}
       tableName={"rmc-product-postings-list"}
       queryKeys={[["product_variants"], ["product_variants", { visibility: "shown" }]]}
