@@ -1,6 +1,5 @@
 import addProductVariantWithImages from "@services/admin/operations/addProductVariantWithImages";
 import addProductWithThumbnail from "@services/admin/operations/addProductWithThumbnail";
-import logAdminAction from "@services/admin/shared/logAdminAction";
 
 type AddProductWithVariantParams = {
   product: {
@@ -48,29 +47,6 @@ export default async function addProductWithVariant({ product, productVariant }:
       });
 
       return { data, error };
-    })
-    .then(async ({ data: addProductVariantWithImagesData, error: addProductVariantWithImagesError }) => {
-      if (addProductVariantWithImagesError || !addProductVariantWithImagesData) {
-        return { data: addProductVariantWithImagesData, error: addProductVariantWithImagesError };
-      }
-
-      const details = {
-        product: {
-          ...product, 
-          thumbnail: Array.from(product.thumbnail).map((file) => file.name)
-        },
-        productVariant: {
-          ...productVariant,
-          images: Array.from(productVariant.images).map((file) => file.name)
-        }
-      }
-
-      await logAdminAction({
-        action: "Add product with variant",
-        details: JSON.stringify(details)
-      });
-
-      return { data: addProductVariantWithImagesData, error: addProductVariantWithImagesError };
     });
 
   return { data, error };

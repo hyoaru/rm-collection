@@ -56,7 +56,7 @@ export default async function addProductVariantWithImages({ product, productVari
       };
 
       await logAdminAction({
-        action: "Add product variant",
+        action: "add product variant",
         details: JSON.stringify(details),
       });
 
