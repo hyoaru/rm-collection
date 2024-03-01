@@ -21,10 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${typeface.className} px-4 mx-auto md:container`} suppressHydrationWarning>
+      <body className={`${typeface.className}`} suppressHydrationWarning>
         <Providers>
           <Header />
+          <div className="px-4 mx-auto md:container">
           {children}
+          </div>
           <Toaster />
         </Providers>
       </body>

@@ -13,7 +13,7 @@ export default async function Header() {
   return (
     <>
       <header className="sticky top-0 pt-4 z-50 backdrop-filter backdrop-blur-lg ">
-        <div className=" pb-1">
+        <div className="px-4 mx-auto md:container pb-1">
           <nav className="flex items-center">
             <MainNavStart />
 
