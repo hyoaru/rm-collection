@@ -22,7 +22,7 @@ type ProductListComboboxProps = {
 export default function ProductListCombobox({ value, setValue, onSelectedValueChange }: ProductListComboboxProps) {
   const [open, setOpen] = useState(false);
   const { data: products, isPending, isFetching } = useQuery(queryAllProducts());
-  const memoizedProducts = useMemo(() => products?.data, [products, isFetching]);
+  const memoizedProducts = useMemo(() => products?.data, [products?.data, isFetching]);
 
   if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;

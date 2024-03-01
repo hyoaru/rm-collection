@@ -20,7 +20,7 @@ type UserListComboboxProps = {
 export default function UserListCombobox({ value, setValue, onSelectedValueChange }: UserListComboboxProps) {
   const [open, setOpen] = useState(false);
   const { data: users, isPending, isFetching } = useQuery(queryAllUsers());
-  const memoizedUsers = useMemo(() => users?.data, [users, isFetching])
+  const memoizedUsers = useMemo(() => users?.data, [users?.data, isFetching])
 
   if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;

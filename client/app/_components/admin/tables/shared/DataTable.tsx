@@ -43,7 +43,7 @@ export default function DataTable({
 
   const memoizedData = useMemo(() => {
     return (queryData as any)?.data;
-  }, [queryData, isFetching]);
+  }, [(queryData as any)?.data, isFetching]);
 
   const newColumnDefinition = useMemo(() => {
     const newColDef = [...columnDefinition];
