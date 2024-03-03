@@ -2,6 +2,7 @@ import Image from "next/image";
 
 // App imports
 import CategoryNavigationCard from "@components/index/CategoryNavigationCard";
+import LatestProductsFeed from "@components/index/LatestProductsFeed";
 import { Button } from "@components/ui/button";
 
 export default function Home() {
@@ -74,6 +75,14 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+
+        <div className="mx-auto">
+          <p className="text-center text-base text-primary whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-4xl">
+            {"Discover the latest additions to the collection."}
+          </p>
+
+          <LatestProductsFeed />
         </div>
 
         <div className="h-[50em]"></div>
