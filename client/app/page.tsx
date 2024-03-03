@@ -94,6 +94,15 @@ export default function Home() {
           <DiscountedProductsFeed />
         </div>
 
+        <div className="mx-auto text-center text-primary">
+          <p className="text-lg font-bold text-primary whitespace-pre-line xs:whitespace-normal sm:text-xl lg:text-4xl">
+            {"Rea Mariz Collection Co.Ltd."}
+          </p>
+          <p className="text-xs sm:text-sm lg:mt-1 lg:text-xl">
+            {'Empowering Your Choices with Diverse Collections Since 2019.'}
+          </p>
+        </div>
+
         <div className="h-[50em]"></div>
       </div>
     </>
