@@ -5,7 +5,7 @@ export default async function getLatestProducts() {
 
   const { data, error } = await supabase
     .from("products")
-    .select("*, product_variants(*)")
+    .select("*, product_variants!inner(*)")
     .order("created_at", { ascending: false })
     .limit(20);
 
