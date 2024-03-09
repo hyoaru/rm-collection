@@ -1,9 +1,9 @@
 export const MAIN_NAVIGATION = [
-  { name: 'Collection', link: '/' },
-  { name: 'Earrings', link: '/collection/earring' },
-  { name: 'Necklaces', link: '/collection/necklace' },
-  { name: 'Bracelets', link: '/collection/bracelet' },
-  { name: 'Rings', link: '/collection/ring' },
+  { name: 'Collection', link: '/collection' },
+  { name: 'Earrings', link: '/collection/earrings' },
+  { name: 'Necklaces', link: '/collection/necklaces' },
+  { name: 'Bracelets', link: '/collection/bracelets' },
+  { name: 'Rings', link: '/collection/rings' },
 ]
 
 export const PRODUCT_CATEGORIES = [
