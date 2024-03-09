@@ -6,7 +6,7 @@ import React from "react";
 // App imports
 import divideArrayToSubArrays from "@lib/divideArrayToSubArrays";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import ProductCard from "@components/index/ProductCard";
+import ProductCard from "@components/collection/shared/ProductCard";
 import { Skeleton } from "@components/ui/skeleton";
 import { Tables } from "@constants/base/database-types";
 

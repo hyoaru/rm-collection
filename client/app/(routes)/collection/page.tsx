@@ -1,7 +1,7 @@
 import React from 'react'
 
 // App imports
-import InfiniteProductsFeed from '@components/collection/InfiniteProductsFeed'
+import InfiniteProductsFeed from '@components/collection/shared/InfiniteProductsFeed'
 
 export default function Page() {
   return (

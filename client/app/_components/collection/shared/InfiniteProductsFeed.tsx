@@ -8,7 +8,7 @@ import { RotateCw } from "lucide-react";
 // App imports
 import { queryCollectionInfinite } from "@constants/collection/queries";
 import { ProductCategoryType } from "@constants/base/types";
-import ProductCard from "@components/index/ProductCard";
+import ProductCard from "@components/collection/shared/ProductCard";
 import { Skeleton } from "@components/ui/skeleton";
 
 type InfiniteProductsFeedProps = {
