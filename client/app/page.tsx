@@ -46,6 +46,7 @@ export default function Home() {
           <div className="flex flex-col justify-center mt-4 gap-2 sm:gap-6 md:flex-row lg:mt-10">
             <div className="flex w-full">
               <CategoryNavigationCard
+                link="/collection"
                 imageSrc={"/landing-page/images/collection-thumbnail.png"}
                 classNames={{ image: "h-[100px] w-full md:h-full", base: "w-full" }}
                 label={"Collection"}
@@ -53,11 +54,13 @@ export default function Home() {
             </div>
             <div className="flex flex-row gap-2 sm:gap-4 md:flex-col w-full">
               <CategoryNavigationCard
+                link="/collection/earrings"
                 imageSrc={"/landing-page/images/earring-thumbnail.png"}
                 classNames={{ image: "h-[100px] w-full md:h-[200px]", base: "w-full" }}
                 label={"Earrings"}
               />
               <CategoryNavigationCard
+                link="/collection/necklaces"
                 imageSrc={"/landing-page/images/necklace-thumbnail.png"}
                 classNames={{ image: "h-[100px] w-full md:h-[250px]", base: "w-full" }}
                 label={"Necklaces"}
@@ -65,11 +68,13 @@ export default function Home() {
             </div>
             <div className="flex flex-row gap-2 sm:gap-4 md:flex-col w-full">
               <CategoryNavigationCard
+                link="/collection/rings"
                 imageSrc={"/landing-page/images/ring-thumbnail.png"}
                 classNames={{ image: "h-[100px] w-full md:h-[250px]", base: "w-full" }}
                 label={"Rings"}
               />
               <CategoryNavigationCard
+                link="/collection/rings"
                 imageSrc={"/landing-page/images/bracelet-thumbnail.png"}
                 classNames={{ image: "h-[100px] w-full md:h-[200px]", base: "w-full" }}
                 label={"Bracelets"}
