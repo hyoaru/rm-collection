@@ -135,8 +135,8 @@ export default function EditProductVariantForm() {
         });
 
         const productVariantImagesPublicUrl = await getProductVariantImagesPublicUrl({
-          product: { id: selectedProduct.id },
-          productVariant: { id: productVariant.id },
+          productId: selectedProduct.id,
+          variantId: productVariant.id,
         });
 
         setImagesSrc(productVariantImagesPublicUrl);
