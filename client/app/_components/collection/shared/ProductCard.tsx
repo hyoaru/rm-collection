@@ -20,6 +20,7 @@ export default function ProductCard({ product, classNames }: ProductCardProps) {
 
   return (
     <BaseProductCard
+      productId={product.id}
       className={cn(
         "bg-white bg-opacity-5 shadow-[rgba(137,_24,_31,_0.05)_0px_15px_45px] transition-all duration-500 ease-in-out hover:scale-105 hover:bg-opacity-100",
         classNames?.base

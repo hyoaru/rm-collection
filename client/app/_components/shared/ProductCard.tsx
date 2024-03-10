@@ -1,11 +1,12 @@
 import React, { HTMLAttributes } from "react";
 import Image, { StaticImageData } from "next/image";
-import { Badge } from "@components/ui/badge";
+import Link from "next/link";
 
 // App imports
 import { cn } from "@lib/utils";
+import { Badge } from "@components/ui/badge";
 
-type ProductCardProps = HTMLAttributes<HTMLDivElement>;
+type ProductCardProps = HTMLAttributes<HTMLDivElement> & { productId: string };
 
 type ProductCardImageProps = {
   src: string | StaticImageData;
@@ -29,16 +30,18 @@ type ProductCardPriceGroupProps = {
   discountedPrice?: number;
 };
 
-export const ProductCard = ({ children, className }: ProductCardProps) => {
+export const ProductCard = ({ children, className, productId }: ProductCardProps) => {
   return (
-    <div
-      className={cn(
-        "rounded-xl p-3 w-[300px] bg-white break-inside-avoid-column transition-all duration-500 ease-in-out md:p-5 hover:scale-105 ",
-        className
-      )}
-    >
-      {children}
-    </div>
+    <Link href={`/collection/product/${productId}`}>
+      <div
+        className={cn(
+          "rounded-xl p-3 w-[300px] bg-white break-inside-avoid-column transition-all duration-500 ease-in-out md:p-5 hover:scale-105 ",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </Link>
   );
 };
 
