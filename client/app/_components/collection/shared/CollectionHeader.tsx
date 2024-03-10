@@ -28,18 +28,18 @@ export default function CollectionHeader({ breadcrumbs, inStock, toggleSortOrder
     <>
       <div className="">
         <div className="flex items-center px-2 text-sm">
-          <div className="flex items-center justify-start w-3/6 sm:w-2/6 xl:w-1/3">
-            <div className="hidden sm:block">
+          <div className="flex items-center justify-start w-3/6 sm:w-3/12 md:w-2/6 xl:w-1/3">
+            <div className="hidden md:block">
               <Breadcrumbs breadcrumbs={breadcrumbs} />
             </div>
             <p className="opacity-50">{`In stock (${inStock})`}</p>
           </div>
 
-          <div className="hidden justify-center w-2/6 sm:flex xl:w-1/3">
+          <div className="hidden justify-center w-2/6 sm:flex sm:w-6/12 md:w-2/6 xl:w-1/3">
             <p className="opacity-50 text-center">A collection of in stock jewelries</p>
           </div>
 
-          <div className="flex justify-end w-3/6 sm:w-2/6 xl:w-1/3 ">
+          <div className="flex justify-end w-3/6 sm:w-3/12 md:w-2/6 xl:w-1/3 ">
             <p className="cursor-pointer opacity-50 hover:opacity-80 text-end" onClick={onSortOrderClick}>
               Sort order: {sortOrder}
             </p>
