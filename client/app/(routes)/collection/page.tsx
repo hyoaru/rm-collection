@@ -9,11 +9,12 @@ import { queryCollectionInfinite } from "@constants/collection/queries";
 export default async function Page() {
   const queryClient = getQueryClient();
   await queryClient.prefetchInfiniteQuery(queryCollectionInfinite({category: 'all'}));
+  const breadcrumbs = [{label: 'Collection', link: '/collection'}]
 
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <InfiniteProductsFeed category="all" />
+        <InfiniteProductsFeed category="all" breadcrumbs={breadcrumbs} />
       </HydrationBoundary>
     </>
   );

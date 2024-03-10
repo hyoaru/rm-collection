@@ -8,12 +8,17 @@ import { queryCollectionInfinite } from "@constants/collection/queries";
 
 export default async function Page() {
   const queryClient = getQueryClient();
-  await queryClient.prefetchInfiniteQuery(queryCollectionInfinite({category: 'necklace'}));
+  await queryClient.prefetchInfiniteQuery(queryCollectionInfinite({ category: "necklace" }));
+  
+  const breadcrumbs = [
+    { label: "Collection", link: "/collection" },
+    { label: "Necklaces", link: "/collection/necklaces" },
+  ];
 
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <InfiniteProductsFeed category="necklace" />
+        <InfiniteProductsFeed category="necklace" breadcrumbs={breadcrumbs} />
       </HydrationBoundary>
     </>
   );

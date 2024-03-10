@@ -29,5 +29,5 @@ export default async function getCollectionPaginated({ pageParam: page = 0, cate
   const { data, error, count } = await query;
   const endPage = Math.ceil((count ?? itemsPerPage) / itemsPerPage) - 1;
   
-  return { data, error, page: page, endPage };
+  return { data, error, count, page: page, endPage };
 }

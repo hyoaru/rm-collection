@@ -10,10 +10,15 @@ export default async function Page() {
   const queryClient = getQueryClient();
   await queryClient.prefetchInfiniteQuery(queryCollectionInfinite({category: 'bracelet'}));
 
+  const breadcrumbs = [
+    { label: "Collection", link: "/collection" },
+    { label: "Bracelets", link: "/collection/bracelets" },
+  ];
+
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <InfiniteProductsFeed category="bracelet" />
+        <InfiniteProductsFeed category="bracelet" breadcrumbs={breadcrumbs} />
       </HydrationBoundary>
     </>
   );
