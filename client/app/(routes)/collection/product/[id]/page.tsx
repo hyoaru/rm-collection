@@ -9,6 +9,10 @@ import Breadcrumbs from "@components/collection/shared/Breadcrumbs";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { Badge } from "@components/ui/badge";
+import { queryRandomProductsByProductId } from "@constants/collection/queries";
+import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
+import Separator from "@components/shared/Separator";
+import ProductCard from "@components/collection/shared/ProductCard";
 
 type ProductViewParams = {
   params: {
@@ -20,6 +24,7 @@ export default async function Page({ params: { id: productId } }: ProductViewPar
   const queryClient = getQueryClient();
   const authenticatedUser = await getUserStateServer();
   const { data: product, error } = await queryClient.fetchQuery(queryProductById(productId));
+  const { data: randomProducts } = await queryClient.fetchQuery(queryRandomProductsByProductId(productId));
   const productVariants = product?.product_variants?.filter((variant) => variant.is_displayed === true);
 
   if (!product || !productVariants?.[0] || error) {
@@ -40,8 +45,8 @@ export default async function Page({ params: { id: productId } }: ProductViewPar
 
       <div className="">
         <Tabs defaultValue={productVariants[0].id}>
-          <div className="grid grid-cols-12 gap-5 sm:gap-10 md:mt-4 md:gap-12 lg:gap-14">
-            <div className="col-span-12  sm:col-span-7 md:col-span-8">
+          <div className="grid grid-cols-12 gap-5 sm:gap-10 sm:mt-4 md:gap-12 lg:gap-14">
+            <div className="col-span-12 sm:col-span-7 md:col-span-8">
               <div className="md:mb-16">
                 {productVariants.map((productVariant) => (
                   <TabsContent
@@ -169,6 +174,28 @@ export default async function Page({ params: { id: productId } }: ProductViewPar
             </div>
           </div>
         </Tabs>
+
+        {randomProducts?.[0] && <div className="">
+          <Separator>
+            <h3 className="text-center my-10 text-lg text-muted-foreground">Other jewelries you might like</h3>
+          </Separator>
+
+          <ScrollArea className={'whitespace-nowrap rounded-lg mb-10'}>
+            <div className="flex w-full space-x-4 py-6 justify-center">
+              {randomProducts.map((randomProduct, index) => (
+                <div className="w-max rounded-lg" key={`RandomProduct-${randomProduct.id}`}>
+                  <ProductCard 
+                    product={randomProduct} 
+                    classNames={{
+                      image: 'h-[250px]'
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <ScrollBar orientation={'horizontal'} />
+          </ScrollArea>
+        </div>}
       </div>
     </>
   );
