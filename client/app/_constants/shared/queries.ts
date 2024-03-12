@@ -7,6 +7,7 @@ import getProducts from "@services/shared/getProducts";
 import { ProductCategoryType, ProductVariantVisibilityType } from "@constants/base/types";
 import getAllOrderStatus from "@services/shared/getAllOrderStatus";
 import getProductById from "@services/shared/getProductById";
+import getCart from "@services/shared/getCart";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -55,4 +56,11 @@ export function queryProductById(productId: string) {
     queryKey: ["products", { productId: productId }],
     queryFn: () => getProductById(productId),
   });
+}
+
+export function queryCart(){
+  return queryOptions({
+    queryKey: ['cart'],
+    queryFn: getCart
+  })
 }

@@ -13,6 +13,7 @@ import { queryRandomProductsByProductId } from "@constants/collection/queries";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import Separator from "@components/shared/Separator";
 import ProductCard from "@components/collection/shared/ProductCard";
+import ProductViewActions from "@components/collection/product/ProductViewActions";
 
 type ProductViewParams = {
   params: {
@@ -23,6 +24,7 @@ type ProductViewParams = {
 export default async function Page({ params: { id: productId } }: ProductViewParams) {
   const queryClient = getQueryClient();
   const authenticatedUser = await getUserStateServer();
+
   const { data: product, error } = await queryClient.fetchQuery(queryProductById(productId));
   const { data: randomProducts } = await queryClient.fetchQuery(queryRandomProductsByProductId(productId));
   const productVariants = product?.product_variants?.filter((variant) => variant.is_displayed === true);
@@ -160,11 +162,11 @@ export default async function Page({ params: { id: productId } }: ProductViewPar
                     {authenticatedUser && (
                       <>
                         <div className="mt-8 border-t py-4 space-y-4">
-                          {/* <ProductViewActions
-                            userState={{ userStateAuth, userStateGeneral }}
+                          <ProductViewActions
+                            authenticatedUser={authenticatedUser}
                             product={product}
                             productVariant={productVariant}
-                          /> */}
+                          />
                         </div>
                       </>
                     )}

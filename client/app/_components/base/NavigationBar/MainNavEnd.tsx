@@ -2,20 +2,24 @@
 
 import React from "react";
 import Link from "next/link";
-import { ShoppingCart, User, Lock, ChevronDown, Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart, User, ChevronDown, Search } from "lucide-react";
 
 // App imports
+import MainNavEndUserDropdownContent from "@components/base/NavigationBar/MainNavEndUserDropdownContent";
+import MainNavEndCartDropdownContent from "@components/base/NavigationBar/MainNavEndCartDropdownContent";
 import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu";
 import { Button } from "@components/ui/button";
-import MainNavEndUserDropdownContent from "./MainNavEndUserDropdownContent";
-import MainNavEndCartDropdownContent from "./MainNavEndCartDropdownContent";
 import { Tables } from "@constants/base/database-types";
+import { queryCart } from "@constants/shared/queries";
 
 type MainNavEndProps = {
   authenticatedUser: Tables<"users"> | null;
 };
 
 export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
+  const { data: cart } = useQuery(queryCart());
+
   return (
     <>
       <div id="main-nav-end" className="flex justify-end items-center w-1/6 md:w-2/6 xl:w-1/3">
@@ -36,15 +40,12 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
                       <ShoppingCart size={20} className="text-primary" />
                       Cart
                     </div>
-                    <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
-                      {/* {cart?.data?.length} */}
+                    <div className="absolute bg-secondary text-primary px-1 rounded-full right-[-3px] top-0 text-[9px]">
+                      {cart?.data?.length}
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
-                <MainNavEndCartDropdownContent
-                  authenticatedUser={authenticatedUser}
-                  // cart={cart}
-                />
+                <MainNavEndCartDropdownContent />
               </DropdownMenu>
 
               <DropdownMenu>
@@ -78,15 +79,12 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className={"p-1 relative sm:p-3"}>
                     <ShoppingCart size={20} className="text-primary" />
-                    <div className="absolute bg-primary text-primary-foreground px-1 rounded-full right-0 top-0 text-[9px]">
-                      {/* {cart?.data?.length} */}
+                    <div className="absolute bg-primary text-primary-foreground rounded-full right-0 top-0 text-[9px]">
+                      {cart?.data?.length}
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
-                <MainNavEndCartDropdownContent
-                  authenticatedUser={authenticatedUser}
-                  // cart={cart}
-                />
+                <MainNavEndCartDropdownContent />
               </DropdownMenu>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

@@ -4,11 +4,9 @@ import Link from "next/link"
 import { getUserStateServer } from "@services/authentication/getUserStateServer"
 import MainNavStart from "@components/base/NavigationBar/MainNavStart"
 import MainNavEnd from "@components/base/NavigationBar/MainNavEnd"
-// import getCartByUser from "@services/collection/getCartByUser"
 
 export default async function Header() {
   const authenticatedUser = await getUserStateServer()
-  // const cart = await getCartByUser({ userId: userState?.userStateAuth?.id })
 
   return (
     <>
