@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // App imports
@@ -20,7 +20,6 @@ type UserListComboboxProps = {
 export default function UserListCombobox({ value, setValue, onSelectedValueChange }: UserListComboboxProps) {
   const [open, setOpen] = useState(false);
   const { data: users, isPending, isFetching } = useQuery(queryAllUsers());
-  const memoizedUsers = useMemo(() => users?.data, [users?.data, isFetching])
 
   if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;
@@ -31,14 +30,14 @@ export default function UserListCombobox({ value, setValue, onSelectedValueChang
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
-            {value ? memoizedUsers?.find((user) => user.email === value)?.email : "Select user..."}
+            {value ? users?.data?.find((user) => user.email === value)?.email : "Select user..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[325px] sm:w-[375px] lg:w-[600px] xl:w-[800px] p-1">
           <Command
             filter={(value, search) => {
-              const userFromValue = memoizedUsers?.find(
+              const userFromValue = users?.data?.find(
                 (user) => user.id.toLowerCase() === value.toLowerCase()
               );
               const stringToSearch = userFromValue ? Object.values(userFromValue).join(" ").toLowerCase() : "";
@@ -49,7 +48,7 @@ export default function UserListCombobox({ value, setValue, onSelectedValueChang
             <CommandInput placeholder="Search user..." />
             <CommandEmpty>No user found.</CommandEmpty>
             <CommandGroup className="h-[200px] overflow-y-auto">
-              {memoizedUsers?.map((user) => (
+              {users?.data?.map((user) => (
                 <CommandItem
                   key={user.id}
                   value={user.email}

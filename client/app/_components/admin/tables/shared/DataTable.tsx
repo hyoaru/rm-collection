@@ -41,10 +41,6 @@ export default function DataTable({
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const memoizedData = useMemo(() => {
-    return (queryData as any)?.data;
-  }, [(queryData as any)?.data, isFetching]);
-
   const newColumnDefinition = useMemo(() => {
     const newColDef = [...columnDefinition];
 
@@ -84,7 +80,7 @@ export default function DataTable({
     onPreviousPagePagination,
     onPageJump,
   } = useGetTable({
-    data: memoizedData,
+    data: (queryData as any)?.data ?? [],
     columnDefinition: newColumnDefinition,
   });
 
@@ -188,7 +184,7 @@ export default function DataTable({
             </TableBody>
           </Table>
 
-          {(!memoizedData || memoizedData.length <= 0) && (
+          {(!(queryData as any)?.data || (queryData as any)?.data?.length <= 0) && (
             <>
               <div className="flex items-center justify-center">
                 <span className="font-bold text-xl opacity-50 mt-14 mb-10 border rounded-xl p-5">

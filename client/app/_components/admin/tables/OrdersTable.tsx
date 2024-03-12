@@ -35,14 +35,14 @@ export default function OrdersTable({
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const filteredOrders = useMemo(() => {
+  const filteredOrders = () => {
     const orders = allOrdersQuery?.data?.data
     if (statusFilter !== 'all') {
       return orders?.filter((order) => order.order_status?.label === statusFilter) 
     } else {
       return orders
     }
-  }, [allOrdersQuery.data?.data, allOrdersQuery.isFetching, statusFilter])
+  }
 
   const columnDefinitionMemoized = useMemo(() => columnDefinition, [columnDefinition])
 

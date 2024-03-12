@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // App imports
@@ -32,8 +32,7 @@ export default function ProductVariantListCombobox({
     isFetching,
   } = useQuery(queryAllProductVariants());
 
-  const memoizedProductVariants = useMemo(() => productVariants?.data, [productVariants?.data, isFetching])
-  const filteredProductVariants = memoizedProductVariants?.filter((productVariant) => productVariant.product_id === productId)
+  const filteredProductVariants = productVariants?.data?.filter((productVariant) => productVariant.product_id === productId)
 
   if (isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;

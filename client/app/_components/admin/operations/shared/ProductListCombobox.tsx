@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -22,7 +22,6 @@ type ProductListComboboxProps = {
 export default function ProductListCombobox({ value, setValue, onSelectedValueChange }: ProductListComboboxProps) {
   const [open, setOpen] = useState(false);
   const { data: products, isPending, isFetching } = useQuery(queryAllProducts());
-  const memoizedProducts = useMemo(() => products?.data, [products?.data, isFetching]);
 
   if (isPending || isFetching) {
     return <Skeleton className="w-full h-10 rounded-lg block" />;
@@ -38,14 +37,14 @@ export default function ProductListCombobox({ value, setValue, onSelectedValueCh
             aria-expanded={open}
             className="w-full justify-between overflow-hidden"
           >
-            {value ? memoizedProducts?.find((product) => product.id === value)?.name : "Select product..."}
+            {value ? products?.data?.find((product) => product.id === value)?.name : "Select product..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[325px] sm:w-[200px] lg:w-[400px] xl:w-[650px] p-1">
           <Command
             filter={(value, search) => {
-              const productFromValue = memoizedProducts?.find(
+              const productFromValue = products?.data?.find(
                 (product) => product.id.toLowerCase() === value.toLowerCase()
               );
               const stringToSearch = productFromValue ? Object.values(productFromValue).join(" ").toLowerCase() : "";
@@ -56,7 +55,7 @@ export default function ProductListCombobox({ value, setValue, onSelectedValueCh
             <CommandInput placeholder="Search product..." />
             <CommandEmpty>No product found.</CommandEmpty>
             <CommandGroup className="h-[200px] overflow-y-auto">
-              {memoizedProducts?.map((product) => (
+              {products?.data?.map((product) => (
                 <CommandItem
                   key={`ProductCombobox-${product.id}`}
                   value={product.id}
