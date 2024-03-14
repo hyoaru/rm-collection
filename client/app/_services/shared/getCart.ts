@@ -2,14 +2,13 @@ import { getBrowserClient } from "@services/supabase/getBrowserClient";
 
 export default async function getCart() {
   const supabase = getBrowserClient();
-  const response = { data: null, error: null };
 
   const {
     data: { user: authenticatedUser },
   } = await supabase.auth.getUser();
 
   if (!authenticatedUser) {
-    return response
+    return {data: null, error: null}
   }
 
   const { data, error } = await supabase

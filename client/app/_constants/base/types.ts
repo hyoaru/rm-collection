@@ -27,3 +27,8 @@ export type OrderStatusType =
   | "to-ship"
   | "to-receive"
   | "completed";
+
+export type CountryType = {
+  name: string;
+  code: string;
+}
