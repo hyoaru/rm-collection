@@ -79,7 +79,7 @@ export default function MainNavEnd({ authenticatedUser }: MainNavEndProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant={"ghost"} className={"p-1 relative sm:p-3"}>
                     <ShoppingCart size={20} className="text-primary" />
-                    <div className="absolute bg-primary text-primary-foreground rounded-full right-0 top-0 text-[9px]">
+                    <div className="absolute bg-secondary text-primary px-1 rounded-full right-[-3px] top-0 text-[9px]">
                       {cart?.data?.length}
                     </div>
                   </Button>
