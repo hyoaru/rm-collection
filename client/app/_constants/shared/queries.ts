@@ -8,6 +8,7 @@ import { ProductCategoryType, ProductVariantVisibilityType } from "@constants/ba
 import getAllOrderStatus from "@services/shared/getAllOrderStatus";
 import getProductById from "@services/shared/getProductById";
 import getCart from "@services/shared/getCart";
+import getOrdersByGroup from "@/app/_services/shared/getOrdersByGroup";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -44,11 +45,11 @@ export function queryProductVariants({ visibility }: { visibility: ProductVarian
   });
 }
 
-export function queryAllOrderStatus(){
+export function queryAllOrderStatus() {
   return queryOptions({
-    queryKey: ['order_status'],
-    queryFn: async () => await getAllOrderStatus()
-  })
+    queryKey: ["order_status"],
+    queryFn: async () => await getAllOrderStatus(),
+  });
 }
 
 export function queryProductById(productId: string) {
@@ -58,9 +59,17 @@ export function queryProductById(productId: string) {
   });
 }
 
-export function queryCart(){
+export function queryCart() {
   return queryOptions({
-    queryKey: ['cart'],
-    queryFn: getCart
-  })
+    queryKey: ["cart"],
+    queryFn: getCart,
+  });
+}
+
+export function queryOrdersByGroup(orderGroup: string, isEnabled?: boolean) {
+  return queryOptions({
+    queryKey: ["orders", { order_group: orderGroup }],
+    queryFn: () => getOrdersByGroup(orderGroup),
+    enabled: isEnabled ?? true
+  });
 }

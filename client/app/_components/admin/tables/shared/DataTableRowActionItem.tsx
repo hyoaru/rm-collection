@@ -19,7 +19,7 @@ import {
 } from "@components/ui/alert-dialog";
 
 type DataTableRowActionItemProps = {
-  data: any[];
+  data: any;
   rowAction: DataTableRowActionType;
   authenticatedUser: Tables<"users">;
   queryKeys: any[][]
