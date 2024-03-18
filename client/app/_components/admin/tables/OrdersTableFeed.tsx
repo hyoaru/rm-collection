@@ -7,11 +7,11 @@ import { MoreHorizontal } from "lucide-react";
 import { BASE_ADMIN_ROLES as baseAdminRoles } from "@constants/admin/base";
 import OrdersTable from "@components/admin/tables/OrdersTable";
 import { Tables } from "@constants/base/database-types";
-import getProductPostingListCsv from "@services/admin/tables/getProductPostingListCsv";
 import { formatTimestampTable } from "@lib/formatTimestamp";
 import setOrderStatusAdmin from "@services/admin/tables/setOrderStatusAdmin";
 import { Button } from "@components/ui/button";
 import DataTableRowAction from "@components/admin/tables/shared/DataTableRowAction";
+import getOrderListCsv from "@services/admin/tables/getOrderListCsv";
 
 type OrdersTableProps = {
   authenticatedUser: Tables<"users"> | null;
@@ -64,7 +64,7 @@ export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps)
     { accessorFn: (row: any) => formatTimestampTable(row.created_at), header: 'updated_at' },
   ];
 
-  const queryKeys = [['orders']]
+  const queryKeys = [['orders'], ["product_variants"], ["product_variants", { visibility: "shown" }]]
 
   columnDefinition.push({
     id: 'actions', 
@@ -92,9 +92,9 @@ export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps)
   return (
     <OrdersTable
       columnDefinition={columnDefinition}
-      getListCsv={getProductPostingListCsv}
-      tableName={"rmc-product-postings-list"}
-      queryKeys={[["product_variants"], ["product_variants", { visibility: "shown" }]]}
+      getListCsv={getOrderListCsv}
+      tableName={"rmc-order-list"}
+      queryKeys={queryKeys}
     />
   );
 }
