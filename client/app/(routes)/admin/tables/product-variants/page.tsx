@@ -1,15 +1,14 @@
 import React from "react";
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 // App imports
 import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader";
-import getQueryClient from "@services/shared/getQueryClient";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
 import { queryAllProductVariants } from "@constants/shared/queries";
 import ProductVariantsTableFeed from "@components/admin/tables/ProductVariantsTableFeed";
 
 export default async function Page() {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   await queryClient.prefetchQuery(queryAllProductVariants());
   const authenticatedUser = await getUserStateServer();
 

@@ -33,7 +33,8 @@ export default function InfiniteProductsFeed({ category, breadcrumbs }: Infinite
     .reduce((accumulator, currentValue) => accumulator.concat(currentValue));
 
   function toggleProductsOrder() {
-    collection?.reverse();
+    if (!collection || !collection?.[0]) return
+    collection.reverse();
     setState(performance.now());
   }
 

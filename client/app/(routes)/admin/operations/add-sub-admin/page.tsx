@@ -1,15 +1,14 @@
 import React, { Suspense } from 'react'
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 
 // App imports
 import AdminSectionHeader from '@components/admin/shared/AdminSectionHeader'
-import getQueryClient from '@services/shared/getQueryClient'
 import { queryAllUsers } from '@constants/admin/queries'
 import AddSubAdminForm from '@components/admin/operations/AddSubAdminForm'
 import Loading from '@components/admin/shared/Loading'
 
 export default async function Page() {
-  const queryClient = getQueryClient()
+  const queryClient = new QueryClient()
   await queryClient.prefetchQuery(queryAllUsers())
 
   return (

@@ -1,9 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { QueryClient } from "@tanstack/react-query";
 
 // App imports
-import getQueryClient from "@services/shared/getQueryClient";
 import { queryProductById } from "@constants/shared/queries";
 import Breadcrumbs from "@components/collection/shared/Breadcrumbs";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
@@ -22,7 +22,7 @@ type ProductViewParams = {
 };
 
 export default async function Page({ params: { id: productId } }: ProductViewParams) {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
   const authenticatedUser = await getUserStateServer();
 
   const { data: product, error } = await queryClient.fetchQuery(queryProductById(productId));
