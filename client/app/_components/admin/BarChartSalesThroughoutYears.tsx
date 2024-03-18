@@ -66,7 +66,7 @@ export default function BarChartSalesThroughoutYears({orders} : BarChartSakesThr
           </div>
         </div>
 
-        <ResponsiveContainer width={'100%'} height={300}>
+        <ResponsiveContainer width={'100%'} height={400}>
           <BarChart
             data={Object.values(ordersGroupedByYearMonth[year])}
             margin={{ top: 60 }}

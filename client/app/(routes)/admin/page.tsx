@@ -54,7 +54,7 @@ export default function Page() {
 
   const recentCompletedOrders = useMemo(() => {
     return Array.from(orders?.data ?? [])
-      .filter((order) => order?.order_status?.label === "completed")
+      .filter((order) => ["completed", "to-receive"].includes(order?.order_status?.label!))
       .splice(0, 5);
   }, [orders?.data]);
 
