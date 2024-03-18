@@ -27,6 +27,7 @@ import { CartItemType } from "@constants/collection/types";
 import { useCheckoutOrder } from "@hooks/checkout/useCheckoutOrder";
 import { Tables } from "@constants/base/database-types";
 import { OrderType } from "@constants/shared/types";
+import { PhoneInput } from "@components/shared/PhoneInput";
 
 type CheckoutFormProps = {
   authenticatedUser: Tables<"users">;
@@ -109,7 +110,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(validateInputs)}>
-          <div className="grid grid-cols-12 gap-y-10 mx-auto lg:w-11/12 lg:gap-10">
+          <div className="grid grid-cols-12 gap-y-10 mx-auto md:gap-10 xl:w-11/12 ">
             <div className="col-span-12 md:col-span-6 space-y-6">
               <div className="">
                 <p className="font-bold mb-2">Shipping information</p>
@@ -179,12 +180,12 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       </FormItem>
                     )}
                   />
-
+                  
                   <FormField
                     control={form.control}
                     name="shippingZipCode"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="col-span-full">
                         <FormLabel>Shipping zip code</FormLabel>
                         <FormControl>
                           <Input {...field} placeholder="shipping-zip-code" disabled={!selectedCountry} />
@@ -198,10 +199,10 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                     control={form.control}
                     name="receiverPhoneNumber"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="col-span-full">
                         <FormLabel>Receiver phone number</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="receiver-phone-number" />
+                          <PhoneInput {...field} placeholder="receiver-phone-number" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -212,7 +213,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
             </div>
             <div className="col-span-12 md:col-span-6">
               <p className="font-bold mb-2">Your cart</p>
-              <ScrollArea className={"h-[20rem] border rounded-lg p-2 border-x-0"}>
+              <ScrollArea className={"h-[27rem] border rounded-lg p-2 border-x-0"}>
                 {cart?.data?.[0] &&
                   cart?.data.map((cartItem) => (
                     <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} />
@@ -220,7 +221,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
               </ScrollArea>
               <div className="flex mt-2">
                 <p className="text-sm font-medium">Total: ₱ {(cart?.totalCost ?? 0).toLocaleString()}</p>
-                <Link href={"/"} className="ms-auto text-sm underline font-medium">
+                <Link href={"/collection"} className="ms-auto text-sm underline font-medium">
                   Add more items
                 </Link>
               </div>

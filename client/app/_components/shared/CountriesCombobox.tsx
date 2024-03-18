@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import flags from "react-phone-number-input/flags";
 
 // App imports
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -14,7 +15,7 @@ type CountriesComboboxProps = {
 };
 
 export default function CountriesCombobox({ setSelectedCountry }: CountriesComboboxProps) {
-  const [value, setValue] = useState<string | null | undefined>()
+  const [value, setValue] = useState<string | null | undefined>();
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,7 +23,20 @@ export default function CountriesCombobox({ setSelectedCountry }: CountriesCombo
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
-            {value ? countryList.find((country) => country.name.toLowerCase() === value)?.name : "Select country..."}
+            {value ? (
+              <div className="flex items-center gap-4">
+                <FlagComponent
+                  country={countryList.find((country) => country.name.toLowerCase() === value)?.code!}
+                  countryName={value}
+                />
+                <span>
+                  {countryList.find((country) => country.name.toLowerCase() === value)?.name!}
+                </span>
+              </div>
+            ) : (
+              "Select country..."
+            )}
+
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -44,10 +58,11 @@ export default function CountriesCombobox({ setSelectedCountry }: CountriesCombo
                   value={country.name}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? null : currentValue);
-                    setSelectedCountry(country)
+                    setSelectedCountry(country);
                     setOpen(false);
                   }}
                 >
+                  <FlagComponent country={country.code} countryName={country.name} />
                   <Check className={cn("mr-2 h-4 w-4", value === country.name ? "opacity-100" : "opacity-0")} />
                   {country.name}
                 </CommandItem>
@@ -59,3 +74,13 @@ export default function CountriesCombobox({ setSelectedCountry }: CountriesCombo
     </>
   );
 }
+
+const FlagComponent = ({ country, countryName }: { country: string; countryName: string }) => {
+  const Flag = flags[country as keyof typeof flags];
+
+  return (
+    <span className="flex h-4 w-6 overflow-hidden rounded-sm bg-foreground/20">
+      {Flag && <Flag title={countryName} />}
+    </span>
+  );
+};

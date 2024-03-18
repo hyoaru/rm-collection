@@ -1,4 +1,5 @@
 import * as z from "zod"
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 export const MAX_FILE_SIZE_IN_MB = 5 * 1000000
 
@@ -39,5 +40,5 @@ export const ORDERS_BASE_FORM_SCHEMA = {
   receiverFirstName: z.string().trim().min(2).max(100),
   receiverLastName: z.string().trim().min(2).max(100),
   shippingZipCode: z.string().trim().min(2).max(50),
-  receiverPhoneNumber: z.string().trim().min(7).max(25)
+  receiverPhoneNumber: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
 }

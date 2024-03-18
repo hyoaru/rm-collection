@@ -43,6 +43,7 @@
     "react-hook-form": "^7.50.1",
     "react-image-file-resizer": "^0.4.8",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-phone-number-input": "^3.3.9",
     "recharts": "^2.12.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
