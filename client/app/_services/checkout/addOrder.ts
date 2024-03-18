@@ -10,6 +10,7 @@ type AddOrderParams = {
   quantity: number;
   price: number;
   discountRate: number;
+  orderGroup: string
 };
 
 export default async function addOrder({
@@ -19,6 +20,7 @@ export default async function addOrder({
   quantity,
   price,
   discountRate,
+  orderGroup
 }: AddOrderParams) {
   const supabase = getServerClient();
 
@@ -31,6 +33,7 @@ export default async function addOrder({
       quantity: quantity,
       price: price,
       discount_rate: discountRate,
+      order_group: orderGroup
     }])
     .select(`*, product_variants(*, products(*)), order_status(*), users(*), orders_shipping(*)`)
     .single()

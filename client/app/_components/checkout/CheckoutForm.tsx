@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import * as z from "zod";
 import { useQuery } from "@tanstack/react-query";
+import { nanoid } from "nanoid";
 
 // App imports
 import { Input } from "@components/ui/input";
@@ -68,6 +69,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
 
   async function onSubmit() {
     const data = form.getValues();
+    const orderGroup = nanoid(36)
 
     await checkoutOrderMutation
       .mutateAsync({
@@ -81,7 +83,8 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
           shippingCountry: selectedCountry?.name!,
           shippingZipCode: data.shippingZipCode,
           receiverPhoneNumber: data.receiverPhoneNumber,
-        }
+          orderGroup: orderGroup,
+        },
       })
       .then(async ({ data, error }) => {
         if (error) {
@@ -106,7 +109,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(validateInputs)}>
-          <div className="grid grid-cols-12 gap-y-10 mx-auto w-11/12 md:w-10/12 md:gap-10">
+          <div className="grid grid-cols-12 gap-y-10 mx-auto lg:w-11/12 lg:gap-10">
             <div className="col-span-12 md:col-span-6 space-y-6">
               <div className="">
                 <p className="font-bold mb-2">Shipping information</p>
@@ -212,7 +215,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
               <ScrollArea className={"h-[20rem] border rounded-lg p-2 border-x-0"}>
                 {cart?.data?.[0] &&
                   cart?.data.map((cartItem) => (
-                    <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} isReadOnly={true} />
+                    <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} />
                   ))}
               </ScrollArea>
               <div className="flex mt-2">
@@ -245,11 +248,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                     <ScrollArea className={"h-[20rem] border rounded-lg p-2 border-x-0"}>
                       {cart?.data?.[0] &&
                         cart?.data.map((cartItem) => (
-                          <CartItem
-                            key={`CartItem-${cartItem.id}`}
-                            cartItem={cartItem as CartItemType}
-                            isReadOnly={true}
-                          />
+                          <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} />
                         ))}
                     </ScrollArea>
                     <div className="flex mt-2">

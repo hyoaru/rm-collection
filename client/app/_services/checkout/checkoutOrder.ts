@@ -18,6 +18,7 @@ type CheckoutOrderParams = {
   cartItems: CartItemType[];
   order: {
     userId: string;
+    orderGroup: string;
     receiverEmail: string;
     receiverFirstName: string;
     receiverLastName: string;
@@ -56,6 +57,7 @@ export default async function checkoutOrder({ cartItems, order }: CheckoutOrderP
       quantity: cartItem.quantity,
       price: cartItem.product_variants?.price!,
       discountRate: cartItem.product_variants?.discount_rate!,
+      orderGroup: order.orderGroup,
     })
       .then(async ({ data: addOrderData, error: addOrderError }) => {
         if (addOrderError || !addOrderData) {
