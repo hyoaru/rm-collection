@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Check } from "lucide-react";
 import { useToJpeg } from "@hugocxl/react-to-image";
 import dayjs from "dayjs";
 
@@ -86,7 +85,6 @@ OrderReceiptDialogContent.BodyHeader = function ({ children }: OrderReceiptDialo
       <div className="flex justify-center items-center ">
         <span className="font-bold text-2xl text-center align-middle">
           {children}
-          <Check className="ms-2 inline align-middle p-1 bg-success rounded-full text-background" />
         </span>
       </div>
       <div className="text-center text-xs opacity-80">Thank you for choosing Rea Mariz Collection Co.Ltd</div>
