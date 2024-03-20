@@ -86,13 +86,10 @@ export async function middleware(request: NextRequest) {
     }
 
     if (request.nextUrl.pathname === '/profile/account/update-password') {
-      await supabase.auth.signOut()
       const code = request.nextUrl.searchParams.get('code')
-
-      try {
-        await supabase.auth.exchangeCodeForSession(code!)
-      } catch (error) {
-        return NextResponse.redirect(new URL('/profile', request.url))
+      
+      if (!code) {
+        return NextResponse.rewrite(new URL('/profile', request.url))
       }
 
       return response
