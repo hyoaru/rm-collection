@@ -4,7 +4,6 @@ DROP COLUMN IF EXISTS shipping_address;
 CREATE TABLE IF NOT EXISTS orders_shipping (
   id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES public.users ON DELETE SET NULL,
-  order_shipping_id UUID REFERENCES public.orders_shipping ON DELETE SET NULL,
   receiver_email TEXT NOT NULL,
   receiver_first_name TEXT NOT NULL,
   receiver_last_name TEXT NOT NULL,
