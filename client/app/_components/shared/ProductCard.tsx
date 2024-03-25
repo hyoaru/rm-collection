@@ -32,7 +32,7 @@ type ProductCardPriceGroupProps = {
 
 export const ProductCard = ({ children, className, productId }: ProductCardProps) => {
   return (
-    <Link href={`/collection/product/${productId}`}>
+    <Link href={`/collection/product/${productId}`} className="block">
       <div
         className={cn(
           "rounded-xl p-3 w-[300px] bg-white break-inside-avoid-column transition-all duration-500 ease-in-out md:p-5 hover:scale-105 ",
