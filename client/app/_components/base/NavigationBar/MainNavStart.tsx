@@ -32,19 +32,19 @@ export default function MainNavStart() {
         <div id="main-nav-start-collapsed" className="flex items-center lg:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="p-1 sm:p-3" variant={'ghost'} >
+              <Button className="p-1 sm:p-3" variant={"ghost"}>
                 <AlignLeft size={20} />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent side={"bottom"} align={"start"}>
-              <DropdownMenuLabel className={" flex gap-2 items-center"}>
-                <Search size={17} />
-                <span className="text-muted-foreground font-light">Search</span>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuItem className="p-0">
+                <Link href={'/collection/search'} className="p-1 px-2 w-full font-semibold">
+                  Search
+                </Link>
+              </DropdownMenuItem>
               {navigation.map((nav, index) => (
-                <DropdownMenuItem key={`MainNavStartLinkCollapsed-${index}`}>
-                  <Link href={nav.link} className="w-full font-light">
+                <DropdownMenuItem key={`MainNavStartLinkCollapsed-${index}`} className="p-0">
+                  <Link href={nav.link} className="w-full font-light p-1 px-2">
                     {nav.name}
                   </Link>
                 </DropdownMenuItem>
