@@ -79,7 +79,7 @@ export const OrderReceiptDialogContent = ({ children, userId }: OrderReceiptDial
   );
 };
 
-OrderReceiptDialogContent.BodyHeader = function ({ children }: OrderReceiptDialogContentBodyHeaderProps) {
+const BodyHeader = ({ children }: OrderReceiptDialogContentBodyHeaderProps) => {
   return (
     <div className="px-5 space-y-1">
       <div className="flex justify-center items-center ">
@@ -92,7 +92,7 @@ OrderReceiptDialogContent.BodyHeader = function ({ children }: OrderReceiptDialo
   );
 };
 
-OrderReceiptDialogContent.Body = function ({ children, user, ordersShipping }: OrderReceiptDialogContentBodyProps) {
+const Body = ({ children, user, ordersShipping }: OrderReceiptDialogContentBodyProps) => {
   const orderDetailsReadOnlyFormData = [
     { label: "Customer name", value: `${user?.first_name} ${user?.last_name}` },
     { label: "Receiver email", value: ordersShipping.receiver_email },
@@ -162,11 +162,11 @@ OrderReceiptDialogContent.Body = function ({ children, user, ordersShipping }: O
   );
 };
 
-OrderReceiptDialogContent.BodyFooter = function ({
+const BodyFooter = ({
   subtotal,
   totalCost,
   deliveryFee,
-}: OrderReceiptDialogContentBodyFooterProps) {
+}: OrderReceiptDialogContentBodyFooterProps) => {
   return (
     <div className="mt-4 rounded-xl border p-3 px-5 text-sm">
       <div className="flex items-center">
@@ -186,3 +186,8 @@ OrderReceiptDialogContent.BodyFooter = function ({
     </div>
   );
 };
+
+
+OrderReceiptDialogContent.Body = Body;
+OrderReceiptDialogContent.BodyHeader = BodyHeader;
+OrderReceiptDialogContent.BodyFooter = BodyFooter;

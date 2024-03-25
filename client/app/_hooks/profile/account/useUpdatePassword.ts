@@ -4,14 +4,15 @@ import { default as updatePasswordMutation } from "@services/profile/account/upd
 
 type UpdatePasswordParams = {
   newPassword: string;
+  code: string
 };
 
 export default function useUpdatePassword() {
   const [isLoading, setIsLoading] = useState(false);
 
-  async function updatePassword({ newPassword }: UpdatePasswordParams) {
+  async function updatePassword({ newPassword, code }: UpdatePasswordParams) {
     setIsLoading(true);
-    const { data, error } = await updatePasswordMutation({ newPassword: newPassword });
+    const { data, error } = await updatePasswordMutation({ newPassword: newPassword, code: code });
     setIsLoading(false);
 
     return { data, error };

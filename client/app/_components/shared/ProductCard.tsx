@@ -45,7 +45,7 @@ export const ProductCard = ({ children, className, productId }: ProductCardProps
   );
 };
 
-ProductCard.Image = function ProductCardImage({ src, classNames }: ProductCardImageProps) {
+const ProductCardImage = ({ src, classNames }: ProductCardImageProps) => {
   return (
     <div className={cn("rounded-xl w-full overflow-hidden ", classNames?.base)}>
       <Image
@@ -59,19 +59,19 @@ ProductCard.Image = function ProductCardImage({ src, classNames }: ProductCardIm
   );
 };
 
-ProductCard.Title = function ProductCardTitle({ children, className }: ProductCardTitleProps) {
+const ProductCardTitle = ({ children, className }: ProductCardTitleProps) => {
   return <p className={cn("font-bold text-primary text-lg break-words w-full capitalize sm:text-xl", className)}>{children}</p>;
 };
 
-ProductCard.Subtext = function ProductCardSubtext({ children, className }: ProductCardSubtextProps) {
+const ProductCardSubtext = ({ children, className }: ProductCardSubtextProps) => {
   return <p className={cn("opacity-50 text-sm mt-3 capitalize", className)}>{children}</p>;
 };
 
-ProductCard.PriceGroup = function ProductCardPriceGroup({
+const ProductCardPriceGroup = ({
   price,
   discountRate,
   discountedPrice,
-}: ProductCardPriceGroupProps) {
+}: ProductCardPriceGroupProps) => {
   return (
     <>
       <div className="grid grid-cols-12 items-center mt-1">
@@ -94,3 +94,8 @@ ProductCard.PriceGroup = function ProductCardPriceGroup({
     </>
   );
 };
+
+ProductCard.Image = ProductCardImage;
+ProductCard.Title = ProductCardTitle;
+ProductCard.Subtext = ProductCardSubtext;
+ProductCard.PriceGroup = ProductCardPriceGroup;
