@@ -49,7 +49,26 @@ export default function EditProductVariantForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
+  const emptyFormFields = useCallback(() => {
+    (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
+    setImagesSrc(null);
+
+    form.reset({
+      name: "",
+      category: "",
+      description: "",
+      price: 0,
+      discountRate: 0,
+      quantity: 0,
+      material: "",
+      materialProperty: "",
+      images: "",
+      size: "",
+      weight: "",
+    });
+  }, [form]);
+
+  const onSubmit = useCallback(async (data: z.infer<typeof formSchema>) => {
     if (!(selectedProduct && selectedProductVariant)) return;
 
     await updateProductVariantMutation
@@ -86,33 +105,14 @@ export default function EditProductVariantForm() {
           setProductVariantListComboboxValue(null);
         }
       });
-  }
-
-  const emptyFormFields = useCallback(() => {
-    (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
-    setImagesSrc(null);
-
-    form.reset({
-      name: "",
-      category: "",
-      description: "",
-      price: 0,
-      discountRate: 0,
-      quantity: 0,
-      material: "",
-      materialProperty: "",
-      images: "",
-      size: "",
-      weight: "",
-    });
-  }, []);
+  }, [selectedProduct, selectedProductVariant, toast, emptyFormFields, updateProductVariantMutation])
 
   const onSelectedProductChange = useCallback((product: Tables<"products"> | null) => {
     setSelectedProduct(product);
     setSelectedProductVariant(null);
     setProductVariantListComboboxValue(null);
     emptyFormFields();
-  }, []);
+  }, [emptyFormFields]);
 
   const onSelectedProductVariantChange = useCallback(
     async (productVariant: Tables<"product_variants"> | null) => {
@@ -144,7 +144,7 @@ export default function EditProductVariantForm() {
         emptyFormFields();
       }
     },
-    [selectedProduct]
+    [selectedProduct, emptyFormFields, form]
   );
 
   const onImagesChange = useCallback((imageFiles: FileList | null) => {

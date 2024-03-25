@@ -85,7 +85,7 @@ export default function OrdersTable({
         }
       }
     });
-  }, []);
+  }, [getListCsv, tableName, toast]);
 
   const onRefresh = useCallback(async () => {
     for await (const queryKey of queryKeys) {
@@ -96,7 +96,7 @@ export default function OrdersTable({
       title: "Revalidated data.",
       description: "Changes should take effect immediately.",
     });
-  }, []);
+  }, [queryClient, queryKeys, toast]);
 
   return (
     <>

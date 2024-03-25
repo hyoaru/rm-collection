@@ -48,7 +48,7 @@ export default function EditProductForm() {
       category: "",
       description: "",
     });
-  }, []);
+  }, [form]);
 
   const onSelectedProductChange = useCallback(async (product: Tables<"products"> | null) => {
     (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
@@ -66,7 +66,7 @@ export default function EditProductForm() {
     } else {
       emptyFormFields();
     }
-  }, []);
+  }, [form, emptyFormFields]);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
@@ -103,7 +103,7 @@ export default function EditProductForm() {
           }
         });
     },
-    [selectedProduct]
+    [selectedProduct, emptyFormFields, toast, updateProductMutation]
   );
 
   const onThumbnailChange = useCallback((imageFile: File | undefined) => {

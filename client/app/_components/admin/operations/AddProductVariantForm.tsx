@@ -60,7 +60,7 @@ export default function AddProductVariantForm() {
       quantity: 0,
       discountRate: 0,
     });
-  }, []);
+  }, [form]);
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
@@ -96,7 +96,7 @@ export default function AddProductVariantForm() {
           }
         });
     },
-    [selectedProduct]
+    [selectedProduct, emptyFormFields, addProductVariantMutation, toast]
   );
 
   const onSelectedProductChange = useCallback((product: Tables<"products"> | null) => {
@@ -113,7 +113,7 @@ export default function AddProductVariantForm() {
     } else {
       emptyFormFields();
     }
-  }, []);
+  }, [form, emptyFormFields]);
 
   const onImagesChange = useCallback((imageFiles: FileList | null) => {
     if (!imageFiles) return;

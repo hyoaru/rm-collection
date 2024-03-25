@@ -32,6 +32,19 @@ export default function AddSubAdminForm() {
     },
   });
 
+  const emptyFormFields = useCallback(() => {
+    setSelectedUser(null);
+    setUserListComboboxValue(null);
+
+    form.reset({
+      id: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      role: "",
+    });
+  }, [form]);
+
   const onSubmit = useCallback(async () => {
     if (!selectedUser) return;
 
@@ -51,20 +64,7 @@ export default function AddSubAdminForm() {
         emptyFormFields();
       }
     });
-  }, [selectedUser]);
-
-  const emptyFormFields = useCallback(() => {
-    setSelectedUser(null);
-    setUserListComboboxValue(null);
-
-    form.reset({
-      id: "",
-      email: "",
-      firstName: "",
-      lastName: "",
-      role: "",
-    });
-  }, []);
+  }, [selectedUser, emptyFormFields, toast, addSubAdminMutation]);
 
   const onSelectedUserChange = useCallback((user: Tables<"users"> | null) => {
     setSelectedUser(user);
@@ -79,7 +79,7 @@ export default function AddSubAdminForm() {
     } else {
       emptyFormFields();
     }
-  }, []);
+  }, [form, emptyFormFields]);
 
   return (
     <>

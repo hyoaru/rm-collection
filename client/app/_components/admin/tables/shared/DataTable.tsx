@@ -66,7 +66,7 @@ export default function DataTable({
     }
 
     return newColDef;
-  }, []);
+  }, [authenticatedUser, columnDefinition, queryKeys, rowActions]);
 
   const {
     table,
@@ -107,7 +107,7 @@ export default function DataTable({
         }
       }
     });
-  }, []);
+  }, [getListCsv, toast, tableName]);
 
   const onRefresh = useCallback(async () => {
     for await (const queryKey of queryKeys) {
@@ -118,7 +118,7 @@ export default function DataTable({
       title: "Revalidated data.",
       description: "Changes should take effect immediately.",
     });
-  }, []);
+  }, [queryClient, queryKeys, toast]);
 
   return (
     <>

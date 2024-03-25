@@ -37,7 +37,7 @@ export default function ProductSearchFeed() {
     return filteredProductsByKeyword;
   }, [products, keywordFilter]);
 
-  const toggleOrdersSortOrder = useCallback(() => {
+  const toggleProductsSortOrder = useCallback(() => {
     products?.reverse();
     setState(performance.now());
   }, [products]);
@@ -45,9 +45,9 @@ export default function ProductSearchFeed() {
   const onSortOrderClick = useCallback(() => {
     if (products ? products?.length > 0 : false) {
       setSortOrder((prevSortOrder) => (prevSortOrder === "Ascending" ? "Descending" : "Ascending"));
-      toggleOrdersSortOrder();
+      toggleProductsSortOrder();
     }
-  }, [products, sortOrder]);
+  }, [products, toggleProductsSortOrder]);
 
   return (
     <>

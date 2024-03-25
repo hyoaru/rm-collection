@@ -68,7 +68,7 @@ export default function OrdersFeed({ authenticatedUser }: OrdersFeedProps) {
       setSortOrder((prevSortOrder) => (prevSortOrder === "Ascending" ? "Descending" : "Ascending"));
       toggleOrdersSortOrder();
     }
-  }, [orders, sortOrder]);
+  }, [orders, toggleOrdersSortOrder]);
 
   return (
     <>

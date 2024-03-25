@@ -43,6 +43,13 @@ export default function AddProductForm() {
     },
   });
 
+  const resetImageFields = useCallback(() => {
+    (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
+    (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
+    setThumbnailSrc(null);
+    setImagesSrc(null);
+  }, []);
+
   const onSubmit = useCallback(async (data: z.infer<typeof formSchema>) => {
     await addProductWithVariantMutation
       .mutateAsync({
@@ -80,14 +87,7 @@ export default function AddProductForm() {
           resetImageFields();
         }
       });
-  }, []);
-
-  const resetImageFields = useCallback(() => {
-    (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
-    (document.querySelector("#imagesInput") as HTMLInputElement).value = "";
-    setThumbnailSrc(null);
-    setImagesSrc(null);
-  }, []);
+  }, [form, resetImageFields, toast, addProductWithVariantMutation]);
 
   const onThumbnailChange = useCallback((imageFile: File | undefined) => {
     if (!imageFile) return;
