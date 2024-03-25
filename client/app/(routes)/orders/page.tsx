@@ -9,7 +9,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="md:container mx-auto px-4 mt-6 mb-8">
+      <div className="md:container mx-auto md:px-4 mt-6 mb-8">
         <OrdersFeed authenticatedUser={authenticatedUser!} />
       </div>
     </>
