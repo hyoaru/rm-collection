@@ -10,7 +10,7 @@ export default async function getProducts({ category }: GetProductsParams) {
 
   const query = supabase
     .from("products")
-    .select("*")
+    .select(`*, product_variants(*)`)
     .order("created_at", { ascending: true });
 
   switch (category) {
