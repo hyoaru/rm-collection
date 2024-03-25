@@ -5,13 +5,18 @@ import { useQuery } from "@tanstack/react-query";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
 import { queryAllOrderStatus } from "@constants/shared/queries";
 import { Skeleton } from "@components/ui/skeleton";
+import { cn } from "@lib/utils";
 
 type OrderStatusSelectProps = {
   statusFilter: string;
   setStatusFilter: React.Dispatch<React.SetStateAction<string>>;
+  classNames?: {
+    base?: string;
+    trigger?: string;
+  }
 };
 
-export default function OrderStatusSelect({ statusFilter, setStatusFilter }: OrderStatusSelectProps) {
+export default function OrderStatusSelect({ statusFilter, setStatusFilter, classNames }: OrderStatusSelectProps) {
   const { data: orderStatus, isPending } = useQuery(queryAllOrderStatus());
 
   return (
@@ -21,7 +26,7 @@ export default function OrderStatusSelect({ statusFilter, setStatusFilter }: Ord
           <Skeleton className="rounded-lg w-28 h-10" />
         ) : (
           <>
-            <SelectTrigger>
+            <SelectTrigger className={cn(classNames?.trigger)}>
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>

@@ -16,11 +16,11 @@ type ProductCardImageProps = {
   };
 };
 
-type ProductCardTitleProps = {
+type ProductCardTitleProps = HTMLAttributes<HTMLParagraphElement> & {
   children: React.ReactNode;
 };
 
-type ProductCardSubtextProps = {
+type ProductCardSubtextProps = HTMLAttributes<HTMLParagraphElement> & {
   children: React.ReactNode;
 };
 
@@ -59,12 +59,12 @@ ProductCard.Image = function ProductCardImage({ src, classNames }: ProductCardIm
   );
 };
 
-ProductCard.Title = function ProductCardTitle({ children }: ProductCardTitleProps) {
-  return <p className="font-bold text-primary text-lg break-words w-full capitalize sm:text-xl">{children}</p>;
+ProductCard.Title = function ProductCardTitle({ children, className }: ProductCardTitleProps) {
+  return <p className={cn("font-bold text-primary text-lg break-words w-full capitalize sm:text-xl", className)}>{children}</p>;
 };
 
-ProductCard.Subtext = function ProductCardSubtext({ children }: ProductCardSubtextProps) {
-  return <p className="opacity-50 text-sm mt-3 capitalize">{children}</p>;
+ProductCard.Subtext = function ProductCardSubtext({ children, className }: ProductCardSubtextProps) {
+  return <p className={cn("opacity-50 text-sm mt-3 capitalize", className)}>{children}</p>;
 };
 
 ProductCard.PriceGroup = function ProductCardPriceGroup({
