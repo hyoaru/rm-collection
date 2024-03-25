@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,8 +21,15 @@ export default function Page() {
     to: new Date(),
   });
 
-  const filteredOrders = useMemo(() => filterRecordsByDate(orders?.data ?? []), [orders, date]);
-  const filteredUsers = useMemo(() => filterRecordsByDate(users?.data ?? []), [users, date]);
+  const filterRecordsByDate = useCallback((records: any[]) => {
+    return records.filter((record) => {
+      const orderCreatedAt = dayjs(record.created_at).startOf("date");
+      return orderCreatedAt >= dayjs(date?.from) && orderCreatedAt <= dayjs(date?.to);
+    });
+  }, [date])
+
+  const filteredOrders = useMemo(() => filterRecordsByDate(orders?.data ?? []), [orders, filterRecordsByDate]);
+  const filteredUsers = useMemo(() => filterRecordsByDate(users?.data ?? []), [users, filterRecordsByDate]);
 
   const confirmedOrders = useMemo(() => {
     return filteredOrders.filter((order) => ["to-receive", "completed"].includes(order.order_status.label));
@@ -57,13 +64,6 @@ export default function Page() {
       .filter((order) => ["completed", "to-receive"].includes(order?.order_status?.label!))
       .splice(0, 5);
   }, [orders?.data]);
-
-  function filterRecordsByDate(records: any[]) {
-    return records.filter((record) => {
-      const orderCreatedAt = dayjs(record.created_at).startOf("date");
-      return orderCreatedAt >= dayjs(date?.from) && orderCreatedAt <= dayjs(date?.to);
-    });
-  }
 
   return (
     <>

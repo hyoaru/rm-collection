@@ -1,46 +1,61 @@
-'use client'
+"use client";
 
-import React, { useMemo, useState } from 'react'
-import { BarChart, CartesianGrid, XAxis, Tooltip, Bar, ResponsiveContainer } from 'recharts'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select"
-import dayjs from 'dayjs'
-import { OrderType } from '@constants/shared/types'
-import { groupBy } from '@lib/groupBy'
+import React, { useCallback, useMemo, useState } from "react";
+import { BarChart, CartesianGrid, XAxis, Tooltip, Bar, ResponsiveContainer } from "recharts";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
+import dayjs from "dayjs";
+import { OrderType } from "@constants/shared/types";
+import { groupBy } from "@lib/groupBy";
 
 type BarChartSakesThroughoutYearsProps = {
-  orders: OrderType[]
-}
+  orders: OrderType[];
+};
 
-export default function BarChartSalesThroughoutYears({orders} : BarChartSakesThroughoutYearsProps) {
-  const [year, setYear] = useState(dayjs().format('YYYY'))
+export default function BarChartSalesThroughoutYears({ orders }: BarChartSakesThroughoutYearsProps) {
+  const [year, setYear] = useState(dayjs().format("YYYY"));
 
-  function getOrdersGroupedByYearMonth(data: typeof orders) {
-    const ordersGroupedByYearMonth: any = {}
-    let yearList = []
+  const getOrdersGroupedByYearMonth = useCallback(
+    (data: typeof orders) => {
+      const ordersGroupedByYearMonth: any = {};
+      let yearList = [];
 
-    const ordersGroupedByYear = groupBy(data, ({ created_at }) => dayjs(created_at).year())
-    yearList = Object.keys(ordersGroupedByYear)
+      const ordersGroupedByYear = groupBy(data, ({ created_at }) => dayjs(created_at).year());
+      yearList = Object.keys(ordersGroupedByYear);
 
-    Object.entries(ordersGroupedByYear).forEach(([year, recordsByYear]) => {
-      const recordsGroupedByMonth = groupBy(recordsByYear, ({ created_at }) => dayjs(created_at).month())
-      ordersGroupedByYearMonth[year] = {}
-      Object.entries(recordsGroupedByMonth).forEach(([month, records]) => {
-        ordersGroupedByYearMonth[year][month] = {
-          label: dayjs().month(month as any).format('MMMM'),
-          totalSales: records.length
-        }
-      })
-    })
+      Object.entries(ordersGroupedByYear).forEach(([year, recordsByYear]) => {
+        const recordsGroupedByMonth = groupBy(recordsByYear, ({ created_at }) => dayjs(created_at).month());
+        ordersGroupedByYearMonth[year] = {};
+        Object.entries(recordsGroupedByMonth).forEach(([month, records]) => {
+          ordersGroupedByYearMonth[year][month] = {
+            label: dayjs()
+              .month(month as any)
+              .format("MMMM"),
+            totalSales: records.length,
+          };
+        });
+      });
 
-    return { ordersGroupedByYearMonth, yearList }
-  }
+      return { ordersGroupedByYearMonth, yearList };
+    },
+    []
+  );
 
   const { ordersGroupedByYearMonth, yearList } = useMemo(
-    () => getOrdersGroupedByYearMonth(orders), [orders, year]
-  )
+    () => getOrdersGroupedByYearMonth(orders),
+    [orders, getOrdersGroupedByYearMonth]
+  );
 
   const renderCustomBarLabel = ({ payload, x, y, width, height, value }: any) => {
-    return <text x={x + width / 2} y={y} fontSize={15} fill="#666" textAnchor="middle" dy={-10}>{`${value.toLocaleString()}`}</text>;
+    return (
+      <text
+        x={x + width / 2}
+        y={y}
+        fontSize={15}
+        fill="#666"
+        textAnchor="middle"
+        dy={-10}
+      >{`${value.toLocaleString()}`}</text>
+    );
   };
 
   return (
@@ -54,7 +69,7 @@ export default function BarChartSalesThroughoutYears({orders} : BarChartSakesThr
                 <SelectTrigger>
                   <SelectValue placeholder="Year" />
                 </SelectTrigger>
-                <SelectContent align={'end'}>
+                <SelectContent align={"end"}>
                   {yearList?.map((year) => (
                     <SelectItem key={`YearSelectItem-${year}`} value={year}>
                       {year}
@@ -66,23 +81,15 @@ export default function BarChartSalesThroughoutYears({orders} : BarChartSakesThr
           </div>
         </div>
 
-        <ResponsiveContainer width={'100%'} height={400}>
-          <BarChart
-            data={Object.values(ordersGroupedByYearMonth[year])}
-            margin={{ top: 60 }}
-          >
+        <ResponsiveContainer width={"100%"} height={400}>
+          <BarChart data={Object.values(ordersGroupedByYearMonth[year])} margin={{ top: 60 }}>
             <CartesianGrid strokeDasharray="1 3" />
             <XAxis dataKey="label" />
             <Tooltip />
-            <Bar
-              dataKey="totalSales"
-              fill="#18181b"
-              radius={[10, 10, 0, 0]}
-              label={renderCustomBarLabel}
-            />
+            <Bar dataKey="totalSales" fill="#18181b" radius={[10, 10, 0, 0]} label={renderCustomBarLabel} />
           </BarChart>
         </ResponsiveContainer>
       </div>
     </>
-  )
+  );
 }
