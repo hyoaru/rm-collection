@@ -115,6 +115,10 @@ export default async function Page({ params: { id: productId } }: ProductViewPar
 
                       <div id="productVariantSpecification" className="text-md">
                         <p>
+                          <span className="opacity-50 ">Stock locations: </span>
+                          <span className="">{product.stock_locations.join(', ')}</span>
+                        </p>
+                        <p>
                           <span className="opacity-50 ">Material: </span>
                           <span className="">{productVariant.material}</span>
                         </p>

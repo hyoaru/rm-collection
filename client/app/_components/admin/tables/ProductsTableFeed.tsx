@@ -28,7 +28,12 @@ export default function ProductsTableFeed({ authenticatedUser }: ProductsTableFe
     { accessorKey: "id" },
     { accessorKey: "name" },
     { accessorKey: "category" },
-    { accessorKey: "description" },
+    {
+      accessorFn: (row: any) =>
+        row.description.length > 100 ? `${row.description.slice(0, 100)}...` : row.description,
+      header: "description",
+    },
+    { accessorKey: "stock_locations" },
   ];
 
   return (
