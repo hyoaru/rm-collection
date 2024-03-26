@@ -7,6 +7,7 @@ type AddProductWithVariantParams = {
     description: string;
     category: string;
     thumbnail: FileList;
+    stockLocations: string[];
   };
   productVariant: {
     material: string;
@@ -26,6 +27,7 @@ export default async function addProductWithVariant({ product, productVariant }:
     description: product.description,
     category: product.category,
     thumbnail: product.thumbnail,
+    stockLocations: product.stockLocations,
   })
     .then(async ({ data: addProductData, error: addProductError }) => {
       if (addProductError || !addProductData) {

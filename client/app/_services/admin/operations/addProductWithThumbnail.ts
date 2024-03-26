@@ -7,6 +7,7 @@ type AddProductVariantImagesParams = {
   description: string;
   category: string;
   thumbnail: FileList;
+  stockLocations: string[];
 };
 
 export default async function addProductWithThumbnail({
@@ -14,11 +15,13 @@ export default async function addProductWithThumbnail({
   description,
   category,
   thumbnail,
+  stockLocations
 }: AddProductVariantImagesParams) {
   const { data, error } = await addProduct({
     name: name,
     description: description,
     category: category,
+    stockLocations: stockLocations,
   })
     .then(async ({ data: addProductData, error: addProductError }) => {
       if (addProductError || !addProductData) {
@@ -42,6 +45,7 @@ export default async function addProductWithThumbnail({
         description: description,
         category: category,
         thumbnail: thumbnail[0].name,
+        stock_locations: stockLocations,
       };
 
       await logAdminAction({

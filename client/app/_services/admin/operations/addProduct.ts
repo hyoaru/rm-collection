@@ -7,9 +7,10 @@ type AddProductParams = {
   name: string
   description: string
   category: string
+  stockLocations: string[]
 }
 
-export default async function addProduct({ name, description, category }: AddProductParams) {
+export default async function addProduct({ name, description, category, stockLocations }: AddProductParams) {
   const supabase = getServerClient()
 
   const { data, error } = await supabase
@@ -17,7 +18,8 @@ export default async function addProduct({ name, description, category }: AddPro
     .insert([{
       name: name,
       description: description,
-      category: category
+      category: category,
+      stock_locations: stockLocations,
     }])
     .select()
     .single()
