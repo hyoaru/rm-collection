@@ -8,21 +8,24 @@ import { Command as CommandPrimitive } from "cmdk";
 import { Badge } from "@components/ui/badge";
 import { Command, CommandGroup, CommandItem } from "@components/ui/command";
 import countriesJson from "@/public/countries.json";
+import { cn } from "@/app/_lib/utils";
 
 type CountriesMultiSelectProps = {
   selected: string[] | undefined;
   setSelected: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+  isDisabled?: boolean;
 };
 
-export default function CountriesMultiSelect({ selected, setSelected }: CountriesMultiSelectProps) {
+export default function CountriesMultiSelect({ selected, setSelected, isDisabled = false }: CountriesMultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
   const countryList = React.useMemo(() => countriesJson.map((country) => country.name), []);
+
   const handleUnselect = React.useCallback((country: string) => {
     setSelected((prev) => prev?.filter((s) => s !== country));
-  }, []);
+  }, [setSelected]);
 
   const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     const input = inputRef.current;
@@ -41,13 +44,18 @@ export default function CountriesMultiSelect({ selected, setSelected }: Countrie
     if (e.key === "Escape") {
       input!.blur();
     }
-  }, []);
+  }, [setSelected]);
 
   const selectables = countryList.filter((country) => !selected?.includes(country));
 
   return (
     <Command onKeyDown={handleKeyDown} className="overflow-visible bg-transparent">
-      <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div
+        className={cn(
+          "group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+          isDisabled ? "opacity-50" : ""
+        )}
+      >
         <div className="flex gap-1 flex-wrap">
           {selected?.map((country) => {
             return (
@@ -81,6 +89,7 @@ export default function CountriesMultiSelect({ selected, setSelected }: Countrie
             onFocus={() => setOpen(true)}
             placeholder="select-stock-locations..."
             className="ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1"
+            disabled={isDisabled}
           />
         </div>
       </div>

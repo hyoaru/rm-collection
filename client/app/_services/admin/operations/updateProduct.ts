@@ -8,14 +8,15 @@ type UpdateProductParams = {
   name: string;
   description: string;
   category: string;
+  stockLocations: string[];
 };
 
-export default async function updateProduct({ id, name, description, category }: UpdateProductParams) {
+export default async function updateProduct({ id, name, description, category, stockLocations }: UpdateProductParams) {
   const supabase = getServerClient();
 
   const { data, error } = await supabase
     .from("products")
-    .update({ name: name, description: description, category: category })
+    .update({ name: name, description: description, category: category, stock_locations: stockLocations })
     .eq("id", id)
     .select()
     .single();

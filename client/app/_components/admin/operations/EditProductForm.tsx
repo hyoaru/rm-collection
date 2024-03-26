@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -11,7 +12,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
-import { useCallback, useState } from "react";
 import { useToast } from "@components/ui/use-toast";
 import ProductListCombobox from "@components/admin/operations/shared/ProductListCombobox";
 import { Tables } from "@constants/base/database-types";
@@ -19,11 +19,13 @@ import { useUpdateProduct } from "@hooks/admin/operations/useUpdateProduct";
 import getProductThumbnailPublicUrl from "@services/shared/getProductThumbnailPublicUrl";
 import { EDIT_PRODUCT_FORM_SCHEMA as formSchema } from "@constants/admin/forms";
 import { PRODUCT_CATEGORIES as productCategories } from "@constants/base/constants";
+import CountriesMultiSelect from "@components/shared/CountriesMultiSelect";
 
 export default function EditProductForm() {
   const [selectedProduct, setSelectedProduct] = useState<Tables<"products"> | null>();
   const [productListComboboxValue, setProductListComboboxValue] = useState<string | null>();
   const [thumbnailSrc, setThumbnailSrc] = useState<StaticImageData | string | null>();
+  const [selectedStockLocations, setSelectedStockLocations] = useState<string[]>();
   const updateProductMutation = useUpdateProduct();
   const { toast } = useToast();
 
@@ -42,6 +44,7 @@ export default function EditProductForm() {
     setThumbnailSrc(null);
     setSelectedProduct(null);
     setProductListComboboxValue(null);
+    setSelectedStockLocations([])
 
     form.reset({
       name: "",
@@ -50,27 +53,49 @@ export default function EditProductForm() {
     });
   }, [form]);
 
-  const onSelectedProductChange = useCallback(async (product: Tables<"products"> | null) => {
-    (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
-    setSelectedProduct(product);
+  const onSelectedProductChange = useCallback(
+    async (product: Tables<"products"> | null) => {
+      (document.querySelector("#thumbnailInput") as HTMLInputElement).value = "";
+      setSelectedProduct(product);
 
-    if (product) {
-      form.reset({
-        name: product.name,
-        category: product.category,
-        description: product.description,
-      });
+      if (product) {
+        form.reset({
+          name: product.name,
+          category: product.category,
+          description: product.description,
+        });
 
-      const thumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id });
-      setThumbnailSrc(thumbnailPublicUrl);
-    } else {
-      emptyFormFields();
-    }
-  }, [form, emptyFormFields]);
+        setSelectedStockLocations(product.stock_locations)
+        const thumbnailPublicUrl = getProductThumbnailPublicUrl({ productId: product.id });
+        setThumbnailSrc(thumbnailPublicUrl);
+      } else {
+        emptyFormFields();
+      }
+    },
+    [form, emptyFormFields]
+  );
 
   const onSubmit = useCallback(
     async (data: z.infer<typeof formSchema>) => {
-      if (!selectedProduct) return;
+      if (!selectedProduct) {
+        toast({
+          variant: "destructive",
+          title: "No selected product",
+          description: "Please select a product.",
+        });
+
+        return;
+      }
+
+      if (!selectedStockLocations || !selectedStockLocations?.[0]) {
+        toast({
+          variant: "destructive",
+          title: "No selected stock location",
+          description: "Please select a stock location.",
+        });
+
+        return;
+      }
 
       await updateProductMutation
         .mutateAsync({
@@ -79,6 +104,7 @@ export default function EditProductForm() {
           description: data.description,
           category: data.category,
           thumbnail: data.thumbnail,
+          stockLocations: selectedStockLocations,
         })
         .then(async ({ error }) => {
           if (error) {
@@ -103,7 +129,7 @@ export default function EditProductForm() {
           }
         });
     },
-    [selectedProduct, emptyFormFields, toast, updateProductMutation]
+    [selectedProduct, emptyFormFields, toast, updateProductMutation, selectedStockLocations]
   );
 
   const onThumbnailChange = useCallback((imageFile: File | undefined) => {
@@ -211,6 +237,16 @@ export default function EditProductForm() {
                         </FormItem>
                       )}
                     />
+
+                    <div className="space-y-2 col-span-full">
+                      <FormLabel>Stock country locations</FormLabel>
+                      <CountriesMultiSelect 
+                        selected={selectedStockLocations} 
+                        setSelected={setSelectedStockLocations} 
+                        isDisabled={!selectedProduct}
+                      />
+                    </div>
+
                     <FormField
                       control={form.control}
                       name="description"

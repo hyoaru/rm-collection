@@ -8,6 +8,7 @@ type UpdateProductWithThumbnailParams = {
   description: string;
   category: string;
   thumbnail?: FileList;
+  stockLocations: string[];
 };
 
 export default async function updateProductWithThumbnail({
@@ -16,12 +17,14 @@ export default async function updateProductWithThumbnail({
   description,
   category,
   thumbnail,
+  stockLocations,
 }: UpdateProductWithThumbnailParams) {
   const { data, error } = await updateProduct({
     id: id,
     name: name,
     description: description,
     category: category,
+    stockLocations: stockLocations
   })
     .then(async ({ data: updateProductData, error: updateProductError }) => {
       if (updateProductError || !updateProductData) {
@@ -50,6 +53,7 @@ export default async function updateProductWithThumbnail({
         description,
         category,
         thumbnail: thumbnail?.[0]?.name,
+        stock_locations: stockLocations,
       };
 
       await logAdminAction({
