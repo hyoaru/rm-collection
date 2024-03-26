@@ -213,7 +213,6 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
-          order_shipping_id: string | null
           receiver_email: string
           receiver_first_name: string
           receiver_last_name: string
@@ -227,7 +226,6 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
-          order_shipping_id?: string | null
           receiver_email: string
           receiver_first_name: string
           receiver_last_name: string
@@ -241,7 +239,6 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
-          order_shipping_id?: string | null
           receiver_email?: string
           receiver_first_name?: string
           receiver_last_name?: string
@@ -253,13 +250,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "orders_shipping_order_shipping_id_fkey"
-            columns: ["order_shipping_id"]
-            isOneToOne: false
-            referencedRelation: "orders_shipping"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "orders_shipping_user_id_fkey"
             columns: ["user_id"]
@@ -332,6 +322,7 @@ export type Database = {
           description: string
           id: string
           name: string
+          stock_locations: string[]
           updated_at: string | null
         }
         Insert: {
@@ -340,6 +331,7 @@ export type Database = {
           description: string
           id?: string
           name: string
+          stock_locations: string[]
           updated_at?: string | null
         }
         Update: {
@@ -348,6 +340,7 @@ export type Database = {
           description?: string
           id?: string
           name?: string
+          stock_locations?: string[]
           updated_at?: string | null
         }
         Relationships: []
