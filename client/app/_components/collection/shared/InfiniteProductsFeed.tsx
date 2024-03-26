@@ -60,7 +60,7 @@ export default function InfiniteProductsFeed({ category, breadcrumbs }: Infinite
         </div>
       ) : collection && collection.length > 0 ? (
         <InfiniteScroll
-          className="py-4"
+          className="py-4 px-1 md:px-0"
           dataLength={collection.length}
           next={() => fetchNextPage()}
           hasMore={hasNextPage}

@@ -46,7 +46,7 @@ export default function OrderCard({ order, classNames }: OrderCardProps) {
         <BaseProductCard
           productId={order.product_variants?.product_id ?? "-"}
           className={cn(
-            "bg-white bg-opacity-5 shadow-[rgba(137,_24,_31,_0.05)_0px_15px_45px] transition-all duration-500 ease-in-out hover:scale-105 hover:bg-opacity-100",
+            "bg-white bg-opacity-5 shadow-[rgba(137,_24,_31,_0.03)_0px_3px_11px] transition-all duration-500 ease-in-out hover:scale-105 hover:bg-opacity-100 md:shadow-[rgba(137,_24,_31,_0.05)_0px_7px_22px]",
             classNames?.card.base
           )}
         >
