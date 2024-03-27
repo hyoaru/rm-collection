@@ -47,7 +47,7 @@ export default function AccountUpdatePasswordForm({ code }: AccountUpdatePasswor
           description: "Changes will take effect shortly.",
         });
 
-        router.push("/profile/account");
+        router.push("/profile");
         window.location.reload();
       }
     });
