@@ -526,31 +526,31 @@
     <div class="mx-auto my-10 w-10/12 font-serif">
       <div class="text-center">
         <p class="pt-5 text-sm text-red-800">Rea Mariz Collection Co. Ltd</p>
-        <p class="pb-5 pt-3 text-lg font-bold">Confirm account creation</p>
+        <p class="pb-5 pt-3 text-lg font-bold">Confirm change of email</p>
       </div>
       <div class="mx-auto w-11/12 px-10">
         <div class="border-t px-5 pt-8 text-sm">
           <div class="opacity-70 text-center">
             <p class="mb-4">
-              Your account with Rea Mariz Collection Virtual Store Platform has been successfully created.
+              Please confirm the update of your email from {{ .Email }} to {{ .NewEmail }} by clicking the button below on both of your email:
             </p>
             <p class="mt-4">
-              To activate your account and start enjoying our services, please click the "Confirm Account" button below:
+              If you did not request this change, please disregard this email.
             </p>
           </div>
           <div class="flex border-b py-8">
             <a href="{{ .ConfirmationURL }}" target="__blank" class="mx-auto">
-              <button class="rounded-lg bg-red-800 px-3 py-2 text-white">Confirm account</button>
+              <button class="rounded-lg bg-red-800 px-3 py-2 text-white">Confirm change</button>
             </a>
           </div>
 
           <div class="opacity-50 my-5 text-center text-xs">
             <p class="py-2">
               This link is valid for a limited time. If this link is expired, please go to
-              https://rea-mariz-collection.vercel.app and register again to get a new link.
+              https://rea-mariz-collection.vercel.app and opt to change email again to get a new link.
             </p>
             <p class="py-2">
-              If you do not see Activate account button above, please copy the following link and paste into your
+              If you do not see the email change confirm button above, please copy the following link and paste into your
               browser:
               <a href="{{ .ConfirmationURL }}" class="underline">{{ .ConfirmationURL }}</a>
             </p>
