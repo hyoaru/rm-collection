@@ -9,6 +9,7 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import ProductCard from "@components/collection/shared/ProductCard";
 import { Skeleton } from "@components/ui/skeleton";
 import { Tables } from "@constants/base/database-types";
+import { TicketX } from "lucide-react";
 
 type ProductType = Tables<"products"> & { product_variants: Tables<"product_variants">[] };
 
@@ -61,46 +62,62 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
 
   return (
     <>
-      <ScrollArea className="">
-        <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-14">
-          {(products as any).data.length >= 8 ? (
-            <>
-              {dividedProducts.map((productGroup, productGroupIndex) => {
-                const indexToTarget = productGroupIndex % 2 == 0 ? 1 : 0;
+      {(products as any).data ? (
+        <>
+          <ScrollArea className="">
+            <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-14">
+              {(products as any).data.length >= 8 ? (
+                <>
+                  {dividedProducts.map((productGroup, productGroupIndex) => {
+                    const indexToTarget = productGroupIndex % 2 == 0 ? 1 : 0;
 
-                return (
-                  <div className="flex flex-col gap-2 sm:gap-6" key={`ProductGroup-${productGroupIndex}`}>
-                    {productGroup.map((product, productIndex) => {
-                      return (
-                        <ProductCard
-                          key={`Product-${product.id}`}
-                          product={product}
-                          classNames={{
-                            image: productIndex == indexToTarget ? "h-[150px]" : "h-[175px]",
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {(products as any).data.map((product: ProductType) => (
-                <ProductCard
-                  key={`Product-${product.id}`}
-                  product={product}
-                  classNames={{
-                    image: "h-[175px]",
-                  }}
-                />
-              ))}
-            </>
-          )}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+                    return (
+                      <div className="flex flex-col gap-2 sm:gap-6" key={`ProductGroup-${productGroupIndex}`}>
+                        {productGroup.map((product, productIndex) => {
+                          return (
+                            <ProductCard
+                              key={`Product-${product.id}`}
+                              product={product}
+                              classNames={{
+                                image: productIndex == indexToTarget ? "h-[150px]" : "h-[175px]",
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  {(products as any).data.map((product: ProductType) => (
+                    <ProductCard
+                      key={`Product-${product.id}`}
+                      product={product}
+                      classNames={{
+                        image: "h-[175px]",
+                      }}
+                    />
+                  ))}
+                </>
+              )}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </>
+      ) : (
+        <>
+          <div className="flex flex-col items-center gap-6 my-12 opacity-50">
+            <div className="flex flex-col items-center p-10 bg-secondary rounded-full">
+              <TicketX size={150} className="opacity-30" />
+            </div>
+            <div className="text-center">
+              <p className="text-xl opacity-50 font-semibold md:text-2xl">Oops! Looks like this section is empty</p>
+              <p className="opacity-50 text-lg">Stay tuned for exciting updates to come!</p>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
