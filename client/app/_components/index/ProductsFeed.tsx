@@ -60,9 +60,10 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
     );
   }
 
+
   return (
     <>
-      {(products as any).data ? (
+      {(products as any).data?.[0] ? (
         <>
           <ScrollArea className="">
             <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-14">
