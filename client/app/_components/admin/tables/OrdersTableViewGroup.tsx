@@ -17,9 +17,9 @@ import { queryOrdersByGroup } from "@constants/shared/queries";
 import { default as OrderItem } from "@components/shared/OrderReceiptItem";
 import { Skeleton } from "@components/ui/skeleton";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
-import { Tables } from "@/app/_constants/base/database-types";
-import { DataTableRowActionType } from "@/app/_constants/admin/types";
-import DataTableRowActionItem from "./shared/DataTableRowActionItem";
+import { Tables } from "@constants/base/database-types";
+import { DataTableRowActionType } from "@constants/admin/types";
+import SetOrderStatusActionItem from "@components/admin/tables/SetOrderStatusActionItem";
 
 type OrderGroup = OrderType[] | null;
 
@@ -86,8 +86,8 @@ export default function OrdersTableViewGroup({
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     {!isOrderCancelled && rowActions?.map((rowAction) => (
-                      <DataTableRowActionItem
-                        key={`DataTableRowActionItem-${rowAction.label}`}
+                      <SetOrderStatusActionItem
+                        key={`SetOrderStatusActionItem-${rowAction.label}`}
                         authenticatedUser={authenticatedUser!}
                         rowAction={rowAction}
                         queryKeys={queryKeys}
