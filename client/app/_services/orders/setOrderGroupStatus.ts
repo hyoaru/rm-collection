@@ -2,6 +2,7 @@
 
 import { Tables } from "@constants/base/database-types";
 import { getServerClient } from "@services/supabase/getServerClient";
+import sendEmailOrderCancelledByUser from "@services/shared/email/sendEmailOrderCancelledByUser";
 
 const orderStatusMap = {
   "cancelled-by-user": 0,
@@ -25,6 +26,17 @@ export default async function setOrderGroupStatus({ order, status }: SetOrderGro
     .update({ status_id: orderStatusMap[status] })
     .eq("order_group", order.order_group)
     .select()
+    .then(async ({ data, error }) => {
+      if (error || !data) {
+        return { data, error };
+      }
+
+      if (status === "cancelled-by-user") {
+        await sendEmailOrderCancelledByUser({ orderGroup: data[0].order_group });
+      }
+
+      return { data, error };
+    });
 
   return { data, error };
 }

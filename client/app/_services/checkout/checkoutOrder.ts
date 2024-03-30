@@ -7,11 +7,14 @@ import { OrderType } from "@constants/shared/types";
 import updateProductVariantAvailability from "@services/checkout/updateProductVariantAvailability";
 import deleteCartItem from "@services/checkout/deleteCartItem";
 import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
+import sendEmailOrderPending from "@services/shared/email/sendEmailOrderPending";
 
 type CartItemType = Tables<"cart"> & {
-  product_variants: Tables<"product_variants"> & {
-    products: Tables<"products"> | null;
-  } | null;
+  product_variants:
+    | (Tables<"product_variants"> & {
+        products: Tables<"products"> | null;
+      })
+    | null;
 };
 
 type CheckoutOrderParams = {
@@ -87,10 +90,12 @@ export default async function checkoutOrder({ cartItems, order }: CheckoutOrderP
 
     if (data) {
       orderList.push(data);
-      response.data = orderList
+      response.data = orderList;
       response.error = processErrorToCrossSideSafe(error);
     }
   }
+
+  await sendEmailOrderPending({ orderGroup: orderList[0].order_group });
 
   return response;
 }

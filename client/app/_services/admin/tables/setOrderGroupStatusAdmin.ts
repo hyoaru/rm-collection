@@ -2,7 +2,10 @@
 
 import { Tables } from "@constants/base/database-types";
 import { getServerClient } from "@services/supabase/getServerClient";
-import logAdminAction from "../shared/logAdminAction";
+import logAdminAction from "@services/admin/shared/logAdminAction";
+import sendEmailOrderCancelledByManagement from "@services/shared/email/sendEmailOrderCancelledByManagement";
+import sendEmailOrderCancelledByUser from "@services/shared/email/sendEmailOrderCancelledByUser";
+import sendEmailOrderToReceive from "@services/shared/email/sendEmailOrderToReceive";
 
 const orderStatusMap = {
   "cancelled-by-user": 0,
@@ -29,6 +32,18 @@ export default async function setOrderGroupStatusAdmin({ order, status }: SetOrd
     .then(async ({ data, error }) => {
       if (error || !data) {
         return { data, error };
+      }
+
+      switch (status) {
+        case "cancelled-by-user":
+          await sendEmailOrderCancelledByUser({ orderGroup: data[0].order_group });
+          break;
+        case "cancelled-by-management":
+          await sendEmailOrderCancelledByManagement({ orderGroup: data[0].order_group });
+          break;
+        case "to-receive":
+          await sendEmailOrderToReceive({ orderGroup: data[0].order_group });
+          break;
       }
 
       await logAdminAction({
