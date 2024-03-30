@@ -36,6 +36,11 @@ export default function OrderViewGroupActionItem({ data, rowAction, queryKeys }:
   const { toast } = useToast();
 
   async function executeRowAction() {
+    toast({
+      title: "Operation in process...",
+      description: "This should take a second or two.",
+    });
+
     await rowAction.onClick(data).then(async ({ error }: any) => {
       console.log(error)
       if (error) {
