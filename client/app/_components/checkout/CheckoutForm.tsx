@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -54,7 +54,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     },
   });
 
-  async function validateInputs(data: z.infer<typeof formSchema>) {
+  const validateInputs = useCallback((data: z.infer<typeof formSchema>) => {
     if (!cart?.data?.[0]) {
       toast({
         variant: "destructive",
@@ -66,11 +66,16 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     } else {
       setIsModalOpen(true);
     }
-  }
+  }, [cart, toast])
 
   async function onSubmit() {
     const data = form.getValues();
-    const orderGroup = nanoid(36)
+    const orderGroup = nanoid(36);
+
+    toast({
+      title: "Opening transaction receipt.",
+      description: "This will take a second or two.",
+    });
 
     await checkoutOrderMutation
       .mutateAsync({
@@ -180,7 +185,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="shippingZipCode"
@@ -232,7 +237,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                 type={"submit"}
                 size={"lg"}
                 className={"w-full md:w-3/12"}
-                disabled={isModalOpen || isReceiptModalOpen}
+                disabled={isLoading || isModalOpen || isReceiptModalOpen}
               >
                 Checkout
               </Button>
@@ -276,13 +281,9 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
         </form>
       </Form>
 
-      {orders && (
-        <>
-          <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
-            <MultipleOrderReceiptDialogContent orders={orders} />
-          </Dialog>
-        </>
-      )}
+      <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+        <MultipleOrderReceiptDialogContent orders={orders} />
+      </Dialog>
     </>
   );
 }

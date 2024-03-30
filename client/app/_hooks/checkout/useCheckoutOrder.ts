@@ -7,10 +7,12 @@ export function useCheckoutOrder() {
   return useMutation({
     mutationFn: checkoutOrder,
     onSuccess: async () => {
-      queryClient.invalidateQueries({
-        queryKey: ["orders", "product_variants", "products", "orders_shipping", "cart"],
-        refetchType: "all",
-      });
+      ["orders", "product_variants", "products", "orders_shipping", "cart"].forEach((queryKey) => {
+        queryClient.invalidateQueries({
+          queryKey: [queryKey],
+          refetchType: "all",
+        });
+      })
     },
   });
 }
