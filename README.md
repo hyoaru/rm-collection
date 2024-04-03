@@ -8,6 +8,8 @@ A virtual storefront for a jewelry wholesaler based in Japan. Explore exquisite 
 ![](images/2.png)
 ![](images/3.png)
 ![](images/4.png)
+![](images/5.png)
+![](images/6.png)
 
 ## Technologies used
 This project is built on cutting-edge technologies to provide a modern and efficient platform for both customers and wholesalers.
