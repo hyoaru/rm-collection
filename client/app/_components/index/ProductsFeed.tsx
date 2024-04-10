@@ -34,7 +34,7 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
     return (
       <>
         <ScrollArea className="">
-          <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-14">
+          <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-12">
             {productCardSkeletons.map((skeletonGroup, skeletonGroupIndex) => {
               const indexToTarget = skeletonGroupIndex % 2 == 0 ? 1 : 0;
 
@@ -44,9 +44,7 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
                     return (
                       <Skeleton
                         key={`Skeleton-${skeletonGroupIndex}-${index}`}
-                        className={`rounded-xl w-[300px] shadow-[rgba(137,_24,_31,_0.03)_0px_15px_45px] ${
-                          index == indexToTarget ? "h-[225px]" : "h-[250px]"
-                        }`}
+                        className={`rounded-xl h-[150px] w-[335px] sm:h-[200px] sm:w-[375px] shadow-[rgba(137,_24,_31,_0.03)_0px_15px_45px] `}
                       />
                     );
                   })}
@@ -66,21 +64,22 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
       {(products as any).data?.[0] ? (
         <>
           <ScrollArea className="">
-            <div className="flex w-max gap-2 py-4 sm:gap-4 lg:py-14">
-              {(products as any).data.length >= 8 ? (
+            <div className="flex w-max gap-2 py-4 sm:gap-6 lg:py-10">
+              {(products as any).data.length >= 5 ? (
                 <>
                   {dividedProducts.map((productGroup, productGroupIndex) => {
                     const indexToTarget = productGroupIndex % 2 == 0 ? 1 : 0;
 
                     return (
                       <div className="flex flex-col gap-2 sm:gap-6" key={`ProductGroup-${productGroupIndex}`}>
-                        {productGroup.map((product, productIndex) => {
+                        {productGroup.map((product) => {
                           return (
                             <ProductCard
                               key={`Product-${product.id}`}
                               product={product}
                               classNames={{
-                                image: productIndex == indexToTarget ? "h-[150px]" : "h-[175px]",
+                                image: "h-[150px] md:h-[200px]",
+                                base: "w-[335px] md:w-[375px]"
                               }}
                             />
                           );
@@ -96,7 +95,8 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
                       key={`Product-${product.id}`}
                       product={product}
                       classNames={{
-                        image: "h-[175px]",
+                        image: "h-[150px] md:h-[200px]",
+                        base: "w-[335px] md:w-[375px]"
                       }}
                     />
                   ))}

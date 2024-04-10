@@ -9,9 +9,9 @@ import { Button } from "@components/ui/button";
 export default function Home() {
   return (
     <>
-      <div className="space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-24">
+      <div className="space-y-12 sm:space-y-16 md:space-y-20 lg:space-y-32">
         <div className="mx-auto py-4 ">
-          <div className="relative rounded-xl overflow-hidden shadow-[rgba(137,_24,_31,_0.15)_0px_30px_90px]">
+          <div className="relative rounded-xl overflow-hidden shadow-[rgba(137,_24,_31,_0.05)_0px_30px_90px]">
             <div className="absolute bottom-0 right-0 m-8 z-10 xs:m-6 sm:m-10 lg:m-14">
               <div className="flex mb-4">
                 <Button
@@ -40,7 +40,7 @@ export default function Home() {
         </div>
 
         <div className="mx-auto sm:w-11/12 lg:w-9/12">
-          <p className="text-center text-base text-primary whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
+          <p className="text-center text-base whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
             {"Find Your Signature Style \nin Our Array of Curated Collections."}
           </p>
           <div className="flex flex-col justify-center mt-4 gap-2 sm:gap-6 md:flex-row lg:mt-10">
@@ -62,7 +62,7 @@ export default function Home() {
               <CategoryNavigationCard
                 link="/collection/necklaces"
                 imageSrc={"/landing-page/images/necklace-thumbnail.png"}
-                classNames={{ image: "h-[100px] w-full md:h-[250px]", base: "w-full" }}
+                classNames={{ image: "h-[100px] w-full md:h-[200px]", base: "w-full" }}
                 label={"Necklaces"}
               />
             </div>
@@ -70,7 +70,7 @@ export default function Home() {
               <CategoryNavigationCard
                 link="/collection/rings"
                 imageSrc={"/landing-page/images/ring-thumbnail.png"}
-                classNames={{ image: "h-[100px] w-full md:h-[250px]", base: "w-full" }}
+                classNames={{ image: "h-[100px] w-full md:h-[200px]", base: "w-full" }}
                 label={"Rings"}
               />
               <CategoryNavigationCard
@@ -84,23 +84,23 @@ export default function Home() {
         </div>
 
         <div className="mx-auto">
-          <p className="text-center text-base text-primary whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-4xl">
-            {"Discover the latest additions to the collection."}
+          <p className="text-center text-base whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
+            {"Discover the Latest Additions to the Collection."}
           </p>
 
           <LatestProductsFeed />
         </div>
 
         <div className="mx-auto">
-          <p className="text-center text-base text-primary whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-4xl">
-            {"Explore our range of discounted deals."}
+          <p className="text-center text-base whitespace-pre-line xs:whitespace-normal xs:text-lg sm:text-xl lg:text-2xl">
+            {"Explore Our Range of Discounted Deals."}
           </p>
 
           <DiscountedProductsFeed />
         </div>
 
-        <div className="mx-auto text-center text-primary">
-          <p className="text-lg font-bold text-primary whitespace-pre-line xs:whitespace-normal sm:text-xl lg:text-4xl">
+        <div className="mx-auto text-center">
+          <p className="text-lg font-bold whitespace-pre-line xs:whitespace-normal sm:text-xl lg:text-2xl">
             {"Rea Mariz Collection Co.Ltd."}
           </p>
           <p className="text-xs sm:text-sm lg:mt-1 lg:text-xl">
