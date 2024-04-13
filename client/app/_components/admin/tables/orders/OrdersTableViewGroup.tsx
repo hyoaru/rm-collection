@@ -3,23 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 
 // App imports
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-
-import { Button } from "@components/ui/button";
-import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import { OrderType } from "@constants/shared/types";
-import { queryOrdersByGroup } from "@constants/shared/queries";
-import { default as OrderItem } from "@components/shared/OrderReceiptItem";
-import { Skeleton } from "@components/ui/skeleton";
+import OrderStatusActionsDropdownContent from "@components/admin/tables/orders/OrderStatusActionsDropdownContent";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
-import { Tables } from "@constants/base/database-types";
+import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu";
+import { default as OrderItem } from "@components/shared/OrderReceiptItem";
+import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
+import { queryOrdersByGroup } from "@constants/shared/queries";
 import { DataTableRowActionType } from "@constants/admin/types";
-import SetOrderStatusActionItem from "@components/admin/tables/orders/SetOrderStatusActionItem";
+import { Tables } from "@constants/base/database-types";
+import { OrderType } from "@constants/shared/types";
+import { Skeleton } from "@components/ui/skeleton";
+import { Button } from "@components/ui/button";
 
 type OrderGroup = OrderType[] | null;
 
@@ -39,7 +33,7 @@ export default function OrdersTableViewGroup({
   const [isOpen, setIsOpen] = useState(false);
   const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup(row?.order_group, isOpen));
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
-  const isOrderCancelled = ['cancelled-by-user', 'cancelled-by-management'].includes(row?.order_status?.label!)
+  const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
 
   return (
     <>
@@ -83,18 +77,13 @@ export default function OrdersTableViewGroup({
                       Set order status
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    {!isOrderCancelled && rowActions?.map((rowAction) => (
-                      <SetOrderStatusActionItem
-                        key={`SetOrderStatusActionItem-${rowAction.label}`}
-                        authenticatedUser={authenticatedUser!}
-                        rowAction={rowAction}
-                        queryKeys={queryKeys}
-                        data={row}
-                      />
-                    ))}
-                  </DropdownMenuContent>
+                  {!isOrderCancelled && (
+                    <OrderStatusActionsDropdownContent
+                      order={row}
+                      queryKeys={queryKeys}
+                      authenticatedUser={authenticatedUser}
+                    />
+                  )}
                 </DropdownMenu>
               </div>
             </div>
