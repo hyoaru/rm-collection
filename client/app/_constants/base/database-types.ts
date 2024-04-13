@@ -219,6 +219,8 @@ export type Database = {
           receiver_phone_number: string
           shipping_address: string
           shipping_country: string
+          shipping_courier: string | null
+          shipping_tracking_id: string | null
           shipping_zip_code: string
           updated_at: string | null
           user_id: string | null
@@ -232,6 +234,8 @@ export type Database = {
           receiver_phone_number: string
           shipping_address: string
           shipping_country: string
+          shipping_courier?: string | null
+          shipping_tracking_id?: string | null
           shipping_zip_code: string
           updated_at?: string | null
           user_id?: string | null
@@ -245,6 +249,8 @@ export type Database = {
           receiver_phone_number?: string
           shipping_address?: string
           shipping_country?: string
+          shipping_courier?: string | null
+          shipping_tracking_id?: string | null
           shipping_zip_code?: string
           updated_at?: string | null
           user_id?: string | null
