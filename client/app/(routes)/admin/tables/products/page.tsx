@@ -3,7 +3,7 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 
 // App imports
 import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader";
-import ProductsTableFeed from "@components/admin/tables/ProductsTableFeed";
+import ProductsTableFeed from "@components/admin/tables/products/ProductsTableFeed";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
 import { queryAllProducts} from "@constants/shared/queries";
 

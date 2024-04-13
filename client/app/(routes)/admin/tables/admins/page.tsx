@@ -4,8 +4,8 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 // App imports
 import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader";
 import { queryUsers } from "@constants/admin/queries";
-import AdminsTableFeed from "@components/admin/tables/AdminsTableFeed";
-import { getUserStateServer } from "@/app/_services/authentication/getUserStateServer";
+import AdminsTableFeed from "@components/admin/tables/admins/AdminsTableFeed";
+import { getUserStateServer } from "@services/authentication/getUserStateServer";
 
 export default async function page() {
   const queryClient = new QueryClient();

@@ -19,7 +19,7 @@ import { Skeleton } from "@components/ui/skeleton";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
 import { Tables } from "@constants/base/database-types";
 import { DataTableRowActionType } from "@constants/admin/types";
-import SetOrderStatusActionItem from "@components/admin/tables/SetOrderStatusActionItem";
+import SetOrderStatusActionItem from "@components/admin/tables/orders/SetOrderStatusActionItem";
 
 type OrderGroup = OrderType[] | null;
 

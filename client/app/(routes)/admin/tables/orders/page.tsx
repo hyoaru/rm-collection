@@ -3,7 +3,7 @@ import React from "react";
 // App imports
 import AdminSectionHeader from "@components/admin/shared/AdminSectionHeader";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
-import OrdersTableFeed from "@components/admin/tables/OrdersTableFeed";
+import OrdersTableFeed from "@components/admin/tables/orders/OrdersTableFeed";
 
 export default async function Page() {
   const authenticatedUser = await getUserStateServer();

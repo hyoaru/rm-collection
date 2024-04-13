@@ -4,11 +4,11 @@ import React from "react";
 
 // App imports
 import { BASE_ADMIN_ROLES as baseAdminRoles } from "@constants/admin/base";
-import OrdersTable from "@components/admin/tables/OrdersTable";
+import OrdersTable from "@components/admin/tables/orders/OrdersTable";
 import { Tables } from "@constants/base/database-types";
 import { formatTimestampTable } from "@lib/formatTimestamp";
 import getOrderListCsv from "@services/admin/tables/getOrderListCsv";
-import OrdersTableViewGroup from "@components/admin/tables/OrdersTableViewGroup";
+import OrdersTableViewGroup from "@components/admin/tables/orders/OrdersTableViewGroup";
 import setOrderGroupStatusAdmin from "@services/admin/tables/setOrderGroupStatusAdmin";
 
 type OrdersTableProps = {
