@@ -34,11 +34,14 @@ export const USERS_BASE_FORM_SCHEMA = {
   lastName: z.string().trim().min(2).max(100),
 }
 
-export const ORDERS_BASE_FORM_SCHEMA = {
-  shippingAddress: z.string().trim().min(10).max(400),
+export const ORDERS_SHIPPING_BASE_FORM_SCHEMA = {
   receiverEmail: z.string().trim().toLowerCase().email().min(8),
   receiverFirstName: z.string().trim().min(2).max(100),
   receiverLastName: z.string().trim().min(2).max(100),
-  shippingZipCode: z.string().trim().min(2).max(50),
   receiverPhoneNumber: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+  shippingAddress: z.string().trim().min(10).max(400),
+  shippingZipCode: z.string().trim().min(2).max(50),
+  shippingCourier: z.string().trim(),
+  shippingTrackingId: z.string().trim(),
+  shippingFee: z.coerce.number(),
 }

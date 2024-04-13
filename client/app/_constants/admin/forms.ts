@@ -5,7 +5,8 @@ import {
   PRODUCTS_BASE_FORM_SCHEMA, 
   PRODUCT_VARIANTS_BASE_FORM_SCHEMA, 
   USERS_BASE_FORM_SCHEMA, 
-  MAX_FILE_SIZE_IN_MB 
+  MAX_FILE_SIZE_IN_MB, 
+  ORDERS_SHIPPING_BASE_FORM_SCHEMA
 } from "@constants/base/forms"
 
 export const ADD_PRODUCT_FORM_SCHEMA = z.object({
@@ -76,4 +77,10 @@ export const ADD_SUB_ADMIN_FORM_SCHEMA = z.object({
   firstName: USERS_BASE_FORM_SCHEMA.firstName,
   lastName: USERS_BASE_FORM_SCHEMA.lastName,
   role: z.string(),
+})
+
+export const EDIT_SHIPPING_DETAILS_FORM_SCHEMA = z.object({
+  shippingCourier: ORDERS_SHIPPING_BASE_FORM_SCHEMA.shippingCourier,
+  shippingFee: ORDERS_SHIPPING_BASE_FORM_SCHEMA.shippingFee,
+  shippingTrackingId: ORDERS_SHIPPING_BASE_FORM_SCHEMA.shippingTrackingId,
 })
