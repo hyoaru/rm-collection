@@ -9,7 +9,6 @@ import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 import { default as OrderItem } from "@components/shared/OrderReceiptItem";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import { queryOrdersByGroup } from "@constants/shared/queries";
-import { DataTableRowActionType } from "@constants/admin/types";
 import { Tables } from "@constants/base/database-types";
 import { OrderType } from "@constants/shared/types";
 import { Skeleton } from "@components/ui/skeleton";
@@ -19,7 +18,6 @@ type OrderGroup = OrderType[] | null;
 
 type OrdersTableViewGroupProps = {
   order: OrderType;
-  rowActions: DataTableRowActionType[];
   authenticatedUser: Tables<"users">;
   queryKeys: any[][];
 };
@@ -27,7 +25,6 @@ type OrdersTableViewGroupProps = {
 export default function OrdersTableViewGroup({
   queryKeys,
   authenticatedUser,
-  rowActions,
   order: row,
 }: OrdersTableViewGroupProps) {
   const [isOpen, setIsOpen] = useState(false);

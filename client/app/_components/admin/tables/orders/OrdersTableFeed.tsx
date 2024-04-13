@@ -3,45 +3,17 @@
 import React from "react";
 
 // App imports
-import { BASE_ADMIN_ROLES as baseAdminRoles } from "@constants/admin/base";
 import OrdersTable from "@components/admin/tables/orders/OrdersTable";
 import { Tables } from "@constants/base/database-types";
 import { formatTimestampTable } from "@lib/formatTimestamp";
 import getOrderListCsv from "@services/admin/tables/getOrderListCsv";
 import OrdersTableViewGroup from "@components/admin/tables/orders/OrdersTableViewGroup";
-import setOrderGroupStatusAdmin from "@services/admin/tables/setOrderGroupStatusAdmin";
 
 type OrdersTableProps = {
   authenticatedUser: Tables<"users"> | null;
 };
 
 export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps) {
-  const rowActions = [
-    {
-      label: "Order: pending",
-      onClick: (order: Tables<"orders">) => setOrderGroupStatusAdmin({ order: order, status: "pending" }),
-      isDestructive: false,
-      adminRolesPermitted: baseAdminRoles
-    },
-    {
-      label: "Order: to-ship",
-      onClick: (order: Tables<"orders">) => setOrderGroupStatusAdmin({ order: order, status: "to-ship" }),
-      isDestructive: false,
-      adminRolesPermitted: baseAdminRoles
-    },
-    {
-      label: "Order: to-receive",
-      onClick: (order: Tables<"orders">) => setOrderGroupStatusAdmin({ order: order, status: "to-receive" }),
-      isDestructive: false,
-      adminRolesPermitted: baseAdminRoles
-    },
-    {
-      label: "Order: cancel",
-      onClick: (order: Tables<"orders">) => setOrderGroupStatusAdmin({ order: order, status: "cancelled-by-management" }),
-      isDestructive: true,
-      adminRolesPermitted: baseAdminRoles
-    }
-  ]
 
   const columnDefinition: any[] = [
     { accessorKey: 'id' },
@@ -74,7 +46,6 @@ export default function OrdersTableFeed({ authenticatedUser }: OrdersTableProps)
         order={info.getValue()} 
         authenticatedUser={authenticatedUser!}
         queryKeys={queryKeys}
-        rowActions={rowActions}
       />
     </>)
   })
