@@ -41,7 +41,7 @@ export const ORDERS_SHIPPING_BASE_FORM_SCHEMA = {
   receiverPhoneNumber: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
   shippingAddress: z.string().trim().min(10).max(400),
   shippingZipCode: z.string().trim().min(2).max(50),
-  shippingCourier: z.string().trim(),
-  shippingTrackingId: z.string().trim(),
+  shippingCourier: z.string().trim().min(2),
+  shippingTrackingId: z.string().trim().min(4),
   shippingFee: z.coerce.number(),
 }
