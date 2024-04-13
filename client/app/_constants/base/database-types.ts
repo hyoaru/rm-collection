@@ -220,7 +220,7 @@ export type Database = {
           shipping_address: string
           shipping_country: string
           shipping_courier: string | null
-          shipping_fee: string | null
+          shipping_fee: number | null
           shipping_tracking_id: string | null
           shipping_zip_code: string
           updated_at: string | null
@@ -236,7 +236,7 @@ export type Database = {
           shipping_address: string
           shipping_country: string
           shipping_courier?: string | null
-          shipping_fee?: string | null
+          shipping_fee?: number | null
           shipping_tracking_id?: string | null
           shipping_zip_code: string
           updated_at?: string | null
@@ -252,7 +252,7 @@ export type Database = {
           shipping_address?: string
           shipping_country?: string
           shipping_courier?: string | null
-          shipping_fee?: string | null
+          shipping_fee?: number | null
           shipping_tracking_id?: string | null
           shipping_zip_code?: string
           updated_at?: string | null

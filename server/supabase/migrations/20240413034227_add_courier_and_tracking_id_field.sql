@@ -5,4 +5,4 @@ ALTER TABLE IF EXISTS public.orders_shipping
 ADD COLUMN IF NOT EXISTS shipping_tracking_id TEXT;
 
 ALTER TABLE IF EXISTS public.orders_shipping
-ADD COLUMN IF NOT EXISTS shipping_fee TEXT;
+ADD COLUMN IF NOT EXISTS shipping_fee NUMERIC;
