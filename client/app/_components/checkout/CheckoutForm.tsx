@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import * as z from "zod";
 import { useQuery } from "@tanstack/react-query";
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 
 // App imports
 import { Input } from "@components/ui/input";
@@ -70,7 +70,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
 
   async function onSubmit() {
     const data = form.getValues();
-    const orderGroup = nanoid(36);
+    const orderGroup = uuidv4();
 
     toast({
       title: "Opening transaction receipt.",

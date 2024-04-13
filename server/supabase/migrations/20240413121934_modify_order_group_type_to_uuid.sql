@@ -1,0 +1,3 @@
+ALTER TABLE IF EXISTS public.orders
+ALTER COLUMN order_group SET DATA TYPE UUID USING order_group::UUID,
+ALTER COLUMN order_group SET NOT NULL;
