@@ -26,14 +26,15 @@ export default function OrderStatusActionsDropdownContent({
       {baseAdminRoles.includes(authenticatedUser.role) && ["to-ship"].includes(order.order_status?.label!) && (
         <OrderStatusActionItemToReceive order={order} queryKeys={queryKeys} />
       )}
-      {baseAdminRoles.includes(authenticatedUser.role) && (
-        <OrderStatusActionItem
-          label={"Order: cancel"}
-          action={() => setOrderGroupStatusAdmin({ order: order, status: "cancelled-by-management" })}
-          queryKeys={queryKeys}
-          isDestructive={true}
-        />
-      )}
+      {baseAdminRoles.includes(authenticatedUser.role) &&
+        ["pending", "to-ship"].includes(order.order_status?.label!) && (
+          <OrderStatusActionItem
+            label={"Order: cancel"}
+            action={() => setOrderGroupStatusAdmin({ order: order, status: "cancelled-by-management" })}
+            queryKeys={queryKeys}
+            isDestructive={true}
+          />
+        )}
     </DropdownMenuContent>
   );
 }
