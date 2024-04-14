@@ -13,8 +13,8 @@ export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
     <>
       <div className="flex text-sm items-center justify-start">
         {breadcrumbs &&
-          breadcrumbs.map((breadcrumb) => (
-            <p className="me-1 opacity-50 hover:opacity-80" key={`Breadcrumb-${breadcrumb.label}`}>
+          breadcrumbs.map((breadcrumb, index) => (
+            <p className="me-1 opacity-50 hover:opacity-80" key={`Breadcrumb-${breadcrumb.label}-${index}`}>
               <Link href={breadcrumb.link} className="capitalize">{`${breadcrumb.label} /`}</Link>
             </p>
           ))}
