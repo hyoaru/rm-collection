@@ -3,7 +3,7 @@ import React from "react";
 // App imports
 import setOrderGroupStatusAdmin from "@services/admin/tables/setOrderGroupStatusAdmin";
 import OrderStatusActionItemToReceive from "@components/admin/tables/orders/OrderStatusActionItemToReceive";
-import OrderStatusActionItem from "@components/admin/tables/orders/OrderStatusActionItem";
+import OrderStatusActionItem from "@components/shared/OrderStatusActionItem";
 import { DropdownMenuContent, DropdownMenuLabel } from "@components/ui/dropdown-menu";
 import { BASE_ADMIN_ROLES as baseAdminRoles } from "@constants/admin/base";
 import { OrderType } from "@constants/shared/types";

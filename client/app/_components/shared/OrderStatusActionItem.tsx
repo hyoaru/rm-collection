@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 // App imports
-import { Tables } from "@constants/base/database-types";
-import { OrderType } from "@constants/shared/types";
 import { DropdownMenuItem } from "@components/ui/dropdown-menu";
 import { useToast } from "@components/ui/use-toast";
 
@@ -92,7 +90,7 @@ export default function OrderStatusActionItem({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Proceed on executing this order status action?</AlertDialogTitle>
-            <AlertDialogDescription>{`Order status action to execute: '${label}'`}</AlertDialogDescription>
+            <AlertDialogDescription>{`Confirm order status operation: '${label}'`}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
