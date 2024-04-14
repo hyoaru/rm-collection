@@ -45,3 +45,12 @@ export const ORDERS_SHIPPING_BASE_FORM_SCHEMA = {
   shippingTrackingId: z.string().trim().min(4),
   shippingFee: z.coerce.number(),
 }
+
+export const SHIPPING_ADDRESS_BOOK_FORM_SCHEMA = {
+  receiverEmail: z.string().trim().toLowerCase().email().min(8),
+  receiverFirstName: z.string().trim().min(2).max(100),
+  receiverLastName: z.string().trim().min(2).max(100),
+  receiverPhoneNumber: z.string().refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+  shippingAddress: z.string().trim().min(10).max(400),
+  shippingZipCode: z.string().trim().min(2).max(50),
+}

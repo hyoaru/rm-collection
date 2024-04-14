@@ -343,6 +343,56 @@ export type Database = {
         }
         Relationships: []
       }
+      shipping_address_book: {
+        Row: {
+          created_at: string | null
+          id: string
+          receiver_email: string
+          receiver_first_name: string
+          receiver_last_name: string
+          receiver_phone_number: string
+          shipping_address: string
+          shipping_country: string
+          shipping_zip_code: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          receiver_email: string
+          receiver_first_name: string
+          receiver_last_name: string
+          receiver_phone_number: string
+          shipping_address: string
+          shipping_country: string
+          shipping_zip_code: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          receiver_email?: string
+          receiver_first_name?: string
+          receiver_last_name?: string
+          receiver_phone_number?: string
+          shipping_address?: string
+          shipping_country?: string
+          shipping_zip_code?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipping_address_book_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           created_at: string | null
