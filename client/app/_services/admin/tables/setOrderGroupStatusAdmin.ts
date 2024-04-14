@@ -4,11 +4,10 @@ import { Tables } from "@constants/base/database-types";
 import { getServerClient } from "@services/supabase/getServerClient";
 import logAdminAction from "@services/admin/shared/logAdminAction";
 import sendEmailOrderCancelledByManagement from "@services/shared/email/sendEmailOrderCancelledByManagement";
-import sendEmailOrderCancelledByUser from "@services/shared/email/sendEmailOrderCancelledByUser";
 import sendEmailOrderToReceive from "@services/shared/email/sendEmailOrderToReceive";
+import cancelOrderGroup from "@services/shared/cancelOrderGroup";
 
 const orderStatusMap = {
-  "cancelled-by-user": 0,
   "cancelled-by-management": 1,
   pending: 2,
   "to-ship": 3,
@@ -29,21 +28,9 @@ export default async function setOrderGroupStatusAdmin({ order, status }: SetOrd
     .update({ status_id: orderStatusMap[status] })
     .eq("order_group", order.order_group)
     .select()
-    .then(async ({ data, error }) => {
-      if (error || !data) {
-        return { data, error };
-      }
-
-      switch (status) {
-        case "cancelled-by-user":
-          await sendEmailOrderCancelledByUser({ orderGroup: data[0].order_group });
-          break;
-        case "cancelled-by-management":
-          await sendEmailOrderCancelledByManagement({ orderGroup: data[0].order_group });
-          break;
-        case "to-receive":
-          await sendEmailOrderToReceive({ orderGroup: data[0].order_group });
-          break;
+    .then(async ({ data: updateOrderGroupStatusData, error: updateOrderGroupStatusError }) => {
+      if (updateOrderGroupStatusError || !updateOrderGroupStatusData) {
+        return { data: updateOrderGroupStatusData, error: updateOrderGroupStatusError };
       }
 
       await logAdminAction({
@@ -51,7 +38,19 @@ export default async function setOrderGroupStatusAdmin({ order, status }: SetOrd
         details: JSON.stringify({ status, order }),
       });
 
-      return { data, error };
+      let response;
+      switch (status) {
+        case "cancelled-by-management":
+          await sendEmailOrderCancelledByManagement({ orderGroup: updateOrderGroupStatusData[0].order_group });
+          const { data, error } = await cancelOrderGroup(order.order_group);
+          response = { data, error };
+          break;
+        case "to-receive":
+          await sendEmailOrderToReceive({ orderGroup: updateOrderGroupStatusData[0].order_group });
+          break;
+      }
+
+      return { data: response?.data, error: response?.error };
     });
 
   return { data, error };
