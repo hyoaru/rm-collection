@@ -4,7 +4,6 @@ import { getServerClient } from "@services/supabase/getServerClient";
 import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
 
 type AddOrderShippingParams = {
-  userId: string;
   receiverEmail: string;
   receiverFirstName: string;
   receiverLastName: string;
@@ -15,7 +14,6 @@ type AddOrderShippingParams = {
 };
 
 export default async function addOrderShipping({
-  userId,
   receiverEmail,
   receiverFirstName,
   receiverLastName,
@@ -29,7 +27,6 @@ export default async function addOrderShipping({
   const { data, error } = await supabase
     .from("orders_shipping")
     .insert([{
-      user_id: userId,
       receiver_email: receiverEmail,
       receiver_first_name: receiverFirstName,
       receiver_last_name: receiverLastName,

@@ -37,7 +37,6 @@ export default async function checkoutOrder({ cartItems, order }: CheckoutOrderP
   const response: { data: typeof orderList | null; error: any } = { data: null, error: null };
 
   const { data: orderShippingData, error: orderShippingError } = await addOrderShipping({
-    userId: order.userId,
     receiverEmail: order.receiverEmail,
     receiverFirstName: order.receiverFirstName,
     receiverLastName: order.receiverLastName,
