@@ -28,8 +28,6 @@ export default function ProductView({ productId, authenticatedUser }: ProductVie
   const { data: randomProducts } = useQuery(queryRandomProductsByProductId(productId));
   const productVariants = product?.data?.product_variants?.filter((variant) => variant.is_displayed === true);
 
-  console.log(randomProducts)
-
   if (product?.error || randomProducts?.error) {
     return notFound();
   }
