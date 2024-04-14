@@ -52,7 +52,7 @@ export default function ProductPostingsTableFeed({ authenticatedUser }: ProductP
       getListCsv={getProductPostingListCsv}
       tableName={"rmc-product-postings-list"}
       queryOptions={() => queryProductVariants({visibility: "shown"})}
-      queryKeys={[["product_variants"], ["product_variants", {visibility: "shown"}]]}
+      queryKeys={[["product_variants"], ["product_variants", {visibility: "shown"}], ['products'], ['cart']]}
     />
   );
 }

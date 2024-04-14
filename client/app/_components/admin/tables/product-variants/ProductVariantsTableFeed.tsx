@@ -59,7 +59,7 @@ export default function ProductVariantsTableFeed({ authenticatedUser }: ProductP
       getListCsv={getProductVariantListCsv}
       tableName={"rmc-product-variants-list"}
       queryOptions={queryAllProductVariants}
-      queryKeys={[["product_variants"]]}
+      queryKeys={[["product_variants"], ['products'], ['cart']]}
     />
   );
 }
