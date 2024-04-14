@@ -28,7 +28,7 @@ export default function OrderReceiptItem({ order }: OrderReceiptItemProps) {
       <div className="col-span-9">
         <div className="flex h-full w-full">
           <div className="my-auto">
-            <p className="text-xs text-muted-foreground">{`Order #${order?.id}`}</p>
+            {/* <p className="text-xs text-muted-foreground">{`Order #${order?.id}`}</p> */}
             <p className="font-semibold text-sm">{order?.product_variants?.products?.name ?? "deleted-product"}</p>
             <p className="text-xs">
               {order?.quantity} unit - {order?.product_variants?.material}-{order?.product_variants?.material_property}{" "}

@@ -7,6 +7,7 @@ import { Check, X } from "lucide-react";
 import { OrderReceiptDialogContent } from "@components/shared/OrderReceiptDialogContent";
 import OrderReceiptItem from "@components/shared/OrderReceiptItem";
 import { OrderType } from "@constants/shared/types";
+import { Button } from "@components/ui/button";
 
 type MultipleOrderReceiptDialogContentProps = {
   orders: OrderType[] | null;
@@ -16,7 +17,7 @@ export default function MultipleOrderReceiptDialogContent({ orders }: MultipleOr
   const totalCost = orders?.reduce((accumulator, currentOrder) => accumulator + (currentOrder.total_price ?? 0), 0);
 
   return (
-    <OrderReceiptDialogContent userId={orders?.[0].user_id ?? "deleted-user"}>
+    <OrderReceiptDialogContent orderGroup={orders?.[0].order_group ?? "-"}>
       <OrderReceiptDialogContent.BodyHeader>
         <>
           {`Order ${orders?.[0].order_status?.label.toLowerCase().replaceAll("-", " ")} `}
@@ -35,6 +36,13 @@ export default function MultipleOrderReceiptDialogContent({ orders }: MultipleOr
         totalCost={totalCost ?? 0}
         deliveryFee={"Quoted after order"}
       />
+      {(orders?.[0] && ['pending'].includes(orders?.[0].order_status?.label!)) && (
+        <>
+          <Button type="button" variant={"outline"} className="w-full mt-4 text-primary font-bold hover:text-primary">
+            Proceed with payment
+          </Button>
+        </>
+      )}
     </OrderReceiptDialogContent>
   );
 }

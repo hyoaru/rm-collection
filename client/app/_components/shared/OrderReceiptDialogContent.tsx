@@ -12,10 +12,11 @@ import { Button } from "@components/ui/button";
 import ReadOnlyFormControl from "@components/shared/ReadOnlyFormControl";
 import { useToast } from "@components/ui/use-toast";
 import { Tables } from "@constants/base/database-types";
+import { OrderType } from "@constants/shared/types";
 
 type OrderReceiptDialogContentProps = {
   children: React.ReactNode;
-  userId: string;
+  orderGroup: string;
 };
 
 type OrderReceiptDialogContentBodyHeaderProps = {
@@ -34,7 +35,7 @@ type OrderReceiptDialogContentBodyFooterProps = {
   deliveryFee: number | string;
 };
 
-export const OrderReceiptDialogContent = ({ children, userId }: OrderReceiptDialogContentProps) => {
+export const OrderReceiptDialogContent = ({ children, orderGroup }: OrderReceiptDialogContentProps) => {
   const { toast } = useToast();
 
   const [{ isLoading }, downloadReceipt] = useToJpeg({
@@ -63,17 +64,23 @@ export const OrderReceiptDialogContent = ({ children, userId }: OrderReceiptDial
     <DialogContent className={isLoading ? "hidden" : "block"}>
       <div id="receiptBody">
         <DialogHeader>
-          <DialogTitle className={"text-sm font-normal text-center"}>{`User #${userId}`}</DialogTitle>
+          <DialogTitle
+            className={"text-sm font-normal text-center"}
+          >{`Order group #${orderGroup}`}</DialogTitle>
         </DialogHeader>
         {children}
       </div>
-      <DialogFooter className={"flex items-center mt-4"}>
-        <Button onClick={downloadReceipt} className={"w-full"}>
-          Download receipt
-        </Button>
-        <DialogClose asChild>
-          <Button>Close</Button>
-        </DialogClose>
+      <DialogFooter>
+        <div className="w-full mt-2 space-y-4">
+          <div className={"flex items-center gap-4"}>
+            <Button onClick={downloadReceipt} className={"w-full"}>
+              Download receipt
+            </Button>
+            <DialogClose asChild>
+              <Button>Close</Button>
+            </DialogClose>
+          </div>
+        </div>
       </DialogFooter>
     </DialogContent>
   );
@@ -83,9 +90,7 @@ const BodyHeader = ({ children }: OrderReceiptDialogContentBodyHeaderProps) => {
   return (
     <div className="px-5 space-y-1">
       <div className="flex justify-center items-center ">
-        <span className="font-bold text-2xl text-center align-middle">
-          {children}
-        </span>
+        <span className="font-bold text-2xl text-center align-middle">{children}</span>
       </div>
       <div className="text-center text-xs opacity-80">Thank you for choosing Rea Mariz Collection Co.Ltd</div>
     </div>
@@ -104,6 +109,9 @@ const Body = ({ children, user, ordersShipping }: OrderReceiptDialogContentBodyP
     { label: "Order date", value: dayjs(ordersShipping.created_at) },
     { label: "Delivery", value: "Home deliver" },
     { label: "Payment", value: "Bank transfer / E-wallet transfer" },
+    { label: "Shipping courier", value: ordersShipping.shipping_courier ?? "Pending" },
+    { label: "Shipping tracking id", value: ordersShipping.shipping_tracking_id ?? "Pending" },
+    { label: "Shipping fee", value: ordersShipping.shipping_fee ?? "Pending" },
   ];
 
   return (
@@ -113,7 +121,7 @@ const Body = ({ children, user, ordersShipping }: OrderReceiptDialogContentBodyP
           <div className="h-full flex w-full justify-center items-center"></div>
         </div>
       </div>
-      <ScrollArea className={"h-[250px]"} id="scrollArea">
+      <ScrollArea className={"h-[250px] rounded-xl overflow-hidden"} id="scrollArea">
         <div className="space-y-2">
           {orderDetailsReadOnlyFormData.map((orderDetailsFormData) => (
             <ReadOnlyFormControl
@@ -162,11 +170,7 @@ const Body = ({ children, user, ordersShipping }: OrderReceiptDialogContentBodyP
   );
 };
 
-const BodyFooter = ({
-  subtotal,
-  totalCost,
-  deliveryFee,
-}: OrderReceiptDialogContentBodyFooterProps) => {
+const BodyFooter = ({ subtotal, totalCost, deliveryFee }: OrderReceiptDialogContentBodyFooterProps) => {
   return (
     <div className="mt-4 rounded-xl border p-3 px-5 text-sm">
       <div className="flex items-center">
@@ -186,7 +190,6 @@ const BodyFooter = ({
     </div>
   );
 };
-
 
 OrderReceiptDialogContent.Body = Body;
 OrderReceiptDialogContent.BodyHeader = BodyHeader;
