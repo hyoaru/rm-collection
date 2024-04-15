@@ -12,11 +12,16 @@ import { CountryType } from "@constants/base/types";
 
 type CountriesComboboxProps = {
   setSelectedCountry: React.Dispatch<React.SetStateAction<CountryType | null | undefined>>;
+  defaultValue?: string;
   isDisabled?: boolean;
 };
 
-export default function CountriesCombobox({ setSelectedCountry, isDisabled = false }: CountriesComboboxProps) {
-  const [value, setValue] = useState<string | null | undefined>();
+export default function CountriesCombobox({
+  setSelectedCountry,
+  defaultValue,
+  isDisabled = false,
+}: CountriesComboboxProps) {
+  const [value, setValue] = useState<string | null | undefined>(defaultValue);
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,10 +38,10 @@ export default function CountriesCombobox({ setSelectedCountry, isDisabled = fal
             {value ? (
               <div className="flex items-center gap-4">
                 <FlagComponent
-                  country={countryList.find((country) => country.name.toLowerCase() === value)?.code!}
+                  country={countryList.find((country) => country.name.toLowerCase() === value.toLowerCase())?.code!}
                   countryName={value}
                 />
-                <span>{countryList.find((country) => country.name.toLowerCase() === value)?.name!}</span>
+                <span>{countryList.find((country) => country.name.toLowerCase() === value.toLowerCase())?.name!}</span>
               </div>
             ) : (
               "Select country..."
@@ -63,12 +68,17 @@ export default function CountriesCombobox({ setSelectedCountry, isDisabled = fal
                   value={country.name}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? null : currentValue);
-                    setSelectedCountry(country);
+                    setSelectedCountry(currentValue == value ? null : country);
                     setOpen(false);
                   }}
                 >
                   <FlagComponent country={country.code} countryName={country.name} />
-                  <Check className={cn("mr-2 h-4 w-4", value === country.name ? "opacity-100" : "opacity-0")} />
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value?.toLowerCase() === country.name.toLowerCase() ? "opacity-100" : "opacity-0"
+                    )}
+                  />
                   {country.name}
                 </CommandItem>
               ))}
