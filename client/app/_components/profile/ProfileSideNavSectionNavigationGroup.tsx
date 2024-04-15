@@ -24,7 +24,7 @@ export default function ProfileSideNavSectionNavigationGroup({
   
   return (
     <>
-      <div className="py-5 px-5  xl:pl-8 xl:pr-10 flex flex-row overflow-x-auto rounded-lg sm:flex-col">
+      <div className="px-5 flex flex-row overflow-x-auto rounded-lg sm:flex-col xl:pl-8 xl:pr-10">
         <small className="mb-3 text-primary-foreground text-lg font-bold capitalize hidden sm:flex sm:items-center sm:gap-2">
           <PanelLeftOpen size={20} strokeWidth={2} />
           {sectionTitle}

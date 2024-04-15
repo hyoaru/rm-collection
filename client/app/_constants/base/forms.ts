@@ -46,7 +46,7 @@ export const ORDERS_SHIPPING_BASE_FORM_SCHEMA = {
   shippingFee: z.coerce.number(),
 }
 
-export const SHIPPING_ADDRESS_BOOK_FORM_SCHEMA = {
+export const SHIPPING_ADDRESS_BOOK_BASE_FORM_SCHEMA = {
   receiverEmail: z.string().trim().toLowerCase().email().min(8),
   receiverFirstName: z.string().trim().min(2).max(100),
   receiverLastName: z.string().trim().min(2).max(100),
