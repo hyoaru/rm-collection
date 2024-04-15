@@ -2,11 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import * as z from "zod";
 
 // App imports
-import useAddShippingAddresss from "@hooks/profile/shipping-address-book/add-address/useAddShippingAddress";
+import useAddShippingAddress from "@hooks/profile/shipping-address-book/add-address/useAddShippingAddress";
 import { ADD_SHIPPING_ADDRESS_FORM_SCHEMA as formSchema } from "@constants/profile/shipping-address-book/forms";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
 import CountriesCombobox from "@components/shared/CountriesCombobox";
@@ -25,7 +25,7 @@ type AddShippingAddressFormProps = {
 
 export default function AddShippingAddressForm({ authenticatedUser }: AddShippingAddressFormProps) {
   const [selectedCountry, setSelectedCountry] = useState<CountryType | null>();
-  const addShippingAddressMutation = useAddShippingAddresss();
+  const addShippingAddressMutation = useAddShippingAddress();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,34 +40,37 @@ export default function AddShippingAddressForm({ authenticatedUser }: AddShippin
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    await addShippingAddressMutation
-      .mutateAsync({
-        userId: authenticatedUser.id,
-        receiverEmail: data.receiverEmail,
-        receiverFirstName: data.receiverFirstName,
-        receiverLastName: data.receiverLastName,
-        receiverPhoneNumber: data.receiverPhoneNumber,
-        shippingCountry: selectedCountry?.name!,
-        shippingAddress: data.shippingAddress,
-        shippingZipCode: data.shippingZipCode,
-      })
-      .then(async ({ data, error }) => {
-        if (error) {
-          toast({
-            variant: "destructive",
-            title: "An error has occured.",
-            description: "Please try again later.",
-          });
-        } else {
-          toast({
-            title: "Shipping address has been successfully added.",
-            description: "Changes should take effect immediately.",
-          });
-          form.reset();
-        }
-      });
-  }
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof formSchema>) => {
+      await addShippingAddressMutation
+        .mutateAsync({
+          userId: authenticatedUser.id,
+          receiverEmail: data.receiverEmail,
+          receiverFirstName: data.receiverFirstName,
+          receiverLastName: data.receiverLastName,
+          receiverPhoneNumber: data.receiverPhoneNumber,
+          shippingCountry: selectedCountry?.name!,
+          shippingAddress: data.shippingAddress,
+          shippingZipCode: data.shippingZipCode,
+        })
+        .then(async ({ data, error }) => {
+          if (error) {
+            toast({
+              variant: "destructive",
+              title: "An error has occured.",
+              description: "Please try again later.",
+            });
+          } else {
+            toast({
+              title: "Shipping address has been successfully added.",
+              description: "Changes should take effect immediately.",
+            });
+            form.reset();
+          }
+        });
+    },
+    [addShippingAddressMutation, authenticatedUser, selectedCountry, toast, form]
+  );
 
   return (
     <>

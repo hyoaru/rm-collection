@@ -9,6 +9,7 @@ import getAllOrderStatus from "@services/shared/getAllOrderStatus";
 import getProductById from "@services/shared/getProductById";
 import getCart from "@services/shared/getCart";
 import getOrdersByGroup from "@/app/_services/shared/getOrdersByGroup";
+import getShippingAddressBookByUser from "@/app/_services/shared/getShippingAddressBookByUser";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -70,6 +71,13 @@ export function queryOrdersByGroup(orderGroup: string, isEnabled?: boolean) {
   return queryOptions({
     queryKey: ["orders", { order_group: orderGroup }],
     queryFn: () => getOrdersByGroup(orderGroup),
-    enabled: isEnabled ?? true
+    enabled: isEnabled ?? true,
+  });
+}
+
+export function queryShippingAddressBookByUser(userId: string) {
+  return queryOptions({
+    queryKey: ["shipping-address-book"],
+    queryFn: () => getShippingAddressBookByUser(userId),
   });
 }

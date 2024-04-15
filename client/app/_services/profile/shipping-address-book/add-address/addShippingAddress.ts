@@ -1,6 +1,7 @@
 "use server";
 
 import { getServerClient } from "@services/supabase/getServerClient";
+import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
 
 type AddShippingAddressParams = {
   userId: string;
@@ -40,5 +41,5 @@ export default async function addShippingAddress({
     .select()
     .single();
 
-  return { data, error };
+  return { data, error: processErrorToCrossSideSafe(error) };
 }

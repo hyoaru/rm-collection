@@ -12,9 +12,10 @@ import { CountryType } from "@constants/base/types";
 
 type CountriesComboboxProps = {
   setSelectedCountry: React.Dispatch<React.SetStateAction<CountryType | null | undefined>>;
+  isDisabled?: boolean;
 };
 
-export default function CountriesCombobox({ setSelectedCountry }: CountriesComboboxProps) {
+export default function CountriesCombobox({ setSelectedCountry, isDisabled = false }: CountriesComboboxProps) {
   const [value, setValue] = useState<string | null | undefined>();
   const [open, setOpen] = useState(false);
 
@@ -22,16 +23,20 @@ export default function CountriesCombobox({ setSelectedCountry }: CountriesCombo
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+            disabled={isDisabled}
+          >
             {value ? (
               <div className="flex items-center gap-4">
                 <FlagComponent
                   country={countryList.find((country) => country.name.toLowerCase() === value)?.code!}
                   countryName={value}
                 />
-                <span>
-                  {countryList.find((country) => country.name.toLowerCase() === value)?.name!}
-                </span>
+                <span>{countryList.find((country) => country.name.toLowerCase() === value)?.name!}</span>
               </div>
             ) : (
               "Select country..."
@@ -75,7 +80,7 @@ export default function CountriesCombobox({ setSelectedCountry }: CountriesCombo
   );
 }
 
-const FlagComponent = ({ country, countryName }: { country: string; countryName: string }) => {
+export const FlagComponent = ({ country, countryName }: { country: string; countryName: string }) => {
   const Flag = flags[country as keyof typeof flags];
 
   return (
