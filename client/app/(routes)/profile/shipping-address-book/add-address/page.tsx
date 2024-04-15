@@ -1,7 +1,7 @@
 import React from "react";
-import { SectionHeader } from "@/app/_components/shared/SectionHeader";
+import { SectionHeader } from "@components/shared/SectionHeader";
 import { getUserStateServer } from "@services/authentication/getUserStateServer";
-import AddShippingAddressForm from "@/app/_components/profile/shipping-address-book/AddShippingAddressForm";
+import AddShippingAddressForm from "@components/profile/shipping-address-book/add-address/AddShippingAddressForm";
 
 export default async function page() {
   const authenticatedUser = await getUserStateServer();
