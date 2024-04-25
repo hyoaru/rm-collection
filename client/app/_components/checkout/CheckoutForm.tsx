@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
+import { Info } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -9,37 +10,43 @@ import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
 // App imports
-import { Input } from "@components/ui/input";
-import { useToast } from "@components/ui/use-toast";
+import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle } from "@components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
+import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
+import ShippingAddressBookCombobox from "@components/shared/ShippingAddressBookCombobox";
+import { ADD_ORDER_FORM_SCHEMA as formSchema } from "@constants/checkout/forms";
+import CountriesCombobox from "@components/shared/CountriesCombobox";
+import { useCheckoutOrder } from "@hooks/checkout/useCheckoutOrder";
+import { PhoneInput } from "@components/shared/PhoneInput";
+import { CartItemType } from "@constants/collection/types";
 import { ScrollArea } from "@components/ui/scroll-area";
+import { Tables } from "@constants/base/database-types";
+import { queryCart } from "@constants/shared/queries";
+import { OrderType } from "@constants/shared/types";
+import { useToast } from "@components/ui/use-toast";
+import { CountryType } from "@constants/base/types";
 import { Textarea } from "@components/ui/textarea";
 import CartItem from "@components/shared/CartItem";
+import countryList from "@/public/countries.json";
 import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
-import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle } from "@components/ui/dialog";
-import { ADD_ORDER_FORM_SCHEMA as formSchema } from "@constants/checkout/forms";
-import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
-import CountriesCombobox from "@components/shared/CountriesCombobox";
-import { CountryType } from "@constants/base/types";
-import { queryCart } from "@constants/shared/queries";
-import { CartItemType } from "@constants/collection/types";
-import { useCheckoutOrder } from "@hooks/checkout/useCheckoutOrder";
-import { Tables } from "@constants/base/database-types";
-import { OrderType } from "@constants/shared/types";
-import { PhoneInput } from "@components/shared/PhoneInput";
 
 type CheckoutFormProps = {
   authenticatedUser: Tables<"users">;
 };
 
 export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
+  const [selectedShippingAddress, setSelectedShippingAddress] = useState<Tables<"shipping_address_book"> | null>();
+  const [shipingAddressBookComboboxValue, setShipingAddressBookComboboxValue] = useState<string | null>();
+  const [selectedCountry, setSelectedCountry] = useState<CountryType | null>();
+  const [isFormInputsDisabled, setIsFormInputsDisabled] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
+  const [orders, setOrders] = useState<OrderType[] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { data: cart, isLoading } = useQuery(queryCart());
   const checkoutOrderMutation = useCheckoutOrder();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [orders, setOrders] = useState<OrderType[] | null>(null);
-  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<CountryType | null>();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,19 +61,63 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     },
   });
 
-  const validateInputs = useCallback((data: z.infer<typeof formSchema>) => {
-    if (!cart?.data?.[0]) {
-      toast({
-        variant: "destructive",
-        title: "Cart cannot be empty.",
-        description: "Add products to checkout first.",
-      });
+  const validateInputs = useCallback(
+    (data: z.infer<typeof formSchema>) => {
+      if (!cart?.data?.[0]) {
+        toast({
+          variant: "destructive",
+          title: "Cart cannot be empty.",
+          description: "Add products to checkout first.",
+        });
 
-      return;
-    } else {
-      setIsModalOpen(true);
-    }
-  }, [cart, toast])
+        return;
+      } else {
+        setIsModalOpen(true);
+      }
+    },
+    [cart, toast]
+  );
+
+  const emptyFormFields = useCallback(() => {
+    form.reset({
+      receiverEmail: "",
+      receiverFirstName: "",
+      receiverLastName: "",
+      receiverPhoneNumber: "",
+      shippingAddress: "",
+      shippingZipCode: "",
+    });
+    setShipingAddressBookComboboxValue(null);
+    setSelectedShippingAddress(null);
+    setSelectedCountry(null);
+  }, [form]);
+
+  const onSelectedShippingAddressChange = useCallback(
+    (shippingAddress: Tables<"shipping_address_book"> | null) => {
+      setSelectedShippingAddress(shippingAddress);
+      setSelectedCountry(
+        countryList.find((country) => {
+          return country.name.toLowerCase() === shippingAddress?.shipping_country.toLowerCase();
+        })
+      );
+
+      if (shippingAddress) {
+        form.reset({
+          receiverEmail: shippingAddress.receiver_email,
+          receiverFirstName: shippingAddress.receiver_first_name,
+          receiverLastName: shippingAddress.receiver_last_name,
+          receiverPhoneNumber: shippingAddress.receiver_phone_number,
+          shippingAddress: shippingAddress.shipping_address,
+          shippingZipCode: shippingAddress.shipping_zip_code,
+        });
+        setIsFormInputsDisabled(true);
+      } else {
+        emptyFormFields();
+        setIsFormInputsDisabled(false);
+      }
+    },
+    [form, emptyFormFields]
+  );
 
   async function onSubmit() {
     const data = form.getValues();
@@ -103,8 +154,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
           setIsModalOpen(false);
         } else {
           setOrders(data);
-          form.reset();
-
+          emptyFormFields();
           setIsModalOpen(false);
           setIsReceiptModalOpen(true);
         }
@@ -117,9 +167,21 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
         <form onSubmit={form.handleSubmit(validateInputs)}>
           <div className="grid grid-cols-12 gap-y-10 mx-auto md:gap-10 xl:w-11/12 ">
             <div className="col-span-12 md:col-span-6 space-y-6">
-              <div className="">
+              <div className="space-y-2">
                 <p className="font-bold mb-2">Shipping information</p>
                 <div className="grid grid-cols-2 gap-2">
+                  <div className="col-span-full my-2">
+                    <ShippingAddressBookCombobox
+                      userId={authenticatedUser.id}
+                      value={shipingAddressBookComboboxValue}
+                      setValue={setShipingAddressBookComboboxValue}
+                      onSelectedValueChange={onSelectedShippingAddressChange}
+                    />
+                    <div className="mt-2 flex items-center gap-2 opacity-50">
+                      <Info size={18} />
+                      <p className="text-xs">Select shipping address or manually enter shipping information</p>
+                    </div>
+                  </div>
                   <FormField
                     control={form.control}
                     name="receiverEmail"
@@ -127,7 +189,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       <FormItem className={"col-span-full"}>
                         <FormLabel>Receiver email</FormLabel>
                         <FormControl>
-                          <Input placeholder="receiver@email.com" {...field} />
+                          <Input {...field} placeholder="receiver@email.com" disabled={isFormInputsDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -141,7 +203,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       <FormItem>
                         <FormLabel>Receiver first name</FormLabel>
                         <FormControl>
-                          <Input placeholder="receiver-first-name" {...field} />
+                          <Input {...field} placeholder="receiver-first-name" disabled={isFormInputsDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -155,7 +217,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       <FormItem>
                         <FormLabel>Receiver last name</FormLabel>
                         <FormControl>
-                          <Input placeholder="receiver-last-name" {...field} />
+                          <Input {...field} placeholder="receiver-last-name" disabled={isFormInputsDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -164,7 +226,12 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
 
                   <div className="col-span-full space-y-2">
                     <Label>Shipping country</Label>
-                    <CountriesCombobox setSelectedCountry={setSelectedCountry} />
+                    <CountriesCombobox
+                      key={`CountriesCombobox-SelectedShippingAddressCountry-${selectedShippingAddress?.shipping_country}`}
+                      defaultValue={selectedShippingAddress?.shipping_country}
+                      setSelectedCountry={setSelectedCountry}
+                      isDisabled={isFormInputsDisabled}
+                    />
                   </div>
 
                   <FormField
@@ -178,7 +245,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                             {...field}
                             rows={2}
                             placeholder="full-shipping-address"
-                            disabled={!selectedCountry}
+                            disabled={!selectedCountry || isFormInputsDisabled}
                           />
                         </FormControl>
                         <FormMessage />
@@ -193,7 +260,11 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       <FormItem className="col-span-full">
                         <FormLabel>Shipping zip code</FormLabel>
                         <FormControl>
-                          <Input {...field} placeholder="shipping-zip-code" disabled={!selectedCountry} />
+                          <Input
+                            {...field}
+                            placeholder="shipping-zip-code"
+                            disabled={!selectedCountry || isFormInputsDisabled}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -207,7 +278,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                       <FormItem className="col-span-full">
                         <FormLabel>Receiver phone number</FormLabel>
                         <FormControl>
-                          <PhoneInput {...field} placeholder="receiver-phone-number" />
+                          <PhoneInput {...field} placeholder="receiver-phone-number" disabled={isFormInputsDisabled} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -218,7 +289,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
             </div>
             <div className="col-span-12 md:col-span-6">
               <p className="font-bold mb-2">Your cart</p>
-              <ScrollArea className={"h-[27rem] border rounded-lg p-2 border-x-0"}>
+              <ScrollArea className={"h-[33rem] border rounded-lg p-2 border-x-0"}>
                 {cart?.data?.[0] &&
                   cart?.data.map((cartItem) => (
                     <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} />
@@ -251,7 +322,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="col-span-2">
                     <p className="font-bold mb-2">Your cart</p>
-                    <ScrollArea className={"h-[20rem] border rounded-lg p-2 border-x-0"}>
+                    <ScrollArea className={"h-[22rem] border rounded-lg p-2 border-x-0"}>
                       {cart?.data?.[0] &&
                         cart?.data.map((cartItem) => (
                           <CartItem key={`CartItem-${cartItem.id}`} cartItem={cartItem as CartItemType} />
