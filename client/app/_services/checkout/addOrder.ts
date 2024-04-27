@@ -6,6 +6,7 @@ import processErrorToCrossSideSafe from "@lib/processErrorToCrossSideSafe";
 type AddOrderParams = {
   userId: string;
   orderShippingId: string;
+  orderBillingId: string;
   productVariantId: string;
   quantity: number;
   price: number;
@@ -16,6 +17,7 @@ type AddOrderParams = {
 export default async function addOrder({
   userId,
   orderShippingId,
+  orderBillingId,
   productVariantId,
   quantity,
   price,
@@ -29,6 +31,7 @@ export default async function addOrder({
     .insert([{
       user_id: userId,
       order_shipping_id: orderShippingId,
+      order_billing_id: orderBillingId,
       product_variant_id: productVariantId,
       quantity: quantity,
       price: price,
