@@ -138,6 +138,7 @@ export type Database = {
           discount_rate: number
           discounted_price: number | null
           id: string
+          order_billing_id: string | null
           order_group: string
           order_shipping_id: string | null
           price: number
@@ -153,6 +154,7 @@ export type Database = {
           discount_rate: number
           discounted_price?: number | null
           id?: string
+          order_billing_id?: string | null
           order_group: string
           order_shipping_id?: string | null
           price: number
@@ -168,6 +170,7 @@ export type Database = {
           discount_rate?: number
           discounted_price?: number | null
           id?: string
+          order_billing_id?: string | null
           order_group?: string
           order_shipping_id?: string | null
           price?: number
@@ -179,6 +182,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "orders_order_billing_id_fkey"
+            columns: ["order_billing_id"]
+            isOneToOne: false
+            referencedRelation: "orders_billing"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "orders_order_shipping_id_fkey"
             columns: ["order_shipping_id"]
@@ -208,6 +218,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      orders_billing: {
+        Row: {
+          checkout_id: string | null
+          created_at: string | null
+          id: string
+          request_reference_id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          checkout_id?: string | null
+          created_at?: string | null
+          id?: string
+          request_reference_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          checkout_id?: string | null
+          created_at?: string | null
+          id?: string
+          request_reference_id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       orders_shipping: {
         Row: {
