@@ -12,7 +12,7 @@ export default async function getOrdersPaginated({ pageParam: page = 0, userId }
 
   const { data, error, count } = await supabase
     .from("orders")
-    .select(`*, users(*), order_status(*), product_variants(*, products(*)), orders_shipping(*)`, { count: "exact" })
+    .select(`*, users(*), order_status(*), product_variants(*, products(*)), orders_shipping(*), orders_billing(*)`, { count: "exact" })
     .eq('user_id', userId)
     .order("created_at", { ascending: false })
     .range(from, to);
