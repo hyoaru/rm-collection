@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS orders_shipping (
 );
 
 ALTER TABLE IF EXISTS public.orders
-ADD COLUMN order_shipping_id UUID REFERENCES public.orders_shipping ON DELETE SET NULL;
+ADD COLUMN IF NOT EXISTS order_shipping_id UUID REFERENCES public.orders_shipping ON DELETE SET NULL;
 
 -- Policies
 

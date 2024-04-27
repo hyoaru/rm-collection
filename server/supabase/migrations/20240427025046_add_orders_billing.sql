@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS orders_billing (
 );
 
 ALTER TABLE IF EXISTS public.orders
-ADD COLUMN order_billing_id UUID REFERENCES public.orders_billing ON DELETE SET NULL;
+ADD COLUMN IF NOT EXISTS order_billing_id UUID REFERENCES public.orders_billing ON DELETE SET NULL;
 
 -- Policies
 

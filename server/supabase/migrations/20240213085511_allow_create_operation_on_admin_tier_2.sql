@@ -7,7 +7,7 @@ FOR INSERT TO authenticated WITH CHECK (
 );
 
 -- Product variants
-DROP POLICY IF EXISTS "Allow insert operation for tier 2 admin on product variants table" ON public.products;
+DROP POLICY IF EXISTS "Allow insert operation for tier 2 admin on product variants table" ON public.product_variants;
 CREATE POLICY "Allow insert operation for tier 2 admin on product variants table"
 ON public.product_variants
 FOR INSERT TO authenticated WITH CHECK (
