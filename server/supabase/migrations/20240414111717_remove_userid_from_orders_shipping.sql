@@ -20,7 +20,6 @@ WITH CHECK (
   )
 );
 
-DROP POLICY IF EXISTS "Allow update operation for order status table based on user id" ON public.orders_shipping;
 DROP POLICY IF EXISTS "Allow insert operation for order status table based on user id" ON public.orders_shipping;
 CREATE POLICY "Allow insert operation for order status table based on user id"
 ON public.orders_shipping
