@@ -138,9 +138,9 @@ export type Database = {
           discount_rate: number
           discounted_price: number | null
           id: string
-          order_billing_id: string | null
+          order_billing_id: string
           order_group: string
-          order_shipping_id: string | null
+          order_shipping_id: string
           price: number
           product_variant_id: string | null
           quantity: number
@@ -154,9 +154,9 @@ export type Database = {
           discount_rate: number
           discounted_price?: number | null
           id?: string
-          order_billing_id?: string | null
+          order_billing_id: string
           order_group: string
-          order_shipping_id?: string | null
+          order_shipping_id: string
           price: number
           product_variant_id?: string | null
           quantity: number
@@ -170,9 +170,9 @@ export type Database = {
           discount_rate?: number
           discounted_price?: number | null
           id?: string
-          order_billing_id?: string | null
+          order_billing_id?: string
           order_group?: string
-          order_shipping_id?: string | null
+          order_shipping_id?: string
           price?: number
           product_variant_id?: string | null
           quantity?: number
