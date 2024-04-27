@@ -87,9 +87,9 @@ export default function ShippingAddressBookCombobox({ value, setValue, onSelecte
             </Command>
           </PopoverContent>
         </Popover>
-        <Button size={"icon"} variant={"ghost"} type="button" onClick={revalidateData}>
+        {/* <Button size={"icon"} variant={"ghost"} type="button" onClick={revalidateData}>
           <RotateCw size="20" />
-        </Button>
+        </Button> */}
       </div>
     </>
   );
