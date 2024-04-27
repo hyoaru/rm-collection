@@ -5,7 +5,9 @@ import { Check, X } from "lucide-react";
 
 // App imports
 import { OrderReceiptDialogContent } from "@components/shared/OrderReceiptDialogContent";
+import createMayaCheckout from "@services/shared/createMayaCheckout";
 import OrderReceiptItem from "@components/shared/OrderReceiptItem";
+import { useToast } from "@components/ui/use-toast";
 import { OrderType } from "@constants/shared/types";
 import { Button } from "@components/ui/button";
 
@@ -15,6 +17,28 @@ type MultipleOrderReceiptDialogContentProps = {
 
 export default function MultipleOrderReceiptDialogContent({ orders }: MultipleOrderReceiptDialogContentProps) {
   const totalCost = orders?.reduce((accumulator, currentOrder) => accumulator + (currentOrder.total_price ?? 0), 0);
+  const { toast } = useToast();
+
+  async function proceedToPayment() {
+    if (!orders) return;
+
+    await createMayaCheckout({ orders: orders }).then(({ data, error }) => {
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "An error has occured.",
+          description: "Please try again later.",
+        });
+      } else {
+        toast({
+          title: "Payment session created.",
+          description: "Redirecting to payment gateway.",
+        });
+
+        window.open(data?.redirectUrl, '_blank')
+      }
+    });
+  }
 
   return (
     <OrderReceiptDialogContent orderGroup={orders?.[0].order_group ?? "-"}>
@@ -36,9 +60,14 @@ export default function MultipleOrderReceiptDialogContent({ orders }: MultipleOr
         totalCost={totalCost ?? 0}
         deliveryFee={"Quoted after order"}
       />
-      {(orders?.[0] && ['pending'].includes(orders?.[0].order_status?.label!)) && (
+      {orders?.[0] && ["pending"].includes(orders?.[0].order_status?.label!) && (
         <>
-          <Button type="button" variant={"outline"} className="w-full mt-4 text-primary font-bold hover:text-primary">
+          <Button 
+            type="button" 
+            variant={"outline"} 
+            className="w-full mt-4 text-primary font-bold hover:text-primary"
+            onClick={proceedToPayment}
+          >
             Proceed with payment
           </Button>
         </>
