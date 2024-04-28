@@ -21,7 +21,7 @@ import { PhoneInput } from "@components/shared/PhoneInput";
 import { CartItemType } from "@constants/collection/types";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Tables } from "@constants/base/database-types";
-import { queryCart } from "@constants/shared/queries";
+import { queryCart, queryOrdersByGroup } from "@constants/shared/queries";
 import { OrderType } from "@constants/shared/types";
 import { useToast } from "@components/ui/use-toast";
 import { CountryType } from "@constants/base/types";
@@ -42,8 +42,10 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
   const [selectedCountry, setSelectedCountry] = useState<CountryType | null>();
   const [isFormInputsDisabled, setIsFormInputsDisabled] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
-  const [orders, setOrders] = useState<OrderType[] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [orderGroupId, setOrderGroupId] = useState<string | null>()
+  const {data: orders} = useQuery(queryOrdersByGroup(orderGroupId ?? '-', orderGroupId ? true : false))
 
   const { data: cart, isLoading } = useQuery(queryCart());
   const checkoutOrderMutation = useCheckoutOrder();
@@ -153,7 +155,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
 
           setIsModalOpen(false);
         } else {
-          setOrders(data);
+          setOrderGroupId(data?.[0].order_group);
           emptyFormFields();
           setIsModalOpen(false);
           setIsReceiptModalOpen(true);
@@ -352,9 +354,12 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
         </form>
       </Form>
 
-      <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
-        <MultipleOrderReceiptDialogContent orders={orders} />
-      </Dialog>
+      {orders && <>
+        <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+          <MultipleOrderReceiptDialogContent orders={orders.data as OrderType[]} />
+        </Dialog>
+      </>}
+      
     </>
   );
 }
