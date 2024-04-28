@@ -28,9 +28,12 @@ export default function OrdersTableViewGroup({
   order: row,
 }: OrdersTableViewGroupProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup(row?.order_group, isOpen));
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
+  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
+    orderGroup: row?.order_group, 
+    isEnabled: isOpen
+  }));
 
   return (
     <>

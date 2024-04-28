@@ -24,10 +24,14 @@ type OrderViewGroupProps = {
 
 export default function OrderViewGroup({ order: row, isOpen, setIsOpen }: OrderViewGroupProps) {
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
-  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup(row?.order_group, isOpen));
   const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
   const isOrderCompleted = row.order_status?.label === "completed";
-
+  
+  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
+    orderGroup: row?.order_group,
+    isEnabled: isOpen,
+  }));
+  
   const queryKeys = [
     ["orders"],
     ["orders_shipping"],

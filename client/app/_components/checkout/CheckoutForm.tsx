@@ -45,7 +45,10 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const [orderGroupId, setOrderGroupId] = useState<string | null>()
-  const {data: orders} = useQuery(queryOrdersByGroup(orderGroupId ?? '-', orderGroupId ? true : false))
+  const {data: orders} = useQuery(queryOrdersByGroup({
+    orderGroup: orderGroupId ?? '-',
+    isEnabled: orderGroupId ? true : false
+  }))
 
   const { data: cart, isLoading } = useQuery(queryCart());
   const checkoutOrderMutation = useCheckoutOrder();

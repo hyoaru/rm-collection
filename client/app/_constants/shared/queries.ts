@@ -67,7 +67,7 @@ export function queryCart() {
   });
 }
 
-export function queryOrdersByGroup(orderGroup: string, isEnabled?: boolean) {
+export function queryOrdersByGroup({ orderGroup, isEnabled }: { orderGroup: string; isEnabled?: boolean }) {
   return queryOptions({
     queryKey: ["orders", { order_group: orderGroup }],
     queryFn: () => getOrdersByGroup(orderGroup),
