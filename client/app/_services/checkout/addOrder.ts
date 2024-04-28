@@ -38,7 +38,7 @@ export default async function addOrder({
       discount_rate: discountRate,
       order_group: orderGroup
     }])
-    .select(`*, product_variants(*, products(*)), order_status(*), users(*), orders_shipping(*)`)
+    .select(`*, product_variants(*, products(*)), order_status(*), users(*), orders_shipping(*), orders_billing(*)`)
     .single()
 
   return { data, error: processErrorToCrossSideSafe(error) }
