@@ -84,7 +84,12 @@ export default async function createMayaCheckout({ orders }: CreateMayaCheckoutP
         },
       };
     }),
-    requestReferenceNumber: orders[0].orders_billing?.request_reference_id,
+    redirectUrl: {
+      success: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/success?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
+      failure: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/failed?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
+      cancel: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/cancelled?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
+    },
+    requestReferenceNumber: orderBillingTransaction?.request_reference_id,
   });
 
   await fetch(`${API_BASE_URL}/${API_END_POINT}`, {
