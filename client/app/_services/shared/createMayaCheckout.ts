@@ -40,8 +40,9 @@ export default async function createMayaCheckout({ orders }: CreateMayaCheckoutP
   const billingTransactionDateLastUpdated = orderBillingTransaction?.updated_at;
   const isMayaCheckoutSessionExpired = dayjs() > dayjs(billingTransactionDateLastUpdated).add(30, "minute").utc();
   const isCheckoutSessionCreated = orderBillingTransaction?.checkout_id ? true : false;
-  
-  if (orderBillingTransaction?.status === "pending" && isCheckoutSessionCreated && !isMayaCheckoutSessionExpired) {
+  const hasOngoingTransaction = orderBillingTransaction?.status === "pending" && isCheckoutSessionCreated && !isMayaCheckoutSessionExpired
+
+  if (orderBillingTransaction?.status === "success" || hasOngoingTransaction) {
     response.data = {
       checkoutId: orderBillingTransaction.checkout_id!,
       redirectUrl: `${CHECKOUT_URL}/${CHECKOUT_END_POINT}?id=${orderBillingTransaction.checkout_id}`,

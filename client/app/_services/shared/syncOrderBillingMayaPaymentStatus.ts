@@ -17,10 +17,23 @@ export default async function syncOrderBillingMayaPaymentStatus({
       if (!paymentStatusData || paymentStatusError) {
         return { data: paymentStatusData, error: paymentStatusError };
       }
+      let response;
 
-      const { data, error } = await setOrderBillingStatus({ id: id, status: paymentStatusData.status.toLowerCase() });
+      switch (paymentStatusData.status.toLowerCase()) {
+        case "payment_success":
+          response = await setOrderBillingStatus({ id: id, status: "success" });
+          break;
+        case "payment_failed":
+          response = await setOrderBillingStatus({ id: id, status: "failed" });
+          break;
+        case "payment_cancelled":
+          response = await setOrderBillingStatus({ id: id, status: "cancelled" });
+          break;
+        default:
+          break;
+      }
 
-      return { data, error };
+      return { data: response?.data, error: response?.error };
     }
   );
 
