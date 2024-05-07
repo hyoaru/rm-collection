@@ -27,7 +27,7 @@ export default async function page({ searchParams }: { searchParams?: { id: stri
       <div className="mx-auto sm:w-8/12 md:w-5/12 mt-4">
         <p className="text-center text-sm md:text-base">
           Thank you for shopping with us. We are processing your order and are getting it ready to be shipped. We will
-          notify you once it's on the way.
+          notify you once it&apos;s on the way.
         </p>
       </div>
       <div className="w-max mx-auto mt-10">

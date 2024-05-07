@@ -26,7 +26,7 @@ export default async function page({ searchParams }: { searchParams?: { id: stri
       <p className="text-3xl text-primary capitalize font-bold text-center mt-6 lg:text-4xl">Billing Failed</p>
       <div className="mx-auto sm:w-8/12 md:w-5/12 mt-4">
         <p className="text-center text-sm md:text-base">
-        We're excited to process your order and prepare it for shipment. 
+        We&apos;re excited to process your order and prepare it for shipment. 
         However, we encountered a billing issue while processing your payment. 
         Please click the `Proceed with payment` button again in your order receipt to make a new transaction.
         </p>
