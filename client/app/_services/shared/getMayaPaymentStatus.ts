@@ -35,7 +35,7 @@ export default async function getMayaPaymentStatus({ checkoutId }: GetMayaPaymen
   })
     .then((res) => res.json())
     .then(async (res) => {
-      if (res?.code) {
+      if (res?.code || !res?.status) {
         response.error = res
       } else {
         response.data = res
