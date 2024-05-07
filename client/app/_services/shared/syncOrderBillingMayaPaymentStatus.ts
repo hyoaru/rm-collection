@@ -3,6 +3,7 @@
 import getMayaPaymentStatus from "@services/shared/getMayaPaymentStatus";
 import setOrderBillingStatus from "@services/shared/setOrderBillingStatus";
 import getMayaServiceStatus from "@services/shared/getMayaServiceStatus";
+import toShipOrderGroupByOrderBillingId from "./toShipOrderGroupByOrderBillingId";
 
 type SyncOrderBillingMayaPaymentStatusParams = {
   id: string;
@@ -31,6 +32,7 @@ export default async function syncOrderBillingMayaPaymentStatus({
       switch (paymentStatusData.status.toLowerCase()) {
         case "payment_success":
           syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "success" });
+          await toShipOrderGroupByOrderBillingId({ orderBillingId: id });
           break;
         case "payment_failed":
           syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "failed" });
