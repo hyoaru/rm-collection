@@ -2,6 +2,7 @@
 
 import getMayaPaymentStatus from "@services/shared/getMayaPaymentStatus";
 import setOrderBillingStatus from "@services/shared/setOrderBillingStatus";
+import getMayaServiceStatus from "@services/shared/getMayaServiceStatus";
 
 type SyncOrderBillingMayaPaymentStatusParams = {
   id: string;
@@ -12,30 +13,38 @@ export default async function syncOrderBillingMayaPaymentStatus({
   id,
   checkoutId,
 }: SyncOrderBillingMayaPaymentStatusParams) {
-  const { data, error } = await getMayaPaymentStatus({ checkoutId: checkoutId }).then(
+  let response;
+
+  const mayaServiceStatus = await getMayaServiceStatus();
+  if (mayaServiceStatus.error) {
+    response = { data: null, error: mayaServiceStatus.error };
+    return response;
+  }
+
+  response = await getMayaPaymentStatus({ checkoutId: checkoutId }).then(
     async ({ data: paymentStatusData, error: paymentStatusError }) => {
       if (!paymentStatusData || paymentStatusError) {
         return { data: paymentStatusData, error: paymentStatusError };
       }
-      let response;
 
+      let syncOrderBillingResponse;
       switch (paymentStatusData.status.toLowerCase()) {
         case "payment_success":
-          response = await setOrderBillingStatus({ id: id, status: "success" });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "success" });
           break;
         case "payment_failed":
-          response = await setOrderBillingStatus({ id: id, status: "failed" });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "failed" });
           break;
         case "payment_cancelled":
-          response = await setOrderBillingStatus({ id: id, status: "cancelled" });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "cancelled" });
           break;
         default:
           break;
       }
 
-      return { data: response?.data, error: response?.error };
+      return syncOrderBillingResponse;
     }
   );
 
-  return { data, error };
+  return { data: response?.data, error: response?.error };
 }

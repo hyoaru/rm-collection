@@ -6,6 +6,7 @@ import utc from "dayjs/plugin/utc";
 // App imports
 import updateOrderBillingCheckoutId from "@services/shared/updateOrderBillingCheckoutId";
 import { OrderType } from "@constants/shared/types";
+import getMayaServiceStatus from "@services/shared/getMayaServiceStatus";
 
 dayjs.extend(utc);
 
@@ -36,11 +37,19 @@ export default async function createMayaCheckout({ orders }: CreateMayaCheckoutP
     error: null,
   };
 
+  await getMayaServiceStatus().then(({ data, error }) => {
+    if (error) {
+      response.error = error;
+      return response;
+    }
+  });
+
   const orderBillingTransaction = orders[0].orders_billing;
   const billingTransactionDateLastUpdated = orderBillingTransaction?.updated_at;
   const isMayaCheckoutSessionExpired = dayjs() > dayjs(billingTransactionDateLastUpdated).add(30, "minute").utc();
   const isCheckoutSessionCreated = orderBillingTransaction?.checkout_id ? true : false;
-  const hasOngoingTransaction = orderBillingTransaction?.status === "pending" && isCheckoutSessionCreated && !isMayaCheckoutSessionExpired
+  const hasOngoingTransaction =
+    orderBillingTransaction?.status === "pending" && isCheckoutSessionCreated && !isMayaCheckoutSessionExpired;
 
   if (orderBillingTransaction?.status === "success" || hasOngoingTransaction) {
     response.data = {
