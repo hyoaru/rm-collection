@@ -22,12 +22,14 @@ export default async function syncOrderGroupBillingMayaPaymentStatus({
     return response;
   }
 
-  if (!order.orders_billing?.checkout_id) {
+  const checkoutId = order.orders_billing?.checkout_id;
+  const isTransactionCompleted = order.orders_billing?.status === "success";
+  if (!checkoutId || isTransactionCompleted) {
     response = { data: null, error: null };
     return response;
   }
 
-  response = await getMayaPaymentStatus({ checkoutId: order.orders_billing?.checkout_id }).then(
+  response = await getMayaPaymentStatus({ checkoutId: checkoutId }).then(
     async ({ data: paymentStatusData, error: paymentStatusError }) => {
       if (!paymentStatusData || paymentStatusError) {
         return { data: paymentStatusData, error: paymentStatusError };
