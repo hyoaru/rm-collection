@@ -7,7 +7,7 @@ export default async function getOrdersByGroupServer(orderGroup: string) {
 
   const { data, error } = await supabase
     .from("orders")
-    .select(`*, users(*), order_status(*), product_variants(*, products(*)), orders_shipping(*)`)
+    .select(`*, users(*), order_status(*), product_variants(*, products(*)), orders_shipping(*), orders_billing(*)`)
     .eq("order_group", orderGroup)
     .order("created_at", { ascending: false });
 
