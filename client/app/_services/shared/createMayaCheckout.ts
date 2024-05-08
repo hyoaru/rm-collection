@@ -44,6 +44,7 @@ export default async function createMayaCheckout({ orders }: CreateMayaCheckoutP
     }
   });
 
+  const orderGroup = orders[0].order_group;
   const orderBillingTransaction = orders[0].orders_billing;
   const billingTransactionDateLastUpdated = orderBillingTransaction?.updated_at;
   const isMayaCheckoutSessionExpired = dayjs() > dayjs(billingTransactionDateLastUpdated).add(30, "minute").utc();
@@ -95,9 +96,9 @@ export default async function createMayaCheckout({ orders }: CreateMayaCheckoutP
       };
     }),
     redirectUrl: {
-      success: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/success?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
-      failure: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/failed?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
-      cancel: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/cancelled?id=${orderBillingTransaction?.id}&checkoutId=${orderBillingTransaction?.checkout_id}`,
+      success: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/success?orderGroup=${orderGroup}`,
+      failure: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/failed?orderGroup=${orderGroup}`,
+      cancel: `${process.env.NEXT_PUBLIC_BASE_URL}/transaction/cancelled?orderGroup=${orderGroup}`,
     },
     requestReferenceNumber: orderBillingTransaction?.request_reference_id,
   });

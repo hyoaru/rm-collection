@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Dialog, DialogContent, DialogFooter, DialogClose, DialogHeader, DialogTitle } from "@components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
+import { querySyncOrderBillingMayaPaymentStatus } from "@constants/shared/billing/queries";
 import ShippingAddressBookCombobox from "@components/shared/ShippingAddressBookCombobox";
 import { ADD_ORDER_FORM_SCHEMA as formSchema } from "@constants/checkout/forms";
 import CountriesCombobox from "@components/shared/CountriesCombobox";
@@ -49,6 +50,11 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     orderGroup: orderGroupId ?? '-',
     isEnabled: orderGroupId ? true : false
   }))
+
+  useQuery(querySyncOrderBillingMayaPaymentStatus({
+    order: orders?.data?.[0]!,
+    isEnabled: orders ? true : false
+  }));
 
   const { data: cart, isLoading } = useQuery(queryCart());
   const checkoutOrderMutation = useCheckoutOrder();

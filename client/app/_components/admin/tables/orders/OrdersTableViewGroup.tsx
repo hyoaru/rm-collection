@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@components/ui/dialog";
 import OrderStatusActionsDropdownContent from "@components/admin/tables/orders/OrderStatusActionsDropdownContent";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
+import { querySyncOrderBillingMayaPaymentStatus } from "@constants/shared/billing/queries";
 import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu";
 import { default as OrderItem } from "@components/shared/OrderReceiptItem";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
@@ -30,9 +31,15 @@ export default function OrdersTableViewGroup({
   const [isOpen, setIsOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
+
   const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
     orderGroup: row?.order_group, 
     isEnabled: isOpen
+  }));
+
+  useQuery(querySyncOrderBillingMayaPaymentStatus({
+    order: orderGroup?.data?.[0]!,
+    isEnabled: orderGroup ? true : false
   }));
 
   return (

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@components/ui/dialog";
 import MultipleOrderReceiptDialogContent from "@components/shared/MultipleOrderReceiptDialogContent";
 import OrderStatusActionsDropdownContent from "@components/orders/OrderStatusActionsDropdownContent";
+import { querySyncOrderBillingMayaPaymentStatus } from "@constants/shared/billing/queries";
 import { DropdownMenu, DropdownMenuTrigger } from "@components/ui/dropdown-menu";
 import { default as OrderItem } from "@components/shared/OrderReceiptItem";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
@@ -30,6 +31,11 @@ export default function OrderViewGroup({ order: row, isOpen, setIsOpen }: OrderV
   const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
     orderGroup: row?.order_group,
     isEnabled: isOpen,
+  }));
+
+  useQuery(querySyncOrderBillingMayaPaymentStatus({
+    order: orderGroup?.data?.[0]!,
+    isEnabled: orderGroup ? true : false
   }));
   
   const queryKeys = [

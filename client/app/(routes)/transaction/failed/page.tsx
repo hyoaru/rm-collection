@@ -6,19 +6,24 @@ import React from "react";
 
 // App imports
 import syncOrderBillingMayaPaymentStatus from "@services/shared/syncOrderBillingMayaPaymentStatus";
+import getOrdersByGroupServer from "@services/shared/getOrdersByGroupServer";
+import { OrderType } from "@constants/shared/types";
 import { Button } from "@components/ui/button";
 
-export default async function page({ searchParams }: { searchParams?: { id: string; checkoutId: string } }) {
-  const orderBillingId = searchParams?.id;
-  const orderBillingCheckoutId = searchParams?.checkoutId;
+export default async function page({ searchParams }: { searchParams?: { orderGroup: string } }) {
+  const orderGroup = searchParams?.orderGroup;
   const queryClient = new QueryClient();
 
-  if (!orderBillingId || !orderBillingCheckoutId) {
+  if (!orderGroup) {
     return notFound();
   }
 
-  await syncOrderBillingMayaPaymentStatus({ id: orderBillingId, checkoutId: orderBillingCheckoutId });
-  await queryClient.invalidateQueries({ queryKey: ["orders", "orders_billing", "orders_shipping"] });
+  await getOrdersByGroupServer(orderGroup).then(async ({ data, error }) => {
+    if (data) {
+      await syncOrderBillingMayaPaymentStatus({ order: data[0] as OrderType });
+      await queryClient.invalidateQueries({ queryKey: ["orders", "orders_billing", "orders_shipping"] });
+    }
+  });
 
   return (
     <div className="md:container mx-auto px-2 md:px-4 mt-6 sm:mt-14 mb-8">

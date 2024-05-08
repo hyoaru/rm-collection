@@ -3,17 +3,17 @@
 import getMayaPaymentStatus from "@services/shared/getMayaPaymentStatus";
 import setOrderBillingStatus from "@services/shared/setOrderBillingStatus";
 import getMayaServiceStatus from "@services/shared/getMayaServiceStatus";
-import toShipOrderGroupByOrderBillingId from "./toShipOrderGroupByOrderBillingId";
+import { OrderType } from "@constants/shared/types";
+import setOrderGroupStatus from "@services/orders/setOrderGroupStatus";
+import { Tables } from "@constants/base/database-types";
 
-type SyncOrderBillingMayaPaymentStatusParams = {
-  id: string;
-  checkoutId: string;
+type SyncOrderGroupBillingMayaPaymentStatusParams = {
+  order: OrderType;
 };
 
-export default async function syncOrderBillingMayaPaymentStatus({
-  id,
-  checkoutId,
-}: SyncOrderBillingMayaPaymentStatusParams) {
+export default async function syncOrderGroupBillingMayaPaymentStatus({
+  order,
+}: SyncOrderGroupBillingMayaPaymentStatusParams) {
   let response;
 
   const mayaServiceStatus = await getMayaServiceStatus();
@@ -22,7 +22,12 @@ export default async function syncOrderBillingMayaPaymentStatus({
     return response;
   }
 
-  response = await getMayaPaymentStatus({ checkoutId: checkoutId }).then(
+  if (!order.orders_billing?.checkout_id) {
+    response = { data: null, error: null };
+    return response;
+  }
+
+  response = await getMayaPaymentStatus({ checkoutId: order.orders_billing?.checkout_id }).then(
     async ({ data: paymentStatusData, error: paymentStatusError }) => {
       if (!paymentStatusData || paymentStatusError) {
         return { data: paymentStatusData, error: paymentStatusError };
@@ -31,14 +36,14 @@ export default async function syncOrderBillingMayaPaymentStatus({
       let syncOrderBillingResponse;
       switch (paymentStatusData.status.toLowerCase()) {
         case "payment_success":
-          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "success" });
-          await toShipOrderGroupByOrderBillingId({ orderBillingId: id });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "success" });
+          await setOrderGroupStatus({ order: order as Tables<"orders">, status: "to-ship" });
           break;
         case "payment_failed":
-          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "failed" });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "failed" });
           break;
         case "payment_cancelled":
-          syncOrderBillingResponse = await setOrderBillingStatus({ id: id, status: "cancelled" });
+          syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "cancelled" });
           break;
         default:
           break;
