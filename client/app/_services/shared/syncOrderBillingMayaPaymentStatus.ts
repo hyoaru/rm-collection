@@ -48,6 +48,7 @@ export default async function syncOrderGroupBillingMayaPaymentStatus({
           syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "cancelled" });
           break;
         default:
+          syncOrderBillingResponse = { data: paymentStatusData, error: paymentStatusError };
           break;
       }
 
