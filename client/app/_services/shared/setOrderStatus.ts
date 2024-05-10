@@ -4,11 +4,11 @@ import { Tables } from "@constants/base/database-types";
 import { getServerClient } from "@services/supabase/getServerClient";
 
 const orderStatusMap = {
-  "cancelled-by-user": 0,
-  "cancelled-by-management": 1,
+  "cancelled_by_user": 0,
+  "cancelled_by_management": 1,
   "pending": 2,
-  "to-ship": 3,
-  "to-receive": 4,
+  "to_ship": 3,
+  "to_receive": 4,
   "completed": 5,
 } as const;
 

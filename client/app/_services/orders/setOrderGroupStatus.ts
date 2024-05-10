@@ -6,11 +6,11 @@ import sendEmailOrderCancelledByUser from "@services/shared/email/sendEmailOrder
 import cancelOrderGroup from "../shared/cancelOrderGroup";
 
 const orderStatusMap = {
-  "cancelled-by-user": 0,
-  "cancelled-by-management": 1,
+  "cancelled_by_user": 0,
+  "cancelled_by_management": 1,
   pending: 2,
-  "to-ship": 3,
-  "to-receive": 4,
+  "to_ship": 3,
+  "to_receive": 4,
   completed: 5,
 } as const;
 
@@ -32,7 +32,7 @@ export default async function setOrderGroupStatus({ order, status }: SetOrderGro
         return { data: updateOrderGroupStatusData, error: updateOrderGroupStatusError };
       }
 
-      if (status === "cancelled-by-user") {
+      if (status === "cancelled_by_user") {
         await sendEmailOrderCancelledByUser({ orderGroup: order.order_group });
         const { data, error } = await cancelOrderGroup(order.order_group);
         return { data, error };

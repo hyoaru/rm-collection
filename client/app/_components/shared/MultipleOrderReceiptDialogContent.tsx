@@ -76,7 +76,7 @@ export default function MultipleOrderReceiptDialogContent({ orders, isLoading }:
     <OrderReceiptDialogContent orderGroup={orders?.[0].order_group ?? "-"}>
       <OrderReceiptDialogContent.BodyHeader>
         <>
-          {`Order ${orders?.[0].order_status?.label.toLowerCase().replaceAll("-", " ")} `}
+          {`Order ${orders?.[0].order_status?.label.toLowerCase().replaceAll("_", " ")} `}
           {orders?.[0].status_id! <= 1 ? (
             <X className="inline align-middle p-1 bg-red-600 rounded-full text-background" />
           ) : (

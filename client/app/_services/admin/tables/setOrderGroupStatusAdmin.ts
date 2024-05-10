@@ -8,10 +8,10 @@ import sendEmailOrderToReceive from "@services/shared/email/sendEmailOrderToRece
 import cancelOrderGroup from "@services/shared/cancelOrderGroup";
 
 const orderStatusMap = {
-  "cancelled-by-management": 1,
+  "cancelled_by_management": 1,
   pending: 2,
-  "to-ship": 3,
-  "to-receive": 4,
+  "to_ship": 3,
+  "to_receive": 4,
   completed: 5,
 } as const;
 
@@ -40,12 +40,12 @@ export default async function setOrderGroupStatusAdmin({ order, status }: SetOrd
 
       let response;
       switch (status) {
-        case "cancelled-by-management":
+        case "cancelled_by_management":
           await sendEmailOrderCancelledByManagement({ orderGroup: updateOrderGroupStatusData[0].order_group });
           const { data, error } = await cancelOrderGroup(order.order_group);
           response = { data, error };
           break;
-        case "to-receive":
+        case "to_receive":
           await sendEmailOrderToReceive({ orderGroup: updateOrderGroupStatusData[0].order_group });
           break;
       }

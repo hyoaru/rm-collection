@@ -23,14 +23,14 @@ export default function OrderStatusActionsDropdownContent({
   return (
     <DropdownMenuContent align="end" side="top">
       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-      {baseAdminRoles.includes(authenticatedUser.role) && ["to-ship"].includes(order.order_status?.label!) && (
+      {baseAdminRoles.includes(authenticatedUser.role) && ["to_ship"].includes(order.order_status?.label!) && (
         <OrderStatusActionItemToReceive order={order} queryKeys={queryKeys} />
       )}
       {baseAdminRoles.includes(authenticatedUser.role) &&
-        ["pending", "to-ship"].includes(order.order_status?.label!) && (
+        ["pending", "to_ship"].includes(order.order_status?.label!) && (
           <OrderStatusActionItem
             label={"Order: cancel"}
-            action={() => setOrderGroupStatusAdmin({ order: order, status: "cancelled-by-management" })}
+            action={() => setOrderGroupStatusAdmin({ order: order, status: "cancelled_by_management" })}
             queryKeys={queryKeys}
             isDestructive={true}
           />

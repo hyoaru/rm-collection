@@ -35,7 +35,7 @@ export default function OrderStatusActionItemToReceive({ order, queryKeys }: Ord
       description: "This should take a second or two.",
     });
 
-    await setOrderGroupStatusAdmin({ order: order, status: "to-receive" }).then(async ({ error }: any) => {
+    await setOrderGroupStatusAdmin({ order: order, status: "to_receive" }).then(async ({ error }: any) => {
       if (error) {
         toast({
           variant: "destructive",
@@ -70,14 +70,14 @@ export default function OrderStatusActionItemToReceive({ order, queryKeys }: Ord
   return (
     <>
       <DropdownMenuItem className={`text-sm p-2`} onSelect={(e) => e.preventDefault()} onClick={onClick}>
-        {"Order: to-receive"}
+        {"Order: to_receive"}
       </DropdownMenuItem>
 
       <AlertDialog open={isConfirmationDialogOpen} onOpenChange={setIsConfirmationDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Proceed on executing this order status action?</AlertDialogTitle>
-            <AlertDialogDescription>{`Order status action to execute: 'Order: to-receive'`}</AlertDialogDescription>
+            <AlertDialogDescription>{`Order status action to execute: 'Order: to_receive'`}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>

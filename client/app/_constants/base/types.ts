@@ -21,11 +21,11 @@ export type ProductVariantVisibilityType = "all" | "shown" | "hidden";
 
 export type OrderStatusType =
   | "all"
-  | "cancelled-by-user"
-  | "cancelled-by-management"
+  | "cancelled_by_user"
+  | "cancelled_by_management"
   | "pending"
-  | "to-ship"
-  | "to-receive"
+  | "to_ship"
+  | "to_receive"
   | "completed";
 
 export type CountryType = {

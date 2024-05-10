@@ -32,7 +32,7 @@ export default function Page() {
   const filteredUsers = useMemo(() => filterRecordsByDate(users?.data ?? []), [users, filterRecordsByDate]);
 
   const confirmedOrders = useMemo(() => {
-    return filteredOrders.filter((order) => ["to-receive", "completed"].includes(order.order_status.label));
+    return filteredOrders.filter((order) => ["to_receive", "completed"].includes(order.order_status.label));
   }, [filteredOrders]);
 
   const revenue = useMemo(() => {
@@ -61,7 +61,7 @@ export default function Page() {
 
   const recentCompletedOrders = useMemo(() => {
     return Array.from(orders?.data ?? [])
-      .filter((order) => ["completed", "to-receive"].includes(order?.order_status?.label!))
+      .filter((order) => ["completed", "to_receive"].includes(order?.order_status?.label!))
       .splice(0, 5);
   }, [orders?.data]);
 

@@ -39,7 +39,7 @@ export default async function syncOrderGroupBillingMayaPaymentStatus({
       switch (paymentStatusData.status.toLowerCase()) {
         case "payment_success":
           syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "success" });
-          await setOrderGroupStatus({ order: order as Tables<"orders">, status: "to-ship" });
+          await setOrderGroupStatus({ order: order as Tables<"orders">, status: "to_ship" });
           break;
         case "payment_failed":
           syncOrderBillingResponse = await setOrderBillingStatus({ id: order.order_billing_id, status: "failed" });

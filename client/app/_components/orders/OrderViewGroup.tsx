@@ -24,7 +24,7 @@ type OrderViewGroupProps = {
 
 export default function OrderViewGroup({ order: row, isOpen, setIsOpen }: OrderViewGroupProps) {
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
-  const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
+  const isOrderCancelled = ["cancelled_by_user", "cancelled_by_management"].includes(row?.order_status?.label!);
   const isOrderCompleted = row.order_status?.label === "completed";
 
   const { data: orderGroup, isPending } = useQuery(

@@ -18,17 +18,17 @@ export default function OrderStatusActionsDropdownContent({
   return (
     <DropdownMenuContent align="end" side="top">
       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-      {["to-receive"].includes(order.order_status?.label!) && (
+      {["to_receive"].includes(order.order_status?.label!) && (
         <OrderStatusActionItem 
           label={"Order: complete"}
           queryKeys={queryKeys} 
           action={() => setOrderGroupStatus({ order: order, status: "completed" })}
         />
       )}
-      {['pending', 'to-ship'].includes(order.order_status?.label!) && (
+      {['pending', 'to_ship'].includes(order.order_status?.label!) && (
         <OrderStatusActionItem
           label={"Order: cancel"}
-          action={() => setOrderGroupStatus({ order: order, status: "cancelled-by-user" })}
+          action={() => setOrderGroupStatus({ order: order, status: "cancelled_by_user" })}
           queryKeys={queryKeys}
           isDestructive={true}
         />

@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS order_status (
 
 INSERT INTO public.order_status (id, label)
 VALUES
-  (0, 'cancelled-by-user'),
-  (1, 'cancelled-by-management'),
+  (0, 'cancelled_by_user'),
+  (1, 'cancelled_by_management'),
   (2, 'pending'),
-  (3, 'to-ship'),
-  (4, 'to-receive'),
+  (3, 'to_ship'),
+  (4, 'to_receive'),
   (5, 'completed')
 ON CONFLICT(id)
 DO UPDATE SET label = EXCLUDED.label;
