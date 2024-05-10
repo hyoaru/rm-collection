@@ -32,14 +32,13 @@ export default async function setOrderGroupStatus({ order, status }: SetOrderGro
         return { data: updateOrderGroupStatusData, error: updateOrderGroupStatusError };
       }
 
-      let response;
       if (status === "cancelled-by-user") {
         await sendEmailOrderCancelledByUser({ orderGroup: order.order_group });
         const { data, error } = await cancelOrderGroup(order.order_group);
-        response = { data, error };
+        return { data, error };
       }
 
-      return { data: response!.data, error: response!.error };
+      return { data: updateOrderGroupStatusData, error: updateOrderGroupStatusError };
     });
 
   return { data, error };
