@@ -109,7 +109,7 @@ export default function UpdateShippingAddressForm({ authenticatedUser }: UpdateS
               });
             } else {
               toast({
-                title: "Shipping address has been deleted successfully.",
+                title: "Shipping address has been updated successfully.",
                 description: "Changes should take effect immediately.",
               });
               emptyFormFields();
@@ -232,7 +232,7 @@ export default function UpdateShippingAddressForm({ authenticatedUser }: UpdateS
               className={"w-full md:w-6/12"}
               disabled={updateShippingAddressMutation.isPending || !shipingAddressBookComboboxValue}
             >
-              Delete shipping address
+              Update shipping address
             </Button>
           </div>
         </form>
