@@ -10,14 +10,46 @@ import OrderReceiptItem from "@components/shared/OrderReceiptItem";
 import { useToast } from "@components/ui/use-toast";
 import { OrderType } from "@constants/shared/types";
 import { Button } from "@components/ui/button";
+import { DialogContent } from "../ui/dialog";
+import { Skeleton } from "../ui/skeleton";
 
 type MultipleOrderReceiptDialogContentProps = {
   orders: OrderType[] | null;
+  isLoading?: boolean;
 };
 
-export default function MultipleOrderReceiptDialogContent({ orders }: MultipleOrderReceiptDialogContentProps) {
+export default function MultipleOrderReceiptDialogContent({ orders, isLoading }: MultipleOrderReceiptDialogContentProps) {
   const totalCost = orders?.reduce((accumulator, currentOrder) => accumulator + (currentOrder.total_price ?? 0), 0);
   const { toast } = useToast();
+
+  if (isLoading) {
+    return (
+      <DialogContent> 
+        <div className="">
+          <div className="flex flex-col items-center gap-2">
+            <Skeleton className="w-10/12 h-[1rem]" />
+            <Skeleton className="w-8/12 h-[2rem]" />
+            <Skeleton className="w-9/12 h-[0.5rem]" />
+          </div>
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <Skeleton className="w-full h-[3rem] rounded-xl" />
+            <Skeleton className="w-full h-[3rem] rounded-xl" />
+            <Skeleton className="w-full h-[3rem] rounded-xl" />
+            <Skeleton className="w-full h-[3rem] rounded-xl" />
+          </div>
+          <Skeleton className="mt-4 w-full h-[6rem] rounded-xl" />
+          <div className="flex flex-col items center gap-2">
+            <Skeleton className="mt-4 w-full h-[2.5rem] rounded-xl" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="w-10/12 h-[2.5rem] rounded-xl" />
+              <Skeleton className="w-2/12 h-[2.5rem] rounded-xl" />
+            </div>
+          </div>
+          
+        </div>
+      </DialogContent>
+    )
+  }
 
   async function proceedToPayment() {
     if (!orders) return;

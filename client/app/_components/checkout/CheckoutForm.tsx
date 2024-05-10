@@ -44,17 +44,21 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
   const [isFormInputsDisabled, setIsFormInputsDisabled] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const [orderGroupId, setOrderGroupId] = useState<string | null>()
-  const {data: orders} = useQuery(queryOrdersByGroup({
-    orderGroup: orderGroupId ?? '-',
-    isEnabled: orderGroupId ? true : false
-  }))
 
-  useQuery(querySyncOrderBillingMayaPaymentStatus({
-    order: orders?.data?.[0]!,
-    isEnabled: orders ? true : false
-  }));
+  const [orderGroupId, setOrderGroupId] = useState<string | null>();
+  const ordersByGroupQuery = useQuery(
+    queryOrdersByGroup({
+      orderGroup: orderGroupId ?? "-",
+      isEnabled: orderGroupId ? true : false,
+    })
+  );
+
+  useQuery(
+    querySyncOrderBillingMayaPaymentStatus({
+      order: ordersByGroupQuery.data?.data?.[0]!,
+      isEnabled: ordersByGroupQuery.data ? true : false,
+    })
+  );
 
   const { data: cart, isLoading } = useQuery(queryCart());
   const checkoutOrderMutation = useCheckoutOrder();
@@ -363,12 +367,12 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
         </form>
       </Form>
 
-      {orders && <>
-        <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
-          <MultipleOrderReceiptDialogContent orders={orders.data as OrderType[]} />
-        </Dialog>
-      </>}
-      
+      <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+        <MultipleOrderReceiptDialogContent
+          orders={ordersByGroupQuery.data?.data as OrderType[]}
+          isLoading={ordersByGroupQuery.isPending}
+        />
+      </Dialog>
     </>
   );
 }

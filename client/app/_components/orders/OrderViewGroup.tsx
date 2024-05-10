@@ -14,7 +14,6 @@ import { OrderType } from "@constants/shared/types";
 import { Skeleton } from "@components/ui/skeleton";
 import { Button } from "@components/ui/button";
 
-
 type OrderGroup = OrderType[] | null;
 
 type OrderViewGroupProps = {
@@ -27,17 +26,21 @@ export default function OrderViewGroup({ order: row, isOpen, setIsOpen }: OrderV
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
   const isOrderCompleted = row.order_status?.label === "completed";
-  
-  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
-    orderGroup: row?.order_group,
-    isEnabled: isOpen,
-  }));
 
-  useQuery(querySyncOrderBillingMayaPaymentStatus({
-    order: orderGroup?.data?.[0]!,
-    isEnabled: orderGroup ? true : false
-  }));
-  
+  const { data: orderGroup, isPending } = useQuery(
+    queryOrdersByGroup({
+      orderGroup: row?.order_group,
+      isEnabled: isOpen,
+    })
+  );
+
+  useQuery(
+    querySyncOrderBillingMayaPaymentStatus({
+      order: orderGroup?.data?.[0]!,
+      isEnabled: orderGroup ? true : false,
+    })
+  );
+
   const queryKeys = [
     ["orders"],
     ["orders_shipping"],
@@ -93,11 +96,9 @@ export default function OrderViewGroup({ order: row, isOpen, setIsOpen }: OrderV
         </DialogContent>
       </Dialog>
 
-      {orderGroup?.data && (
-        <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
-          <MultipleOrderReceiptDialogContent orders={orderGroup?.data as OrderGroup} />
-        </Dialog>
-      )}
+      <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+        <MultipleOrderReceiptDialogContent orders={orderGroup?.data as OrderGroup} isLoading={isPending} />
+      </Dialog>
     </>
   );
 }

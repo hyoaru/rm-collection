@@ -23,24 +23,24 @@ type OrdersTableViewGroupProps = {
   queryKeys: any[][];
 };
 
-export default function OrdersTableViewGroup({
-  queryKeys,
-  authenticatedUser,
-  order: row,
-}: OrdersTableViewGroupProps) {
+export default function OrdersTableViewGroup({ queryKeys, authenticatedUser, order: row }: OrdersTableViewGroupProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const isOrderCancelled = ["cancelled-by-user", "cancelled-by-management"].includes(row?.order_status?.label!);
 
-  const { data: orderGroup, isPending } = useQuery(queryOrdersByGroup({
-    orderGroup: row?.order_group, 
-    isEnabled: isOpen
-  }));
+  const { data: orderGroup, isPending } = useQuery(
+    queryOrdersByGroup({
+      orderGroup: row?.order_group,
+      isEnabled: isOpen,
+    })
+  );
 
-  useQuery(querySyncOrderBillingMayaPaymentStatus({
-    order: orderGroup?.data?.[0]!,
-    isEnabled: orderGroup ? true : false
-  }));
+  useQuery(
+    querySyncOrderBillingMayaPaymentStatus({
+      order: orderGroup?.data?.[0]!,
+      isEnabled: orderGroup ? true : false,
+    })
+  );
 
   return (
     <>
@@ -98,11 +98,9 @@ export default function OrdersTableViewGroup({
         </DialogContent>
       </Dialog>
 
-      {orderGroup?.data && (
-        <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
-          <MultipleOrderReceiptDialogContent orders={orderGroup?.data as OrderGroup} />
-        </Dialog>
-      )}
+      <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
+        <MultipleOrderReceiptDialogContent orders={orderGroup?.data as OrderGroup} isLoading={isPending} />
+      </Dialog>
     </>
   );
 }
