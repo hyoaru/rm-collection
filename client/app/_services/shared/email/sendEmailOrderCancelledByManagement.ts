@@ -15,8 +15,11 @@ export default async function sendEmailOrderCancelledByManagement({ orderGroup }
         return { data: ordersData, error: ordersError };
       }
 
+      const buyerEmail = ordersData[0].users?.email
+      const receiverEmail = ordersData[0].orders_shipping?.receiver_email
+
       const { data, error } = await sendEmail({
-        targetEmail: `${ordersData[0].users?.email}, ${ordersData[0].orders_shipping?.receiver_email}`,
+        targetEmail: buyerEmail === receiverEmail ? `${buyerEmail}` : `${buyerEmail}, ${receiverEmail}`,
         subject: "Order cancelled by management",
         html: OrderCancelledByManagement({ orders: ordersData }),
       });
