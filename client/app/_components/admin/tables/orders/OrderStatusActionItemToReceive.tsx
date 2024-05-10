@@ -56,15 +56,15 @@ export default function OrderStatusActionItemToReceive({ order, queryKeys }: Ord
   }
 
   async function onClick() {
-    setIsUpdateShippingDetailsDialogOpen(true);
+    setIsConfirmationDialogOpen(true);
   }
 
   async function onConfirm() {
-    await executeAction()
+    setIsUpdateShippingDetailsDialogOpen(true);
   }
-
-  function onUpdateShippingDetailsSuccess() {
-    setIsConfirmationDialogOpen(true);
+  
+  async function onUpdateShippingDetailsSuccess() {
+    await executeAction()
   }
 
   return (
