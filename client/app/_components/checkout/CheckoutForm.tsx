@@ -138,11 +138,7 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
     const data = form.getValues();
     const orderGroup = uuidv4();
 
-    toast({
-      title: "Opening transaction receipt.",
-      description: "This will take a second or two.",
-    });
-
+    setIsReceiptModalOpen(true);
     await checkoutOrderMutation
       .mutateAsync({
         cartItems: cart?.data ?? [],
@@ -171,7 +167,6 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
           setOrderGroupId(data?.[0].order_group);
           emptyFormFields();
           setIsModalOpen(false);
-          setIsReceiptModalOpen(true);
         }
       });
   }
