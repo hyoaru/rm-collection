@@ -13,7 +13,7 @@ type OrderStatusSelectProps = {
   classNames?: {
     base?: string;
     trigger?: string;
-  }
+  };
 };
 
 export default function OrderStatusSelect({ statusFilter, setStatusFilter, classNames }: OrderStatusSelectProps) {
@@ -30,10 +30,12 @@ export default function OrderStatusSelect({ statusFilter, setStatusFilter, class
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">all-orders</SelectItem>
+              <SelectItem value="all">
+                all-orders
+              </SelectItem>
               {orderStatus?.data?.map((orderStatus) => (
                 <SelectItem key={`orderStatus-${orderStatus.id}`} value={orderStatus.label}>
-                  {orderStatus.label}
+                  {orderStatus.label.replaceAll("_", "-")}
                 </SelectItem>
               ))}
             </SelectContent>
