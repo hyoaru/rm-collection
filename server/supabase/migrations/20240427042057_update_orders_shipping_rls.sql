@@ -1,6 +1,7 @@
 DROP POLICY IF EXISTS "Allow read operation for everyone" ON public.orders_shipping;
 DROP POLICY IF EXISTS "Allow all operations for tier 1 admin on order status table" ON public.orders_shipping;
 
+DROP POLICY IF EXISTS "Allow all operations for tier 1 and tier 2 admin on order shipping table" ON public.orders_shipping;
 CREATE POLICY "Allow all operations for tier 1 and tier 2 admin on order shipping table"
 ON public.orders_shipping
 FOR ALL TO authenticated 
