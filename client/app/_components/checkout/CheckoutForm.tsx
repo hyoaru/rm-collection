@@ -366,11 +366,11 @@ export default function CheckoutForm({ authenticatedUser }: CheckoutFormProps) {
           </div>
         </form>
       </Form>
-
+          
       <Dialog open={isReceiptModalOpen} onOpenChange={setIsReceiptModalOpen}>
         <MultipleOrderReceiptDialogContent
           orders={ordersByGroupQuery.data?.data as OrderType[]}
-          isLoading={ordersByGroupQuery.isPending}
+          isLoading={checkoutOrderMutation.isPending || ordersByGroupQuery.isPending}
         />
       </Dialog>
     </>
