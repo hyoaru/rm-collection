@@ -12,23 +12,32 @@ type AddToCartParams = {
 export default async function addToCart({ userId, variantId, quantity }: AddToCartParams) {
   const supabase = getServerClient();
 
-  let { count } = await supabase
+  // Check if cart items is less than nine
+  const { count: cartItems } = await supabase.from("cart").select("*", { count: "exact" });
+  if (cartItems && cartItems >= 3) {
+    return { data: null, error: { message: "You can only have a max of nine items in cart." } };
+  }
+
+  // Check if product variant instance is already in cart
+  const { count: productVariantInstanceCount } = await supabase
     .from("cart")
     .select("*", { count: "exact" })
     .eq("user_id", userId)
     .eq("product_variant_id", variantId);
 
-  if (count && count >= 1) {
+  if (productVariantInstanceCount && productVariantInstanceCount >= 1) {
     return { data: null, error: null };
   }
 
   const { data, error } = await supabase
     .from("cart")
-    .upsert([{
-      user_id: userId,
-      product_variant_id: variantId,
-      quantity: quantity,
-    }])
+    .upsert([
+      {
+        user_id: userId,
+        product_variant_id: variantId,
+        quantity: quantity,
+      },
+    ])
     .select()
     .single();
 

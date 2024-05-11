@@ -42,7 +42,7 @@ export default function ProductViewActions({ product, productVariant, authentica
           toast({
             variant: "destructive",
             title: "An error has occured.",
-            description: "Please try again later.",
+            description: error?.message ?? "Please try again later.",
           });
         } else {
           toast({
