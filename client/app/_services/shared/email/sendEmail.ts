@@ -19,7 +19,7 @@ export default async function sendEmail({ html, targetEmail, subject }: SendEmai
     secure: true,
     auth: {
       user: process.env.NEXT_PUBLIC_SMTP_AUTH_USER,
-      pass: process.env.NEXT_PUBLIC_SMTP_AUTH_PASSWORD,
+      pass: process.env.NEXT_PUBLIC_SMTP_AUTH_PASS,
     },
   });
 
