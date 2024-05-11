@@ -6,7 +6,7 @@ export default async function getOrderListCsv() {
   const { data, error } = await supabase
     .from("orders")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("created_at", { ascending: false })
     .csv()
 
   return { data, error };

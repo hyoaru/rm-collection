@@ -12,7 +12,7 @@ export default async function getProductVariants({ visibility, productId }: GetP
   const query = supabase
     .from('product_variants')
     .select('*')
-    .order('created_at', { ascending: true })
+    .order('created_at', { ascending: false })
 
   switch (visibility) {
     case "shown":

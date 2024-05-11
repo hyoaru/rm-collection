@@ -10,7 +10,7 @@ export default async function getUsers({ role }: GetUsersParams) {
   const query = supabase
     .from("users")
     .select("*")
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   switch (role) {
     case "user":

@@ -6,7 +6,7 @@ export default async function getAllOrders() {
   const { data, error } = await supabase
     .from("orders")
     .select(`*, users(*), order_status(*), product_variants(*, products(*)), orders_shipping(*)`)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   return { data, error };
 }

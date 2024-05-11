@@ -15,7 +15,7 @@ export default async function getProductVariantsByProduct({
   const query = supabase
     .from("product_variants")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("created_at", { ascending: false })
     .eq("product_id", productId);
 
   switch (visibility) {

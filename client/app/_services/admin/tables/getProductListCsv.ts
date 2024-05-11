@@ -6,7 +6,7 @@ export default async function getProductListCsv() {
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("created_at", { ascending: false })
     .csv()
 
   return { data, error };

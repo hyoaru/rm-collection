@@ -12,7 +12,7 @@ export default async function getOrders({ orderStatus, userId }: GetOrdersParams
   const query = supabase
     .from("orders")
     .select(`*, order_status(*)`)
-    .order("created_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   if (orderStatus) {
     switch (orderStatus) {
