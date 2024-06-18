@@ -12,15 +12,18 @@ import {
   DropdownMenuSeparator,
 } from "@components/ui/dropdown-menu";
 
-import { useToast } from "@components/ui/use-toast";
 import { useUserSignOut } from "@hooks/authentication/useUserSignOut";
+import { queryPendingOrderCount } from "@constants/shared/queries";
 import { Tables } from "@constants/base/database-types";
+import { useToast } from "@components/ui/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
 type MainNavEndUserDropdownContentProps = {
   authenticatedUser: Tables<"users"> | null;
 };
 
 export default function MainNavEndUserDropdownContent({ authenticatedUser }: MainNavEndUserDropdownContentProps) {
+  const { data } = useQuery(queryPendingOrderCount());
   const { userSignOut } = useUserSignOut();
   const { toast } = useToast();
 
@@ -48,11 +51,7 @@ export default function MainNavEndUserDropdownContent({ authenticatedUser }: Mai
       <DropdownMenuContent side={"bottom"} align={"end"} className={"w-40"}>
         <DropdownMenuLabel className={"flex gap-2 items-center"}>
           <span className="text-muted-foreground font-semibold capitalize flex items-center gap-2">
-            {authenticatedUser?.role === "user" ? (
-              <User size={17} />
-            ) : (
-              <Lock size={17} />
-            )}
+            {authenticatedUser?.role === "user" ? <User size={17} /> : <Lock size={17} />}
             {authenticatedUser?.role.replaceAll("_", " ")}
           </span>
         </DropdownMenuLabel>
@@ -70,7 +69,10 @@ export default function MainNavEndUserDropdownContent({ authenticatedUser }: Mai
         <DropdownMenuItem>
           <Link href={"/orders"} className="w-full flex items-center gap-2">
             <PackageSearch size={17} className="text-primary" />
-            Orders
+              Orders
+              <div className="bg-secondary text-primary px-2 rounded-full text-[9px]">
+                {data?.count} pending
+              </div>
           </Link>
         </DropdownMenuItem>
 

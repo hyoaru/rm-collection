@@ -1,15 +1,16 @@
 import { queryOptions } from "@tanstack/react-query";
 
 // App imports
-import getProductVariantsByProduct from "@services/shared/getProductVariantsByProduct";
-import getProductVariants from "@services/shared/getProductVariants";
-import getProducts from "@services/shared/getProducts";
 import { ProductCategoryType, ProductVariantVisibilityType } from "@constants/base/types";
+import getShippingAddressBookByUser from "@services/shared/getShippingAddressBookByUser";
+import getProductVariantsByProduct from "@services/shared/getProductVariantsByProduct";
+import getPendingOrderCount from "@services/shared/getPendingOrderCount";
+import getProductVariants from "@services/shared/getProductVariants";
 import getAllOrderStatus from "@services/shared/getAllOrderStatus";
+import getOrdersByGroup from "@services/shared/getOrdersByGroup";
 import getProductById from "@services/shared/getProductById";
+import getProducts from "@services/shared/getProducts";
 import getCart from "@services/shared/getCart";
-import getOrdersByGroup from "@/app/_services/shared/getOrdersByGroup";
-import getShippingAddressBookByUser from "@/app/_services/shared/getShippingAddressBookByUser";
 
 export function queryAllProducts() {
   return queryOptions({
@@ -65,6 +66,13 @@ export function queryCart() {
     queryKey: ["cart"],
     queryFn: getCart,
   });
+}
+
+export function queryPendingOrderCount() {
+  return queryOptions({
+    queryKey: ['orders'],
+    queryFn: getPendingOrderCount,
+  })
 }
 
 export function queryOrdersByGroup({ orderGroup, isEnabled }: { orderGroup: string; isEnabled?: boolean }) {
