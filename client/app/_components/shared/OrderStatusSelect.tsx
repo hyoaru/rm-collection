@@ -23,7 +23,7 @@ export default function OrderStatusSelect({ statusFilter, setStatusFilter, class
     <>
       <Select onValueChange={setStatusFilter} value={statusFilter}>
         {isPending ? (
-          <Skeleton className="rounded-lg w-28 h-10" />
+          <Skeleton className="w-full rounded-lg h-10 lg:w-40" />
         ) : (
           <>
             <SelectTrigger className={cn(classNames?.trigger)}>
