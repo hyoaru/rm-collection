@@ -28,7 +28,7 @@ export default function OrderCard({ order, classNames }: OrderCardProps) {
   return (
     <>
       <div className="relative break-inside-avoid-column">
-        <div className="absolute top-3 right-3 z-10">
+        <div className="absolute top-2 right-2 z-10 md:top-3 md:right-3">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="bg-secondary p-2 rounded-lg group/trigger">
