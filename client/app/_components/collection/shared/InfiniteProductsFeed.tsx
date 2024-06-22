@@ -47,14 +47,14 @@ export default function InfiniteProductsFeed({ category, breadcrumbs }: Infinite
       />
 
       {isPending ? (
-        <div className="columns-1 space-y-4 gap-x-4 my-4 sm:columns-2 lg:columns-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {Array(9)
             .fill(0)
             .map((_, index) => (
               <Skeleton
                 key={`ProductSkeleton-${index}`}
                 className="w-full break-inside-avoid-column rounded-xl"
-                style={{ height: `250px` }}
+                style={{ height: `230px` }}
               />
             ))}
         </div>
@@ -77,10 +77,10 @@ export default function InfiniteProductsFeed({ category, breadcrumbs }: Infinite
             </>
           }
         >
-          <div className="columns-1 space-y-4 gap-x-4 sm:columns-2 lg:columns-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {collection &&
               collection.map((product) => (
-                <ProductCard key={`Product-${product.id}`} product={product} classNames={{ base: "w-full" }} />
+                <ProductCard key={`Product-${product.id}`} product={product} classNames={{ image: "h-[230px]" }} />
               ))}
           </div>
         </InfiniteScroll>

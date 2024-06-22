@@ -35,7 +35,7 @@ export const ProductCard = ({ children, className, productId }: ProductCardProps
     <Link href={`/collection/product/${productId}`} className="block">
       <div
         className={cn(
-          "rounded-xl p-3 w-[300px] bg-white break-inside-avoid-column transition-all duration-500 ease-in-out md:p-5 hover:scale-[1.025] ",
+          "rounded-md break-inside-avoid-column",
           className
         )}
       >
@@ -47,9 +47,9 @@ export const ProductCard = ({ children, className, productId }: ProductCardProps
 
 const ProductCardImage = ({ src, classNames }: ProductCardImageProps) => {
   return (
-    <div className={cn("rounded-xl w-full overflow-hidden ", classNames?.base)}>
+    <div className={cn("rounded-md overflow-hidden ", classNames?.base)}>
       <Image
-        className={cn("object-cover w-full transition-all duration-500 ease-in-out hover:scale-105", classNames?.image)}
+        className={cn("object-cover w-full h-full transition-all duration-500 ease-in-out hover:scale-105", classNames?.image)}
         width={800}
         height={800}
         src={src}
@@ -60,11 +60,11 @@ const ProductCardImage = ({ src, classNames }: ProductCardImageProps) => {
 };
 
 const ProductCardTitle = ({ children, className }: ProductCardTitleProps) => {
-  return <p className={cn("font-bold text-primary text-lg break-words w-full capitalize sm:text-xl", className)}>{children}</p>;
+  return <p className={cn("font-semibold text-sm md:text-lg break-words w-full capitalize text-primary", className)}>{children}</p>;
 };
 
 const ProductCardSubtext = ({ children, className }: ProductCardSubtextProps) => {
-  return <p className={cn("opacity-50 text-sm mt-3 capitalize", className)}>{children}</p>;
+  return <p className={cn("opacity-50 text-xs md:text-sm capitalize", className)}>{children}</p>;
 };
 
 const ProductCardPriceGroup = ({
@@ -74,23 +74,12 @@ const ProductCardPriceGroup = ({
 }: ProductCardPriceGroupProps) => {
   return (
     <>
-      <div className="grid grid-cols-12 items-center mt-1">
-        <div className="col-span-6 flex gap-2 opacity-50 text-sm">
-          {discountRate > 0 && (
-            <>
-              <p className="">{`${discountRate}% off`}</p>
-              <p className="line-through">
-                {"₱"} {price.toLocaleString()}
-              </p>
-            </>
-          )}
-        </div>
-        <div className="col-span-6 flex">
-          <Badge className="ms-auto" variant="secondary">
-            {"₱"} {discountedPrice?.toLocaleString()}
-          </Badge>
-        </div>
-      </div>
+    <div className="flex gap-2 items-center opacity-50">
+      <p className="font-semibold text-sm md:text-base">{"₱"} {discountedPrice?.toLocaleString()}</p>
+      {discountRate > 0 && (
+        <p className="text-xs line-through">{"₱"} {price?.toLocaleString()}</p>
+      )}
+    </div>
     </>
   );
 };

@@ -102,14 +102,14 @@ export default function OrdersFeed({ authenticatedUser }: OrdersFeedProps) {
       </div>
 
       {isPending ? (
-        <div className="columns-1 space-y-4 gap-x-4 my-4 sm:columns-2 lg:columns-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {Array(9)
             .fill(0)
             .map((_, index) => (
               <Skeleton
                 key={`ProductSkeleton-${index}`}
                 className="w-full break-inside-avoid-column rounded-xl"
-                style={{ height: `250px` }}
+                style={{ height: `230px` }}
               />
             ))}
         </div>
@@ -132,10 +132,10 @@ export default function OrdersFeed({ authenticatedUser }: OrdersFeedProps) {
             </>
           }
         >
-          <div className="columns-1 space-y-4 gap-x-4 sm:columns-2 lg:columns-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {filteredOrders &&
               filteredOrders.map((order) => (
-                <OrderCard key={`Order-${order.id}`} order={order} classNames={{ card: { base: "w-full" } }} />
+                <OrderCard key={`Order-${order.id}`} order={order} classNames={{ card: {image: "h-[230px]"} }} />
               ))}
           </div>
         </InfiniteScroll>

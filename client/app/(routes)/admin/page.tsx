@@ -16,6 +16,9 @@ export default function Page() {
   const { data: orders } = useQuery(queryAllOrders());
   const { data: users } = useQuery(queryAllUsers());
 
+  console.log("orders")
+  console.log(orders)
+
   const [date, setDate] = useState({
     from: new Date(2024, 0, 1),
     to: new Date(),
@@ -67,7 +70,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center lg:flex-row mt-4">
+      <div className="flex flex-col gap-y-2 lgitems-center justify-center lg:flex-row mt-4">
         <h1 className="font-bold text-3xl text-primary lg:me-auto">Dashboard</h1>
         <div className="flex gap-x-2">
           <DatePickerWithRange value={date} setValue={setDate} />
@@ -97,7 +100,7 @@ export default function Page() {
           </div>
         </div>
         <div className="col-span-12 lg:col-span-5">
-          <div className="border rounded-xl p-5 px-8">
+          <div className="border rounded-xl p-6 py-4">
             <div className="">
               <p className="font-bold">Recent sales</p>
               <p className="opacity-80 text-sm">You made {currentMonthSales} sales this month</p>

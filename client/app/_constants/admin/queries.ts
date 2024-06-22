@@ -22,7 +22,7 @@ export function queryUsers({ role }: { role: "user" | "admin" | "admin_tier_1" |
 export function queryAllOrders(){
   return queryOptions({
     queryKey: ['orders'],
-    queryFn: async () => await getAllOrders()
+    queryFn: getAllOrders
   })
 }
 

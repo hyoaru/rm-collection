@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 
 // App imports
-import { queryDiscountedProducts } from '@constants/index/queries'
-import ProductsFeed from '@components/index/ProductsFeed'
+import { queryDiscountedProducts } from "@constants/index/queries";
+import ProductCarousel from "@components/index/ProductCarousel";
 
 export default function DiscountedProductsFeed() {
-  return (
-    <ProductsFeed queryOptions={queryDiscountedProducts} />
-  )
+  return <ProductCarousel queryOptions={queryDiscountedProducts} category={"DiscountedProducts"} />;
 }

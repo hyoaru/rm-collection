@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 
 // App imports
-import { queryLatestProducts } from '@constants/index/queries'
-import ProductsFeed from '@components/index/ProductsFeed'
+import { queryLatestProducts } from "@constants/index/queries";
+import ProductCarousel from "@components/index/ProductCarousel";
 
 export default function LatestProductsFeed() {
-  return (
-    <ProductsFeed queryOptions={queryLatestProducts} />
-  )
+  return <ProductCarousel queryOptions={queryLatestProducts} category={"LatestProducts"} />;
 }

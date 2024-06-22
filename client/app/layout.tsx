@@ -6,6 +6,9 @@ import "./globals.css";
 import Header from "@components/base/Header";
 import { Toaster } from "@components/ui/toaster";
 import Providers from "@providers/Providers";
+import HeaderWrapper from "@components/base/layout/HeaderWrapper";
+import BaseWrapper from "@components/base/layout/BaseWrapper";
+import ChildrenWrapper from "@components/base/layout/ChildrenWrapper";
 
 const typeface = EB_Garamond({ subsets: ["latin"] });
 
@@ -23,11 +26,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${typeface.className}`} suppressHydrationWarning>
         <Providers>
-          <Header />
-          <div className="px-4 mx-auto md:container">
-          {children}
-          </div>
-          <Toaster />
+          <BaseWrapper>
+            <HeaderWrapper>
+              <Header />
+            </HeaderWrapper>
+            <ChildrenWrapper>
+              {children}
+            </ChildrenWrapper>
+            <Toaster />
+          </BaseWrapper>
         </Providers>
       </body>
     </html>

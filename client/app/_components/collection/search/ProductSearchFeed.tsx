@@ -52,11 +52,11 @@ export default function ProductSearchFeed() {
   return (
     <>
       <SectionHeader>
-        <SectionHeader.Title>Orders</SectionHeader.Title>
-        <SectionHeader.Description>Overview information of all your purchase.</SectionHeader.Description>
+        <SectionHeader.Title>Search product</SectionHeader.Title>
+        <SectionHeader.Description>Filter products using any of its property</SectionHeader.Description>
       </SectionHeader>
 
-      <div className="flex items-center gap-x-4 gap-y-2 flex-col lg:flex-row">
+      <div className="flex items-center gap-x-4 gap-y-2 flex-col lg:flex-row mb-6">
         <Input
           className={"w-full me-auto"}
           placeholder={"Filter by name, material, material property, etc"}
@@ -71,22 +71,22 @@ export default function ProductSearchFeed() {
       </div>
 
       {isPending ? (
-        <div className="columns-1 space-y-4 gap-x-4 my-4 sm:columns-2 lg:columns-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {Array(9)
             .fill(0)
             .map((_, index) => (
               <Skeleton
                 key={`ProductSkeleton-${index}`}
                 className="w-full break-inside-avoid-column rounded-xl"
-                style={{ height: `250px` }}
+                style={{ height: `230px` }}
               />
             ))}
         </div>
       ) : filteredProducts && filteredProducts.length > 0 ? (
-        <div className="columns-1 py-4 space-y-4 gap-x-4 sm:columns-2 lg:columns-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {filteredProducts &&
             filteredProducts.map((product) => (
-              <ProductCard key={`Product-${product.id}`} product={product} classNames={{ base: "w-full" }} />
+              <ProductCard key={`Product-${product.id}`} product={product} classNames={{ image: "h-[230px]" }} />
             ))}
         </div>
       ) : (

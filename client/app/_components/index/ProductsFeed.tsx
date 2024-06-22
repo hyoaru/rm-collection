@@ -44,7 +44,7 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
                     return (
                       <Skeleton
                         key={`Skeleton-${skeletonGroupIndex}-${index}`}
-                        className={`rounded-xl h-[150px] w-[335px] sm:h-[200px] sm:w-[375px] shadow-[rgba(137,_24,_31,_0.03)_0px_15px_45px] `}
+                        className={`rounded-xl h-[225] w-[300px] sm:h-[500] sm:w-[375px] shadow-[rgba(137,_24,_31,_0.03)_0px_15px_45px] `}
                       />
                     );
                   })}
@@ -58,13 +58,23 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
     );
   }
 
+  return (
+    // <ScrollArea>
+      <div className="flex gap-4">
+        {(products as any).data.map((product: ProductType) => (
+          <ProductCard key={`Product-${product.id}`} product={product} />
+        ))}
+      </div>
+      // <ScrollBar orientation="horizontal" />
+    // </ScrollArea>
+  );
 
   return (
     <>
       {(products as any).data?.[0] ? (
         <>
           <ScrollArea className="">
-            <div className="flex w-max gap-2 py-4 sm:gap-6 lg:py-10">
+            <div className="flex h-max w-max gap-2 sm:gap-4">
               {(products as any).data.length >= 5 ? (
                 <>
                   {dividedProducts.map((productGroup, productGroupIndex) => {
@@ -73,16 +83,7 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
                     return (
                       <div className="flex flex-col gap-2 sm:gap-6" key={`ProductGroup-${productGroupIndex}`}>
                         {productGroup.map((product) => {
-                          return (
-                            <ProductCard
-                              key={`Product-${product.id}`}
-                              product={product}
-                              classNames={{
-                                image: "h-[150px] md:h-[200px]",
-                                base: "w-[335px] md:w-[375px]"
-                              }}
-                            />
-                          );
+                          return <ProductCard key={`Product-${product.id}`} product={product} />;
                         })}
                       </div>
                     );
@@ -91,14 +92,7 @@ export default function ProductsFeed({ queryOptions }: ProductsFeedParams) {
               ) : (
                 <>
                   {(products as any).data.map((product: ProductType) => (
-                    <ProductCard
-                      key={`Product-${product.id}`}
-                      product={product}
-                      classNames={{
-                        image: "h-[150px] md:h-[200px]",
-                        base: "w-[335px] md:w-[375px]"
-                      }}
-                    />
+                    <ProductCard key={`Product-${product.id}`} product={product} />
                   ))}
                 </>
               )}

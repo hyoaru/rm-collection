@@ -18,10 +18,10 @@ type CategoryNavigationCardProps = {
 export default function CategoryNavigationCard({ imageSrc, label, classNames, link }: CategoryNavigationCardProps) {
   return (
     <>
-      <Link href={link} className={cn(classNames?.base, "overflow-hidden rounded-xl shadow-[rgba(137,_24,_31,_0.03)_0px_3px_11px] hover:scale-[1.025] duration-500 transition-all ease-in-out md:shadow-[rgba(137,_24,_31,_0.05)_0px_7px_22px]")}>
-        <div className={"relative overflow-hidden rounded-xl h-full"}>
-          <div className="absolute bottom-0 ms-4 mb-4 z-10 md:mb-6">
-            <p className="text-lg font-bold text-background sm:text-xl lg:text-2xl">{label}</p>
+      <Link href={link} className={cn(classNames?.base, "overflow-hidden rounded-md ease-in-out transition-all duration-500 shadow-[rgba(137,_24,_31,_0.03)_0px_3px_11px] md:shadow-[rgba(137,_24,_31,_0.05)_0px_7px_22px]")}>
+        <div className={"relative overflow-hidden h-full"}>
+          <div className="absolute bottom-0 ms-3 mb-3 z-10 ">
+            <p className="text-sm sm:text-base font-bold text-background border py-1 px-2 rounded-md border-secondary">{label}</p>
           </div>
           <Image
             className={cn("object-cover duration-500 transition-all ease-in-out hover:scale-105 ", classNames?.image)}
